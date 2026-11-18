@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Limits.Types.Pushouts
 public import StacksFrontier.AlgebraicGeometry.Spaces.Decent.FiniteSchemeFiltration.DegreeFiltration
 import StacksFrontier.AlgebraicGeometry.Morphisms.FibreDimension.ResidueDegreeBound
 

@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksCore.FieldTheory.PurelyTranscendental
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Descent.AffineHomEtaleDescent

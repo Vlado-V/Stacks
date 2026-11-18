@@ -9,6 +9,7 @@ public import Mathlib.RingTheory.LocalProperties.FinitePresentation
 public import Mathlib.RingTheory.Trace.Basic
 public import StacksFrontier.RingTheory.Fitting.Basic
 import StacksCore.Tactic.EgaSgaAttribute
+import StacksCore.RingTheory.NormTrace
 
 /-!
 # The discriminant ideal of a finite projective algebra

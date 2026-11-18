@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Homology.DerivedCategory.Ext.MapBijective
 public import Mathlib.RingTheory.Flat.Basic
 public import Mathlib.RingTheory.Ideal.Quotient.Noetherian
 public import Mathlib.RingTheory.LocalRing.RingHom.Basic

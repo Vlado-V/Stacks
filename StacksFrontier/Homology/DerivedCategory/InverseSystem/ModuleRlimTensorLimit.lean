@@ -16,6 +16,7 @@ public import StacksFrontier.Homology.Tor.DerivedTensorLargeUniverse
 public import StacksFrontier.Homology.KFlat.Resolution
 public import StacksFrontier.Homology.KFlat.Iso
 public import StacksFrontier.Homology.Tor.DerivedTensor
+public import Mathlib.Algebra.Category.ModuleCat.Presheaf.ColimitFunctor
 
 /-!
 # Functorial derived limits of derived tensor products

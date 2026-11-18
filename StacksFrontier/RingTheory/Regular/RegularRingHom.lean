@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import Mathlib.Algebra.Category.AlgCat.FilteredColimits
 public import Mathlib.Algebra.Category.CommAlgCat.Basic
 public import Mathlib.CategoryTheory.Filtered.Basic

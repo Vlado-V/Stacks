@@ -14,7 +14,7 @@ public import Mathlib.RingTheory.Spectrum.Prime.FreeLocus
 public import StacksFrontier.Homology.Perfect.Basic
 public import StacksFrontier.Homology.PseudoCoherent.Locality
 public import StacksFrontier.Homology.Perfect.FibreCriterion.BaseChangeSurjective
-import Mathlib
+import StacksFrontier.MathlibForAlgebraicGeometry
 import StacksCore.Tactic.EgaSgaAttribute
 
 @[expose] public section

@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksCore.FieldTheory.AlgebraicClosure
 public import StacksFrontier.RingTheory.AdicCompletion.Flat
 public import StacksFrontier.RingTheory.AdicCompletion.NoetherianRing

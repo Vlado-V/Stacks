@@ -1,6 +1,5 @@
 module
 
-public import Mathlib
 public import StacksFrontier.LinearAlgebra.Matrix.MinorIdealRank
 
 /-!

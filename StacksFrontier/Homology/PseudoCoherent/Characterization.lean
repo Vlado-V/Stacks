@@ -13,7 +13,7 @@ public import StacksFrontier.Algebra.Homology.PseudoCoherent
 public import StacksFrontier.Homology.PseudoCoherent.Homology
 public import StacksFrontier.Homology.PseudoCoherent.Triangle
 import StacksCore.Tactic.EgaSgaAttribute
-import Mathlib
+import StacksFrontier.MathlibForAlgebraicGeometry
 
 @[expose] public section
 

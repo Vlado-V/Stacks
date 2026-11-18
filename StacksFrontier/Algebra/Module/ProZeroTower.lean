@@ -1,6 +1,8 @@
 module
 
-public import Mathlib
+public import Mathlib.Tactic
+public import Mathlib.Algebra.Category.ModuleCat.Basic
+public import Mathlib.CategoryTheory.Functor.OfSequence
 
 /-!
 # Inverse limits of towers of modules with pro-zero kernel and cokernel

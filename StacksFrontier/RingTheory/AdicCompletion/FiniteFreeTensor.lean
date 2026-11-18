@@ -1,6 +1,8 @@
 module
 
-public import Mathlib
+public import Mathlib.Tactic
+public import Mathlib.LinearAlgebra.TensorProduct.Pi
+public import Mathlib.RingTheory.AdicCompletion.Functoriality
 
 /-!
 # Adic completion and tensor products with finite free modules

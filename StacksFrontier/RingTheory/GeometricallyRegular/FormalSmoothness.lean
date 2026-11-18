@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import Mathlib.FieldTheory.PerfectClosure
 public import Mathlib.FieldTheory.RatFunc.AsPolynomial
 public import Mathlib.LinearAlgebra.TensorProduct.Tower

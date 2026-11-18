@@ -1,7 +1,7 @@
 module
 
 public import StacksFrontier.Homology.Perfect.Local
-import Mathlib
+import StacksFrontier.MathlibForAlgebraicGeometry
 
 /-!
 # Cohomology of a pseudo-coherent complex over a local ring from its derived fibre

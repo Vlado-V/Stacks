@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!

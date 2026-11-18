@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksFrontier.Homology.PseudoCoherent.Module
 import StacksCore.Tactic.EgaSgaAttribute
 

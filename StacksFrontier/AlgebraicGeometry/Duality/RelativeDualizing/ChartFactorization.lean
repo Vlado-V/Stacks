@@ -6,6 +6,7 @@ public import StacksFrontier.AlgebraicGeometry.Different.NoetherDifferent.Pairin
 public import StacksFrontier.RingTheory.ZariskisMainTheorem
 public import Mathlib.AlgebraicGeometry.Morphisms.FiniteType
 public import Mathlib.AlgebraicGeometry.Morphisms.QuasiFinite
+import StacksCore.LinearAlgebra.Matrix.CommSemiring
 
 /-!
 # Existence and finiteness of the finite-open factorizations of an affine chart

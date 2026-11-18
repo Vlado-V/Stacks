@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksFrontier.AlgebraicGeometry.AffineQcohPushforward.Colimits
 public import StacksFrontier.AlgebraicGeometry.Flatness.Flattening.FlatteningNeighborhoodDescent
 public import StacksFrontier.AlgebraicGeometry.Flatness.Flattening.FreeMapOnAffineChart

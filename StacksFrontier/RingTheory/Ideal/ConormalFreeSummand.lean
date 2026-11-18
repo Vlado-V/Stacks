@@ -11,6 +11,7 @@ public import StacksFrontier.Algebra.Homology.ProjectiveDimension.Defs
 public import StacksFrontier.RingTheory.Ideal.AssociatedPrime.Localization
 public import StacksFrontier.RingTheory.Ideal.CotangentLocalization
 public import StacksFrontier.RingTheory.ProjectiveDimension.Quotient
+import StacksCore.LinearAlgebra.Matrix.CommSemiring
 
 /-!
 # Free summands of the conormal module lift to regular sequences

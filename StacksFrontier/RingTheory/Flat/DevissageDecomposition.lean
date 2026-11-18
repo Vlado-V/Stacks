@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.LinearAlgebra.DirectSum.Basis
 public import StacksFrontier.RingTheory.Flat.DevissageFlatTfae
 public import StacksFrontier.RingTheory.Flat.DevissageTail
 public import StacksFrontier.RingTheory.Flat.GeometricallyIrreducibleFibreLocus

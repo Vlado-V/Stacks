@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksFrontier.CategoryTheory.FiberedCategory.ChoiceOfPullbacks
 public import StacksFrontier.CategoryTheory.FiberedCategory.Strictification
 public import StacksFrontier.Homology.HomComplex.CochainScalarTower

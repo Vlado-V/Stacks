@@ -1,9 +1,11 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.RingTheory.Localization.Glueing.FormalGlueingComplex
 public import StacksFrontier.RingTheory.Localization.Glueing.FormalGlueingCategory.Adjunction
+
+public import Mathlib.Algebra.Module.LocalizedModule.Exact
 
 /-!
 # Left exactness of compatible sections

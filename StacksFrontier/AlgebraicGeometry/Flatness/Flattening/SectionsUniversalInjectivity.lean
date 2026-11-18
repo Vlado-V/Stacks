@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksFrontier.AlgebraicGeometry.AssociatedPointPrime.Basic
 public import StacksFrontier.AlgebraicGeometry.AssociatedPointsMono.Basic
 public import StacksFrontier.AlgebraicGeometry.Divisors.AssociatedPoints.Depth

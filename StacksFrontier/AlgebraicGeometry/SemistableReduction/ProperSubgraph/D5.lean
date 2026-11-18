@@ -4,7 +4,7 @@ public import StacksFrontier.AlgebraicGeometry.SemistableReduction.LinearAlgebra
 public import StacksFrontier.AlgebraicGeometry.SemistableReduction.NumericalType.Defs
 public import StacksFrontier.AlgebraicGeometry.SemistableReduction.NumericalType.Genus
 public import StacksFrontier.AlgebraicGeometry.SemistableReduction.ProperSubgraph.FourVertices
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import Mathlib.LinearAlgebra.Matrix.Notation
 
 /-!

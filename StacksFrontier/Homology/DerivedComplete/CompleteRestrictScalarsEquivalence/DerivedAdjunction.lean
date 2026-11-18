@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksFrontier.RingTheory.Flat.Nilpotent
 public import StacksFrontier.RingTheory.Ideal.Quotient.MapBijective
 public import StacksFrontier.RingTheory.Ideal.Quotient.Small
@@ -19,6 +19,8 @@ public import StacksFrontier.RingTheory.Localization.Glueing.FormalGlueingFlatIs
 public import StacksFrontier.RingTheory.Localization.Glueing.FormalGlueingKoszulBaseChange
 public import StacksFrontier.Topology.Sheaves.Cohomology.ExtensionByZero.DerivedAdjunction
 import StacksFrontier.AlgebraicGeometry.ProEtale.DerivedCompleteSections
+
+public import Mathlib.Algebra.Category.ModuleCat.EnoughInjectives
 
 /-!
 # Derived adjunctions and Hom-vanishing against bounded complexes

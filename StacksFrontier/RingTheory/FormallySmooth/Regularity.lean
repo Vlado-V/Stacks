@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import Mathlib.Algebra.Ring.ULift
 public import Mathlib.Algebra.TrivSqZeroExt.Ideal
 public import Mathlib.LinearAlgebra.Prod

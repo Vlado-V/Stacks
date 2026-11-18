@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksFrontier.Algebra.Homology.DerivedCategory.QuasiIsoFromDerivedIso
 public import StacksFrontier.Algebra.Homology.PseudoCoherent
 public import StacksFrontier.Algebra.Homology.Resolution.ProjectiveResolution

@@ -6,6 +6,7 @@ public import StacksFrontier.AlgebraicGeometry.FiniteLocallyFree.Sheaf
 public import StacksFrontier.AlgebraicGeometry.InvertibleRankOneScheme.Basic
 public import StacksFrontier.AlgebraicGeometry.Perfect.ResolutionProperty
 public import StacksFrontier.AlgebraicGeometry.ResolutionsAndBounds.FiniteLocallyFreeBiprod
+import StacksCore.CategoryTheory.Limits.Shapes.BinaryBiproducts
 
 /-!
 # The resolution property from an ample invertible module

@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksCore.RingTheory.Nakayama
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.Algebra.Homology.DerivedCategory.DerivedLimits

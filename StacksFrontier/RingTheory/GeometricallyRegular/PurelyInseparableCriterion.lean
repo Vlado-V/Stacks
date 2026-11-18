@@ -1,7 +1,7 @@
 module
 
 import StacksFrontier.RingTheory.Etale.Basic
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import Mathlib.Algebra.Algebra.ZMod
 public import Mathlib.FieldTheory.PerfectClosure
 public import Mathlib.FieldTheory.PurelyInseparable.Basic

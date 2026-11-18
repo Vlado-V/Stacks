@@ -2,7 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.SemistableReduction.NumericalType.Defs
 public import StacksFrontier.AlgebraicGeometry.SemistableReduction.NumericalType.Genus
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import Mathlib.Algebra.Order.BigOperators.Group.Finset
 public import Mathlib.Tactic
 

@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksFrontier.Homology.DerivedCategory.InverseSystem.ProIsomorphism
 public import StacksFrontier.Topology.Sheaves.Cohomology.InverseSystems.ProIsomorphismOfKernelSystems
 public import StacksFrontier.RingTheory.Module.AdicSystem.Homology

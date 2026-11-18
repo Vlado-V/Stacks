@@ -1,6 +1,7 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
+public import Mathlib.RingTheory.Noetherian.Nilpotent
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.Algebra.MittagLeffler.Projective
 public import StacksFrontier.LinearAlgebra.Matrix.DeterminantalRank

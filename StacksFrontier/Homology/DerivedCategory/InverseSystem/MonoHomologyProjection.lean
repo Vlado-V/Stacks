@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksFrontier.Algebra.Homology.DerivedCategory.Basic
 public import StacksFrontier.Algebra.Homology.InverseLimit
 public import StacksFrontier.CategoryTheory.EssentiallyConstant.Defs

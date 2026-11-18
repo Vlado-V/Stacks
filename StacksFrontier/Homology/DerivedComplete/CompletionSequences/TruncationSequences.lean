@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Triangulated.Adjunction
 public import StacksFrontier.Homology.DerivedComplete.CompletionSequences.SequenceData
 import all StacksFrontier.Homology.DerivedComplete.CompletionSequences.SequenceData
 public import StacksFrontier.Homology.DerivedComplete.CompletionSequences.KoszulTowerComparison

@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.Homology.DerivedCategory.InverseSystem.StrictMajorant
 public import StacksFrontier.Topology.Sheaves.Cohomology.InverseSystems.ProIsomorphismOfKernelSystems

@@ -1,6 +1,7 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
+public import Mathlib.Algebra.Category.Grp.AB
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.Algebra.Homology.DerivedCategory.DerivedLimits
 public import StacksFrontier.Algebra.Homology.DerivedCategory.Products

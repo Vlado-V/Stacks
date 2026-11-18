@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import Mathlib.Algebra.Algebra.Epi
 public import Mathlib.Algebra.Algebra.Shrink
 public import Mathlib.Algebra.Category.Ring.Epi

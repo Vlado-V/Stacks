@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.Homology.Eta.BaseChange
 public import StacksFrontier.Homology.Eta.Cohomology

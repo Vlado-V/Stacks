@@ -1,11 +1,12 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.RingTheory.Cech.Substrate
 public import StacksFrontier.RingTheory.Localization.Glueing.FormalGlueingFlatIsomorphism
 public import StacksFrontier.RingTheory.Localization.Glueing.TorsionCohomologyBaseChange
 public import StacksFrontier.RingTheory.Localization.Glueing.FormalGlueingComplex.Basic
+public import Mathlib.Algebra.Module.LocalizedModule.Away
 
 /-!
 # Exactness of the glueing complex of a module

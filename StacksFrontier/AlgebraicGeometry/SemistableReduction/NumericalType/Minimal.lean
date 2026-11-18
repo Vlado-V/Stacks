@@ -3,7 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.SemistableReduction.NumericalType.Defs
 public import StacksFrontier.AlgebraicGeometry.SemistableReduction.NumericalType.Genus
 public import StacksFrontier.AlgebraicGeometry.SemistableReduction.NumericalType.Contribution
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 
 /-!
 # The genus of a minimal numerical type with several components

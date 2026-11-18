@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksFrontier.Algebra.Homology.Resolution.ProjectiveResolution
 public import StacksFrontier.Algebra.Module.Projective.Nakayama
 public import StacksFrontier.Algebra.Module.Projective.StablyFreeLift

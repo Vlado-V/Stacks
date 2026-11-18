@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Module.LocalizedModule.Away
 public import Mathlib.RingTheory.Localization.Away.Basic
 public import StacksFrontier.RingTheory.Flat.FaithfullyFlat.Descent
 public import StacksFrontier.RingTheory.Flat.FlatLocusFiniteModule

@@ -12,6 +12,7 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.IdealPowerSupport
 public import StacksFrontier.AlgebraicGeometry.Spaces.QuasicoherentIdealMeet
 public import StacksFrontier.AlgebraicGeometry.Spaces.ShortExactSupport
 public import StacksFrontier.AlgebraicGeometry.Spaces.StructureSheafGeometricStalk
+import StacksCore.CategoryTheory.Abelian.CommSq
 
 /-!
 # A dévissage criterion for coherent modules on a Noetherian algebraic space

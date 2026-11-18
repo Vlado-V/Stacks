@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksFrontier.Homology.ExtendScalars.Flat
 public import StacksFrontier.Homology.HomComplex.Basic
 public import StacksFrontier.Homology.HomComplex.CochainScalarTower

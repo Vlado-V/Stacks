@@ -1,6 +1,7 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
+public import Mathlib.CategoryTheory.Limits.Preserves.Over
 public import StacksFrontier.RingTheory.Etale.IndEtaleFibres
 public import StacksFrontier.RingTheory.FormallySmooth.TopologicalRings
 public import StacksFrontier.RingTheory.Henselian.Henselization.Basic

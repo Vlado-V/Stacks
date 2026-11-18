@@ -11,7 +11,7 @@ public import Mathlib.Algebra.Homology.HomotopyCategory.SingleFunctors
 public import Mathlib.Algebra.Homology.Monoidal
 public import StacksFrontier.Algebra.Homology.KFlat
 public import StacksFrontier.Homology.DerivedComplete.AdicKoszulPowerDefs
-import Mathlib
+import StacksFrontier.MathlibForAlgebraicGeometry
 import all Mathlib.CategoryTheory.Limits.HasLimits
 public import StacksFrontier.Algebra.NegOnePowSmul
 

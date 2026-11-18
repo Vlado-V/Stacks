@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksFrontier.Algebra.Homology.DerivedCategory.Products
 public import StacksFrontier.Homology.DerivedComplete
 public import StacksFrontier.Homology.DerivedComplete.CompleteAdic

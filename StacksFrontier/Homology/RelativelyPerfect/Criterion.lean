@@ -14,6 +14,8 @@ public import StacksFrontier.RingTheory.MvPolynomial.RegularRing
 public import StacksFrontier.RingTheory.PseudoCoherentMap.Surjection
 public import StacksFrontier.RingTheory.RegularRing.GlobalDimension
 
+public import Mathlib.RingTheory.RegularLocalRing.Polynomial
+
 @[expose] public noncomputable section
 
 /-!

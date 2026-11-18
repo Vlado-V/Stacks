@@ -1,6 +1,7 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
+public import Mathlib.CategoryTheory.Functor.OfSequence
 public import StacksFrontier.Algebra.Homology.DerivedCategory.DerivedLimits
 public import StacksFrontier.Algebra.Homology.DerivedCategory.Products
 public import StacksFrontier.Homology.DerivedCategory.InverseSystem.SurjectiveTowerDifference

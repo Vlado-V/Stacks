@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import Mathlib.Algebra.Algebra.ZMod
 public import Mathlib.Data.ZMod.QuotientRing
 public import Mathlib.FieldTheory.SeparablyGenerated

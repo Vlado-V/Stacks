@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksCore.RingTheory.Nakayama
 public import StacksFrontier.Algebra.Module.Projective.Nakayama
 public import StacksFrontier.Homology.Perfect.Defs

@@ -1,5 +1,6 @@
 module
 
+public import StacksCore.Algebra.Homology.ShortComplex.ShortExact
 public import StacksFrontier.AlgebraicGeometry.Quot.HilbertFamilyQuotient
 public import StacksFrontier.AlgebraicGeometry.Spaces.ClosedImmersionStructureSheafDirectImage
 public import StacksFrontier.AlgebraicGeometry.Spaces.ClosedSubspaceFinitePresentationOverBase

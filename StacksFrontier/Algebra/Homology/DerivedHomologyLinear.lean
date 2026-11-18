@@ -1,6 +1,9 @@
 module
 
-public import Mathlib
+public import Mathlib.Tactic
+public import Mathlib.Algebra.Homology.DerivedCategory.HomologySequence
+public import Mathlib.Algebra.Homology.DerivedCategory.Linear
+public import Mathlib.Algebra.Homology.ShortComplex.Linear
 
 /-!
 # Homology is linear, and the connecting map of the homology sequence is natural

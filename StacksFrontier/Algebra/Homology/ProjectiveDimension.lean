@@ -1,6 +1,7 @@
 module
 
-public import StacksCore
+public import StacksCore.Counterexamples.TensorProduct
+public import StacksCore.CategoryTheory.Abelian.Basic
 public import StacksCore.Tactic.StacksAttribute
 public import Mathlib.Algebra.Order.Floor.Extended
 public import Mathlib.Algebra.Order.Interval.Basic

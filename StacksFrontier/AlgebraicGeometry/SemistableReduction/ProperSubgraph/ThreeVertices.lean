@@ -4,7 +4,7 @@ public import StacksFrontier.AlgebraicGeometry.SemistableReduction.NumericalType
 public import StacksFrontier.AlgebraicGeometry.SemistableReduction.NumericalType.Genus
 public import StacksFrontier.AlgebraicGeometry.SemistableReduction.LinearAlgebra.DiagonallyDominant
 public import StacksFrontier.AlgebraicGeometry.SemistableReduction.ProperSubgraph.TwoVertices
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 
 /-!
 # Three-vertex subgraphs

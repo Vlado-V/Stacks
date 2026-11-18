@@ -5,7 +5,7 @@ public import StacksFrontier.AlgebraicGeometry.SemistableReduction.NumericalType
 public import StacksFrontier.AlgebraicGeometry.SemistableReduction.LinearAlgebra.DiagonallyDominant
 public import StacksFrontier.AlgebraicGeometry.SemistableReduction.ProperSubgraph.ThreeVertices
 public import StacksFrontier.AlgebraicGeometry.SemistableReduction.ProperSubgraph.FourVertices
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import Mathlib.LinearAlgebra.Matrix.Notation
 
 /-!

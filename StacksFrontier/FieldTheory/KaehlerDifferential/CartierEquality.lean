@@ -1,6 +1,7 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
+public import Mathlib.RingTheory.RegularLocalRing.Polynomial
 public import Mathlib.Algebra.Module.LinearMap.Index
 public import Mathlib.FieldTheory.FinTrdeg
 public import Mathlib.RingTheory.Extension.Cotangent.Basic

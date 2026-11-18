@@ -5,7 +5,7 @@ import all StacksFrontier.Homology.DerivedComplete.AdicKoszulCoefficientTower.Fo
 import all StacksFrontier.Homology.DerivedComplete.AdicKoszulCoefficientTower.FiltrationLaws
 import all StacksFrontier.Homology.DerivedComplete.AdicKoszulCoefficientTower.GradedQuasiIso
 import all StacksFrontier.Homology.DerivedComplete.AdicKoszulCoefficientTower.ComparisonLaws
-import Mathlib
+import StacksFrontier.MathlibForAlgebraicGeometry
 import all Mathlib.CategoryTheory.Limits.HasLimits
 
 /-!

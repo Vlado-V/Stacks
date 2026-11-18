@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Category.ModuleCat.Sheaf.LocallyFree
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf.Quasicoherent
 public import Mathlib.CategoryTheory.Triangulated.TStructure.TruncLEGT
 public import StacksFrontier.Algebra.Homology.DerivedCategory.DerivedLimits

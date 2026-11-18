@@ -3,7 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.SemistableReduction.NumericalType.Genus
 public import StacksFrontier.AlgebraicGeometry.SemistableReduction.NumericalType.Irreducible
 public import StacksFrontier.AlgebraicGeometry.SemistableReduction.NumericalType.Defs
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 
 /-!
 # Contracting a minus-one index

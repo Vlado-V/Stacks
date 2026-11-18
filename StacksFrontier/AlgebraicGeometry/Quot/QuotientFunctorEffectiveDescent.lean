@@ -1,8 +1,24 @@
 module
 
 public import StacksCore.Tactic.StacksAttribute
-public import StacksFrontier.AlgebraicGeometry.Quot.QuotientFunctorSourceSheaf
 public import StacksFrontier.AlgebraicGeometry.Spaces.Descent.QuasiCoherent.FpqcDescentTransitivity
+public import StacksFrontier.AlgebraicGeometry.Quot.QuotientFunctorDescent
+public import StacksFrontier.AlgebraicGeometry.Quot.QuotientRestrictOver
+public import StacksFrontier.AlgebraicGeometry.Spaces.Category
+public import StacksFrontier.AlgebraicGeometry.Spaces.Coverings
+public import StacksFrontier.AlgebraicGeometry.Spaces.Descent.QuasiCoherent.Canonical
+public import StacksFrontier.AlgebraicGeometry.Spaces.Descent.QuasiCoherent.DescentData
+public import StacksFrontier.AlgebraicGeometry.Spaces.Descent.QuasiCoherent.DescentIsoGluing
+public import StacksFrontier.AlgebraicGeometry.Spaces.Descent.QuasiCoherent.FpqcChartFullness
+public import StacksFrontier.AlgebraicGeometry.Spaces.Descent.QuasiCoherent.FpqcChartLocalization
+public import StacksFrontier.AlgebraicGeometry.Spaces.Descent.QuasiCoherent.Pullback
+public import StacksFrontier.AlgebraicGeometry.Spaces.Descent.QuasiCoherent.ReprFpqcFullness
+public import StacksFrontier.AlgebraicGeometry.Spaces.RingedSite
+public import StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleModulePullback
+public import StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleModulePullbackComp
+public import StacksFrontier.AlgebraicGeometry.Topologies.Fppf
+public import StacksFrontier.AlgebraicGeometry.Topologies.QuasicoherentOnSite
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.Modules.CohomologyOfModules
 
 /-!
 # Effective descent of quotients along an fpqc covering of algebraic spaces

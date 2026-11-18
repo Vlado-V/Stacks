@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import Mathlib.Algebra.Category.ModuleCat.Descent
 public import Mathlib.RingTheory.Finiteness.Descent
 public import StacksCore.Tactic.StacksAttribute

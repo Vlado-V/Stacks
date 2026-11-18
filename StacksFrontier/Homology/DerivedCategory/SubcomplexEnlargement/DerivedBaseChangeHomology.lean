@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.Algebra.Homology.SpectralSequence.HomologicalFiltration
 public import StacksFrontier.Algebra.Module.ProjResComplexFlat
@@ -13,6 +13,8 @@ public import StacksFrontier.Homology.TensorComplex.SingleTensor
 public import StacksFrontier.Homology.KFlat.Resolution
 public import StacksFrontier.Homology.TorAmplitude.ProjResKFlat
 public import StacksFrontier.Homology.DerivedCategory.SubcomplexEnlargement.BoundedSubcomplexes
+public import Mathlib.Algebra.Category.ModuleCat.Monoidal.Closed
+public import Mathlib.CategoryTheory.Monoidal.Closed.Braided
 
 @[expose] public noncomputable section
 

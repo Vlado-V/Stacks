@@ -1,7 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.SemistableReduction.NumericalType.Defs
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import Mathlib.Data.Rat.Cast.Order
 
 /-!

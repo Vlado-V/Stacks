@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksCore.CategoryTheory.Abelian.SerreClass.Weak
 public import StacksFrontier.Algebra.Homology.DerivedCategory.Products
 public import StacksFrontier.Homology.DerivedComplete

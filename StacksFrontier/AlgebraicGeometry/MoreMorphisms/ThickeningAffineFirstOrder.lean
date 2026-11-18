@@ -1,5 +1,6 @@
 module
 
+public import StacksCore.Algebra.Homology.ShortComplex.ShortExact
 public import StacksFrontier.AlgebraicGeometry.AffineCohomologyGlue.AffineOpenVanishing
 public import StacksFrontier.AlgebraicGeometry.AffineHigherDirectImage.Natural
 public import StacksFrontier.AlgebraicGeometry.ClosedImmersionTFAE.Basic

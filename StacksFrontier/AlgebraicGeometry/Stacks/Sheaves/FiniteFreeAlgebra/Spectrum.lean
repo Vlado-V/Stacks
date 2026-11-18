@@ -5,6 +5,7 @@ public import StacksFrontier.AlgebraicGeometry.Descent.Algebra.SpecOverFullyFait
 public import StacksFrontier.AlgebraicGeometry.Morphisms.FibreDimension.UniversallyBoundedFinite
 public import StacksFrontier.AlgebraicGeometry.Morphisms.FiniteLocallyFree.Basic
 public import StacksFrontier.AlgebraicGeometry.Stacks.Sheaves.FiniteFreeAlgebra.StructureAlgebra
+import StacksCore.LinearAlgebra.Matrix.CommSemiring
 
 /-!
 # The spectrum of a free algebra structure

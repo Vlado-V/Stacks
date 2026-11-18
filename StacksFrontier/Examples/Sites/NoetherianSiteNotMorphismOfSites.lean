@@ -1,6 +1,14 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
+public import Mathlib.SetTheory.Cardinal.Free
+public import Mathlib.Algebra.Field.ULift
+public import Mathlib.CategoryTheory.Sites.PreservesLimits
+public import Mathlib.CategoryTheory.Limits.Constructions.EpiMono
+public import Mathlib.RingTheory.Noetherian.Nilpotent
+public import Mathlib.Algebra.MonoidAlgebra.Cardinal
+public import Mathlib.Algebra.CharP.Basic
+public import Mathlib.FieldTheory.RatFunc.Basic
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.Algebra.Category.Ring.Epi.Basic
 public import StacksFrontier.AlgebraicGeometry.Flatness.Flattening.LimitPreservingNoetherian

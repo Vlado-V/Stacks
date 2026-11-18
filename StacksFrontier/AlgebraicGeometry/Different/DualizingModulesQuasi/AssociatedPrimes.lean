@@ -8,6 +8,7 @@ public import Mathlib.LinearAlgebra.Basis.VectorSpace
 public import Mathlib.RingTheory.Localization.Integer
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Discriminant.TraceElement
+import StacksCore.LinearAlgebra.Matrix.CommSemiring
 
 /-!
 # Associated primes of a relative dualizing module

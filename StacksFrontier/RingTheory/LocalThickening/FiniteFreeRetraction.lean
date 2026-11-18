@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import Mathlib.Algebra.Polynomial.Lifts
 public import Mathlib.FieldTheory.PrimitiveElement
 public import Mathlib.RingTheory.AdjoinRoot

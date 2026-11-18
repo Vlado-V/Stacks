@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import Mathlib.RingTheory.DedekindDomain.Basic
 public import Mathlib.RingTheory.EssentialFiniteness
 public import StacksFrontier.RingTheory.AdicCompletion.PermanenceOfProperties

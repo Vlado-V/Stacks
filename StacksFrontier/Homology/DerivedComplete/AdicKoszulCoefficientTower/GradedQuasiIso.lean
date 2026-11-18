@@ -3,7 +3,7 @@ module
 public import StacksFrontier.Homology.DerivedComplete.AdicKoszulCoefficientTower.FiltrationLaws
 import all StacksFrontier.Homology.DerivedComplete.AdicKoszulCoefficientTower.Formulas
 import all StacksFrontier.Homology.DerivedComplete.AdicKoszulCoefficientTower.FiltrationLaws
-import Mathlib
+import StacksFrontier.MathlibForAlgebraicGeometry
 import all Mathlib.CategoryTheory.Limits.HasLimits
 
 /-!

@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.RingTheory.DiscreteValuationRing.Abhyankar.FiniteFractionFieldExtension
+public import Mathlib.RingTheory.Smooth.IntegralClosure
 
 /-!
 # Abhyankar's lemma: root extensions of the base

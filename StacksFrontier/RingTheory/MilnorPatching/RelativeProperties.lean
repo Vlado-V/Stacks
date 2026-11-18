@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import Mathlib.Algebra.Module.FinitePresentation
 public import Mathlib.CategoryTheory.Adjunction.Unique
 public import Mathlib.LinearAlgebra.TensorProduct.Finiteness

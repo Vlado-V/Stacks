@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 public import Mathlib.LinearAlgebra.Matrix.ToLinearEquiv
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
@@ -26,6 +26,7 @@ public import StacksFrontier.RingTheory.RegularLocalRing.Basic
 public import StacksFrontier.RingTheory.RegularLocalRing.Colimit
 public import StacksFrontier.RingTheory.RegularRing.GlobalDimension
 public import StacksFrontier.RingTheory.Sequence.Regular.Basic
+public import Mathlib.RingTheory.AdicCompletion.Topology
 
 @[expose] public section
 

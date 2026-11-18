@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksFrontier.AlgebraicGeometry.Blowup.ReesAlgebra.Proper
 public import StacksFrontier.AlgebraicGeometry.Flatness.Flattening.BlowupIntegralFibresFlattening
 public import StacksFrontier.AlgebraicGeometry.Flatness.BlowingUp.FiniteTypeIdealSheaf

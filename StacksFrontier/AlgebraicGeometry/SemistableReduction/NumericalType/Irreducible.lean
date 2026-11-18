@@ -1,7 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.SemistableReduction.NumericalType.Genus
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 
 /-!
 # Irreducible numerical types

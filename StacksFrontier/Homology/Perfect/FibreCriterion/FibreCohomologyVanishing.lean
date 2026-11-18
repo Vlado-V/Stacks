@@ -13,7 +13,7 @@ public import Mathlib.RingTheory.Smooth.Local
 public import Mathlib.RingTheory.Spectrum.Prime.FreeLocus
 public import StacksFrontier.Homology.Perfect.Basic
 public import StacksFrontier.Homology.PseudoCoherent.Locality
-import Mathlib
+import StacksFrontier.MathlibForAlgebraicGeometry
 import StacksCore.Tactic.EgaSgaAttribute
 
 @[expose] public section

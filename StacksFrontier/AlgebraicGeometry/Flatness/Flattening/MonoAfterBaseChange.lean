@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.StalkwiseExactness
 public import StacksFrontier.AlgebraicGeometry.AffineBaseChangeIso.AffineSections
 public import StacksFrontier.AlgebraicGeometry.DevissageNoetherian.EmptySupportVanishing

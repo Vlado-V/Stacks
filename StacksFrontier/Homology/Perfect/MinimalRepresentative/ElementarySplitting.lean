@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksFrontier.Algebra.Homology.FiniteFreeComplex
 public import StacksFrontier.Algebra.Module.Projective.Nakayama
 public import StacksFrontier.Algebra.Module.Projective.StablyFreeLift
@@ -13,6 +13,9 @@ public import StacksFrontier.Homology.Perfect.Lifting
 public import StacksFrontier.Homology.PseudoCoherent.Characterization
 public import StacksFrontier.Homology.PseudoCoherent.Locality
 public import StacksFrontier.Homology.Tor.DerivedExtensionScalars
+public import Mathlib.CategoryTheory.Limits.Shapes.Countable
+public import Mathlib.Algebra.Category.ModuleCat.AB
+public import Mathlib.Algebra.Homology.GrothendieckAbelian
 
 /-!
 # Minimal representatives: splitting off elementary complexes

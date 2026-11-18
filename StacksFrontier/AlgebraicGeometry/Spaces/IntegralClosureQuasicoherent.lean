@@ -7,6 +7,7 @@ public import Mathlib.RingTheory.Smooth.IntegralClosure
 public import StacksFrontier.AlgebraicGeometry.Spaces.IntegralClosureSheaf
 public import StacksFrontier.AlgebraicGeometry.Spaces.QuasicoherentCartesianOnAffineCharts
 public import StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleAffineRefinement
+import StacksCore.LinearAlgebra.Quotient.Basic
 
 /-!
 # The integral closure of the structure sheaf in a quasi-coherent algebra is quasi-coherent

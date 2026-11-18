@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.RingTheory.Algebra.DirectLimit.Descent
 public import StacksFrontier.RingTheory.Flat.OpenFlatLocus
@@ -10,6 +10,7 @@ public import StacksFrontier.RingTheory.SpreadingOut.FlatModel
 public import StacksFrontier.RingTheory.Flat.TowerLTensor
 public import StacksFrontier.RingTheory.Flat.ClosedSubset.FlatAlongZeroLocus
 public import StacksFrontier.RingTheory.Flat.ClosedSubset.DirectedColimit
+public import Mathlib.CategoryTheory.Limits.Preserves.Over
 
 /-!
 # Descent of flatness along a closed subset from a directed colimit

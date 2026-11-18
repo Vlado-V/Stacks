@@ -1,5 +1,8 @@
 module
 
+public import Mathlib.Algebra.Category.ModuleCat.Simple
+public import Mathlib.CategoryTheory.Preadditive.Schur
+public import Mathlib.RingTheory.SimpleModule.Rank
 public import Mathlib.RingTheory.PicardGroup
 public import StacksFrontier.Algebra.Homology.DerivedCategory.Ext.Basic
 public import StacksFrontier.CategoryTheory.Monoidal.InvertibleObject

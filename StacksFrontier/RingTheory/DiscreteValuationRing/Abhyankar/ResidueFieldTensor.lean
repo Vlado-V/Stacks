@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+public import StacksFrontier.MathlibForAlgebraicGeometry
 public import StacksFrontier.FieldTheory.Separable.Defs
 public import StacksFrontier.FieldTheory.Separable.TFAE
 public import StacksFrontier.RingTheory.DiscreteValuationRing.BaseChangeClosure
