@@ -3,60 +3,11 @@ module
 public import Mathlib
 public import StacksCore.FieldTheory.PurelyTranscendental
 public import StacksCore.Tactic.StacksAttribute
-public import StacksFrontier.AlgebraicGeometry.Descent.AffineHomEtaleDescent
-public import StacksFrontier.AlgebraicGeometry.FiniteLocallyFree.FiniteFlat
-public import StacksFrontier.AlgebraicGeometry.Spaces.Basic
-public import StacksFrontier.AlgebraicGeometry.Spaces.Category
-public import StacksFrontier.AlgebraicGeometry.Spaces.ChangeOfBigSiteEnlargement
-public import StacksFrontier.AlgebraicGeometry.Spaces.DescendingProperties.SchemeStage
-public import StacksFrontier.AlgebraicGeometry.Spaces.Decent
-public import StacksFrontier.AlgebraicGeometry.Spaces.Decent.ConditionComparisons
-public import StacksFrontier.AlgebraicGeometry.Spaces.EtaleMorphisms
-public import StacksFrontier.AlgebraicGeometry.Spaces.FiniteEtaleAtlasQuasiSeparated
-public import StacksFrontier.AlgebraicGeometry.Spaces.FiniteLocallyFreeEtaleLocal
-public import StacksFrontier.AlgebraicGeometry.Spaces.FiniteLocallyFreeSchematicLocus
-public import StacksFrontier.AlgebraicGeometry.Spaces.FinitePresentation
-public import StacksFrontier.AlgebraicGeometry.Spaces.FiniteType
-public import StacksFrontier.AlgebraicGeometry.Spaces.FiniteTypeProperties
-public import StacksFrontier.AlgebraicGeometry.Spaces.Jacobson
-public import StacksFrontier.AlgebraicGeometry.Spaces.JacobsonFiniteTypePoints
-public import StacksFrontier.AlgebraicGeometry.Spaces.JacobsonPointSpace
-public import StacksFrontier.AlgebraicGeometry.Spaces.Immersions
-public import StacksFrontier.AlgebraicGeometry.Spaces.Morphisms
-public import StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.Affine
-public import StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PointsOfFiniteType
-public import StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.SeparationAxioms
-public import StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.Surjective
-public import StacksFrontier.AlgebraicGeometry.Spaces.OpenSubspace
-public import StacksFrontier.AlgebraicGeometry.Spaces.OpenSubspaceCorrespondence
-public import StacksFrontier.AlgebraicGeometry.Spaces.Limits.SmallApproximationOverBase
-public import StacksFrontier.AlgebraicGeometry.Spaces.Limits.NoetherianApproximationInduction
-public import StacksFrontier.AlgebraicGeometry.Limits.FiniteTypeApproximation.MapToFiniteType
-public import StacksFrontier.AlgebraicGeometry.LimitApproxClose.StepInputs
-public import StacksFrontier.AlgebraicGeometry.Spaces.OverFields.AlgClosureFGSubalgebraDescent
-public import StacksFrontier.AlgebraicGeometry.Spaces.Perfect.Limits
-public import StacksFrontier.AlgebraicGeometry.Spaces.Points
-public import StacksFrontier.AlgebraicGeometry.Spaces.PointsAndCoverings.EtaleLocalProperty
-public import StacksFrontier.AlgebraicGeometry.Spaces.PointsAndCoverings.SpecialCoverings
-public import StacksFrontier.AlgebraicGeometry.Spaces.PointsTopology
-public import StacksFrontier.AlgebraicGeometry.Spaces.Presentation.Surjective
-public import StacksFrontier.AlgebraicGeometry.Spaces.Representability
-public import StacksFrontier.AlgebraicGeometry.Spaces.RestrictSmallerBase
-public import StacksFrontier.AlgebraicGeometry.Spaces.SchematicLocus
+public import StacksFrontier.AlgebraicGeometry.Size.Cutoff
 public import StacksFrontier.AlgebraicGeometry.Spaces.Separated
-public import StacksFrontier.AlgebraicGeometry.Spaces.SeparatedCriteria
-public import StacksFrontier.AlgebraicGeometry.Spaces.SeparatedTfae
-public import StacksFrontier.AlgebraicGeometry.Spaces.SmallerBase
-public import StacksFrontier.AlgebraicGeometry.Spaces.SpectralPoints
-public import StacksFrontier.AlgebraicGeometry.Spaces.ZariskiCover
-public import StacksFrontier.AlgebraicGeometry.Spaces.ZariskiCoverAffineAtlas
-import StacksFrontier.AlgebraicGeometry.Spaces.FactorThroughOpenSubspace
-import StacksFrontier.AlgebraicGeometry.Spaces.FiniteLocallyFree
-import StacksFrontier.AlgebraicGeometry.Spaces.Flat
-import StacksFrontier.AlgebraicGeometry.Spaces.PointsPullback
-import StacksFrontier.AlgebraicGeometry.Spaces.QuasiCompactPointsFromEtaleCover
-import StacksFrontier.AlgebraicGeometry.Spaces.SurjectiveOnPoints
-import StacksFrontier.AlgebraicGeometry.Topologies.Fppf
+public import StacksFrontier.AlgebraicGeometry.Topologies.Fppf
+public import StacksFrontier.CategoryTheory.Sites.Localization.Relocalize
+public import StacksFrontier.AlgebraicGeometry.Topologies.Fppf.FibreProducts
 
 /-!
 # Base change along algebra maps for purely transcendental descent

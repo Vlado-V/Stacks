@@ -2,6 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.DeRham.LerayHirsch.ProjectiveBundleTransfer
 public import StacksFrontier.AlgebraicGeometry.Chow.ProjectiveBundleFormula.RankZero
+public import StacksFrontier.AlgebraicGeometry.ProjectiveBundle.RankZeroEmpty
 
 /-!
 # The projective bundle formula for de Rham cohomology in rank zero
@@ -46,15 +47,6 @@ theorem subsingleton_deRhamCohomology_of_isEmpty {P S : Scheme.{u}} (f : P ⟶ S
       (TopCat.Sheaf.isTerminalOfEqEmpty ((TopCat.Sheaf.pullback CommRingCat.{u} f.base).obj S.sheaf)
         htop)
   exact Module.subsingleton (Stacks.DeRhamWeil.baseSectionRing f) _
-
-/-- **The projective bundle of a module finite locally free of rank zero is empty.** -/
-theorem isEmpty_projectiveBundle_of_rank_zero {X : Scheme.{u}} (E : X.Modules) [E.IsQuasicoherent]
-    [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} E 0] :
-    IsEmpty (projectiveBundle X E) := by
-  let := AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.isFiniteLocallyFree E 0
-  have : IsEmpty (Stacks.RelativeProj.symGradedBundle E).scheme :=
-    Stacks.Chow.isEmpty_bundle_of_rank_zero E
-  exact Function.isEmpty (Stacks.RelativeProj.bundlePresentationIso E).inv.base
 
 /-- **[Stacks, Tag 0FMT] in rank zero**: for `ℰ` finite locally free of rank zero the map
 `⨁_{i < 0} H^{k-2i}_{dR}(X/S) ⟶ H^k_{dR}(P/S)` is bijective, both sides being zero. -/

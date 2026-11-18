@@ -5,7 +5,7 @@ public import StacksFrontier.AlgebraicGeometry.Blowup.ExceptionalDivisorCentreBu
 public import StacksFrontier.AlgebraicGeometry.Blowup.IsomorphismOffCenter.Basic
 public import StacksFrontier.AlgebraicGeometry.ClosedImmersionFinitePresentation.Basic
 public import StacksFrontier.AlgebraicGeometry.Conormal.DegreeOne
-public import StacksFrontier.AlgebraicGeometry.DeRham.LerayHirsch.ProjectiveBundleRankZero
+public import StacksFrontier.AlgebraicGeometry.ProjectiveBundle.RankZeroEmpty
 public import StacksFrontier.AlgebraicGeometry.Morphisms.FinitePresentation.Basic
 public import StacksFrontier.AlgebraicGeometry.Morphisms.Proper.LocallyProjective
 public import StacksFrontier.AlgebraicGeometry.ProjectiveBundle.TautologicalDatumBaseChange
