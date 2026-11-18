@@ -1,7 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.Quot.C1590Private.SpecialTowerLimitTower
-public import StacksFrontier.AlgebraicGeometry.Quot.StableReduction.StabilizationGenericFibre
+public import StacksFrontier.AlgebraicGeometry.Quot.BigFppfOverIntegers
 public import StacksFrontier.Deformation.Artin.FormalObject.SquareZeroTowerLimit
 
 /-!
