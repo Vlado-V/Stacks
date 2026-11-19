@@ -5,7 +5,7 @@ public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.ContractExce
 public import StacksFrontier.AlgebraicGeometry.Properties.RegularCharacterization
 public import Mathlib.RingTheory.Flat.TorsionFree
 public import Mathlib.RingTheory.RingHom.FaithfullyFlat
-public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.ReducedFibreSmoothBadPoint
+public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.DomainSpectrumStalk
 public import StacksFrontier.AlgebraicGeometry.NodalContraction.DvrStalk
 public import StacksFrontier.AlgebraicGeometry.Blowup.FiniteOverLocalDimensionOne
 public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.ModifyingLocalRings.NormalizedPointBlowupSequence

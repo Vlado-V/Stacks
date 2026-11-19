@@ -1,5 +1,6 @@
 module
 
+public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.DomainSpectrumStalk
 public import StacksFrontier.AlgebraicGeometry.Morphisms.Smooth.DiscreteValuationStalkAffine
 public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.ReducedFibreMaximalPrime
 public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.ReducedFibreReplacement
@@ -233,14 +234,6 @@ theorem formallySmoothNAdic_localRingHom_of_isSolutionForStalk
     (A := R) (A' := Localization.AtPrime (g.base x).asIdeal) (g.base x).asIdeal q hcanq
 
 
-
-/-- The local ring of the spectrum of a domain at a point is a domain. -/
-theorem isDomain_stalk_spec {B : Type u} [CommRing B] [IsDomain B] (b : Spec (.of B)) :
-    IsDomain ((Spec (.of B)).presheaf.stalk b) :=
-  let : b.asIdeal.IsPrime := b.isPrime
-  Function.Injective.isDomain
-    ((Spec.stalkIso (.of B) b).commRingCatIsoToRingEquiv : _ →+* Localization.AtPrime b.asIdeal)
-    (Spec.stalkIso (.of B) b).commRingCatIsoToRingEquiv.injective
 
 /-- The local ring of the spectrum of a Dedekind domain at a nonzero prime is a discrete
 valuation ring. -/

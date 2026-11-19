@@ -2,7 +2,7 @@ module
 
 public import Mathlib.RingTheory.Flat.TorsionFree
 public import Mathlib.RingTheory.RingHom.FaithfullyFlat
-public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.ReducedFibreSmoothBadPoint
+public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.DomainSpectrumStalk
 public import StacksFrontier.AlgebraicGeometry.Morphisms.Syntomic.Properties
 public import StacksFrontier.AlgebraicGeometry.NodalContraction.Basic
 public import StacksFrontier.AlgebraicGeometry.NodalContraction.DvrStalk
