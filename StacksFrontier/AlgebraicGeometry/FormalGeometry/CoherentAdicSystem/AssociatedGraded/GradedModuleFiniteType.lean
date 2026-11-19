@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.AlgebraicGeometry.Noetherian
+public import Mathlib.CategoryTheory.Sites.Adjunction
 public import Mathlib.RingTheory.AdicCompletion.Completeness
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.RingTheory.Filtration.AssociatedGraded
