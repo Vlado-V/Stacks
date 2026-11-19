@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Field.ULift
 public import Mathlib.FieldTheory.FinTrdeg
 public import StacksCore.Tactic.StacksAttribute
 import StacksFrontier.AlgebraicGeometry.Descent.LocalOnTarget.FibreDimension
