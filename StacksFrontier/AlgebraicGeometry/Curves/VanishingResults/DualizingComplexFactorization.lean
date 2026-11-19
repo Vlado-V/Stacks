@@ -178,15 +178,13 @@ variable {k k' : Type u} [Field k] [Field k'] [Algebra k k'] [Module.Finite k k'
 /-- A `k'`-linear form `ψ` on `V` gives the `k`-linear form `l ∘ ψ` on `V` with its scalars
 restricted. -/
 def restrictScalarsDualMap (l : k' →ₗ[k] k) {V : ModuleCat.{u} k'} (ψ : V ⟶ of k' k') :
-    (restrictScalars (algebraMap k k')).obj V ⟶ of k k :=
-  ofHom (X := (restrictScalars (algebraMap k k')).obj V)
-  { toFun v := l (ψ.hom v)
-    map_add' v w := by
-      change l (ψ.hom (v + w)) = l (ψ.hom v) + l (ψ.hom w)
-      rw [map_add, map_add]
-    map_smul' r v := by
-      change l (ψ.hom (algebraMap k k' r • v)) = r • l (ψ.hom v)
-      rw [map_smul, smul_eq_mul, ← Algebra.smul_def, map_smul] }
+    (restrictScalars (algebraMap k k')).obj V ⟶ of k k := by
+  letI : Module k V := Module.compHom V (algebraMap k k')
+  haveI : IsScalarTower k k' V := ⟨fun r a v => by
+    change (r • a) • v = algebraMap k k' r • (a • v)
+    rw [Algebra.smul_def, mul_smul]⟩
+  exact ofHom (X := (restrictScalars (algebraMap k k')).obj V)
+    (l ∘ₗ ψ.hom.restrictScalars k)
 
 /-- The inverse of `ModuleCat.restrictScalarsDualMap`. -/
 noncomputable def restrictScalarsDualInv (l : k' →ₗ[k] k) (hl : l ≠ 0) {V : ModuleCat.{u} k'}
