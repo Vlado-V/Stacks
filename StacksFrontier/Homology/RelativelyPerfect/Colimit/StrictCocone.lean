@@ -1,6 +1,6 @@
 module
 
-public import Mathlib.AlgebraicTopology.SimplicialSet.Coskeletal
+public import Mathlib.AlgebraicTopology.SimplicialSet.NerveAdjunction
 public import StacksFrontier.Homology.RelativelyPerfect.Colimit.RelativelyPerfectDiagram
 
 /-!

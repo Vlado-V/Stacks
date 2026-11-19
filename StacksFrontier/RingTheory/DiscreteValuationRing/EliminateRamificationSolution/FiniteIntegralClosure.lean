@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.RingTheory.LocalProperties.Semilocal
 public import StacksFrontier.RingTheory.DiscreteValuationRing.EliminateRamificationSolution.LocalSolutions
 import StacksCore.Tactic.EgaSgaAttribute
 
