@@ -64,6 +64,18 @@ local instance (priority := high) preservesFiniteProducts_invStalk_henselLift
     (x : GeometricPoint B S hS X.1) : PreservesFiniteProducts (invStalk g x) :=
   ⟨fun n => PreservesFiniteLimits.preservesFiniteLimits (Discrete (Fin n))⟩
 
+private theorem henselPresheafFiberProducts (x : GeometricPoint B S hS X.1) :
+    PreservesFiniteProducts ((sitePt x).presheafFiber (A := Type u)) :=
+  @CategoryTheory.Limits.instPreservesFiniteProductsOfPreservesFiniteLimits _ inferInstance _ inferInstance _
+    (GrothendieckTopology.Point.instPreservesFiniteLimitsFunctorOppositePresheafFiberOfLocallySmallOfHasFiniteLimitsOfAB5OfSize
+      (A := Type u) (sitePt x))
+
+private theorem henselSheafFiberProducts (x : GeometricPoint B S hS X.1) :
+    PreservesFiniteProducts ((sitePt x).sheafFiber (A := Type u)) :=
+  @CategoryTheory.Limits.instPreservesFiniteProductsOfPreservesFiniteLimits _ inferInstance _ inferInstance _
+    (GrothendieckTopology.Point.instPreservesFiniteLimitsSheafSheafFiberOfLocallySmallOfHasFiniteLimitsOfAB5OfSize
+      (A := Type u) (sitePt x))
+
 section Germ
 
 variable (x : GeometricPoint B S hS X.1)
@@ -74,24 +86,32 @@ def germRingHom (U : SmallEtale B S hS X.1) (ū : (sitePt x).fiber.obj U) :
     Γ(chartSch U, ⊤) →+* structureStalk x where
   toFun b := (sitePt x).toPresheafFiber U ū (ringSheaf (ringO X)).obj b
   map_one' := by
-    have h := ringOneObj_naturality (ringO X) (Functor.whiskerLeft
-      (sheafToPresheaf (SmallEtale.topology B S hS X.1) (Type u))
-      ((sitePt x).toPresheafFiberNatTrans U ū)) (P := sectionsFunctor _ (op U))
+    have h := @ringOneObj_naturality _ inferInstance _ inferInstance (ringO X)
+      (sectionsFunctor _ (op U)) inferInstance ((sitePt x).sheafFiber (A := Type u))
+      (henselSheafFiberProducts x) (Functor.whiskerLeft
+        (sheafToPresheaf (SmallEtale.topology B S hS X.1) (Type u))
+        ((sitePt x).toPresheafFiberNatTrans U ū))
     exact (congrArg _ (sectionsFunctor_map_ringOneHom (ringO X) (op U) default).symm).trans h
   map_mul' a b := by
-    have h := ringMulObj_naturality (ringO X) (Functor.whiskerLeft
-      (sheafToPresheaf (SmallEtale.topology B S hS X.1) (Type u))
-      ((sitePt x).toPresheafFiberNatTrans U ū)) (P := sectionsFunctor _ (op U)) a b
+    have h := @ringMulObj_naturality _ inferInstance _ inferInstance (ringO X)
+      (sectionsFunctor _ (op U)) inferInstance ((sitePt x).sheafFiber (A := Type u))
+      (henselSheafFiberProducts x) (Functor.whiskerLeft
+        (sheafToPresheaf (SmallEtale.topology B S hS X.1) (Type u))
+        ((sitePt x).toPresheafFiberNatTrans U ū)) a b
     exact (congrArg _ (sectionsFunctor_map_ringMulHom (ringO X) (op U) a b).symm).trans h
   map_zero' := by
-    have h := ringZeroObj_naturality (ringO X) (Functor.whiskerLeft
-      (sheafToPresheaf (SmallEtale.topology B S hS X.1) (Type u))
-      ((sitePt x).toPresheafFiberNatTrans U ū)) (P := sectionsFunctor _ (op U))
+    have h := @ringZeroObj_naturality _ inferInstance _ inferInstance (ringO X)
+      (sectionsFunctor _ (op U)) inferInstance ((sitePt x).sheafFiber (A := Type u))
+      (henselSheafFiberProducts x) (Functor.whiskerLeft
+        (sheafToPresheaf (SmallEtale.topology B S hS X.1) (Type u))
+        ((sitePt x).toPresheafFiberNatTrans U ū))
     exact (congrArg _ (sectionsFunctor_map_ringZeroHom (ringO X) (op U) default).symm).trans h
   map_add' a b := by
-    have h := ringAddObj_naturality (ringO X) (Functor.whiskerLeft
-      (sheafToPresheaf (SmallEtale.topology B S hS X.1) (Type u))
-      ((sitePt x).toPresheafFiberNatTrans U ū)) (P := sectionsFunctor _ (op U)) a b
+    have h := @ringAddObj_naturality _ inferInstance _ inferInstance (ringO X)
+      (sectionsFunctor _ (op U)) inferInstance ((sitePt x).sheafFiber (A := Type u))
+      (henselSheafFiberProducts x) (Functor.whiskerLeft
+        (sheafToPresheaf (SmallEtale.topology B S hS X.1) (Type u))
+        ((sitePt x).toPresheafFiberNatTrans U ū)) a b
     exact (congrArg _ (sectionsFunctor_map_ringAddHom (ringO X) (op U) a b).symm).trans h
 
 /-- `germRingHom` is the germ of the section. -/
@@ -566,10 +586,14 @@ theorem stalk_chartFiber_ext
     t₁ = t₂ := by
   have hm : Mono ((sitePt x).presheafFiber.map (presChartTheta f c pres)) := inferInstance
   refine (mono_iff_injective _).1 hm ?_
-  refine Functor.prodObjMk_ext ?_ (Functor.piObjMk_ext fun i ↦ ?_)
+  let F := (sitePt x).presheafFiber (A := Type u)
+  have hProducts : PreservesFiniteProducts F := henselPresheafFiberProducts x
+  refine @Functor.prodObjMk_ext _ inferInstance inferInstance F hProducts _ _ _ _ ?_ ?_
   · rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, presChartTheta, prod.lift_fst]
     exact h₁
-  · have e : presChartTheta f c pres ≫ prod.snd ≫ Pi.π _ i =
+  · refine @Functor.piObjMk_ext _ inferInstance inferInstance F hProducts _ inferInstance _ _ _
+      (fun i ↦ ?_)
+    have e : presChartTheta f c pres ≫ prod.snd ≫ Pi.π _ i =
         chartFiberCoordinate B S hS f V' (presCoord c pres i) := by
       rw [presChartTheta, prod.lift_snd_assoc, Pi.lift_comp_π]
     rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← Functor.map_comp_apply,

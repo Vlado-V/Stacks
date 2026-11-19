@@ -362,6 +362,7 @@ private theorem exists_descent_of_limitPreserving_univ
   exact ⟨G i'.unop, ringG i'.unop, algebraG i'.unop, finitePresentationG i'.unop,
     toR i'.unop, hGsite i'.unop, htoR i'.unop, x', xU, δ, β, hδ, hβ, hβiso⟩
 
+set_option maxHeartbeats 1000000 in
 /-- **Stacks Project, Tag 07XB.** Approximation of a fibred object over a Noetherian
 complete local ring by an object over a finite type `S`-algebra.
 
