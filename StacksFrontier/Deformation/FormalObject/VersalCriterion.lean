@@ -1252,6 +1252,123 @@ private theorem exists_section_with_second_map
       _ = σ ≫ p.map b := by simp [Category.assoc]
       _ = p.map sε := hσb
 
+/-- Evaluate a formal morphism on its complete base through a stabilized level. -/
+private theorem objIsoLevel_truncationPoint_compatibility
+    {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
+    {F : Type uF} [Category.{vF} F]
+    (p : F ⥤ ArtinianLocalAlgCat.{u, max v w, w} Λ k)
+    (e : RestrictionCompletionEquivalence p)
+    (E : CategoricalPullback e.inclusion (FormalObject.projection (p := p)))
+    (ξ : FormalObject p) (f : ξ ⟶ E.snd)
+    (n : ℕ) (hn : IsLocalRing.maximalIdeal E.fst ^ (n + 1) = ⊥) :
+    adicTruncationPoint ξ.base n ≫ artinianToComplete.map
+        (eqToHom (ξ.level_eq n).symm ≫
+          p.map (f.app n ≫ (e.objIsoLevel E n hn).inv) ≫
+          (e.canOver.app E).hom) =
+      f.base ≫ E.iso.inv ≫ (e.inclusionIso.app E.fst).hom := by
+  let levelIso := e.objIsoLevel E n hn
+  let sourceIso := e.canOver.app E
+  let baseIso : artinianToComplete.obj E.fst ≅ E.snd.base :=
+    (e.inclusionIso.app E.fst).symm ≪≫ E.iso
+  let mappedBaseIso := completeUnderlying.mapIso baseIso
+  let mappedSourceIso := artinianUnderlying.mapIso sourceIso
+  let mappedLevelIso := artinianUnderlying.mapIso
+    (p.mapIso levelIso ≪≫ eqToIso (E.snd.level_eq n))
+  let q : completeUnderlying.obj E.snd.base ⟶
+      artinianUnderlying.obj (AdicTruncation.obj E.snd.base n) :=
+    CommAlgCat.ofHom (Ideal.Quotient.mkₐ Λ (AdicTruncation.ideal E.snd.base n))
+  let qR : completeUnderlying.obj ξ.base ⟶
+      artinianUnderlying.obj (AdicTruncation.obj ξ.base n) :=
+    CommAlgCat.ofHom (Ideal.Quotient.mkₐ Λ (AdicTruncation.ideal ξ.base n))
+  let l : AdicTruncation.obj ξ.base n ⟶ E.fst :=
+    eqToHom (ξ.level_eq n).symm ≫
+      p.map (f.app n ≫ levelIso.inv) ≫ sourceIso.hom
+  have hlevelIso := e.objIsoLevel_over E n hn
+  change mappedLevelIso.hom =
+    mappedSourceIso.hom ≫ mappedBaseIso.hom ≫ q at hlevelIso
+  have hq : q = mappedBaseIso.inv ≫ mappedSourceIso.inv ≫ mappedLevelIso.hom := by
+    apply (cancel_epi mappedBaseIso.hom).1
+    apply (cancel_epi mappedSourceIso.hom).1
+    simpa only [Category.assoc, Iso.hom_inv_id_assoc] using hlevelIso.symm
+  let : IsIso q := by
+    rw [hq]
+    infer_instance
+  have hf : (AdicTruncation.functor n).map f.base =
+      eqToHom (ξ.level_eq n).symm ≫ p.map (f.app n) ≫
+        eqToHom (E.snd.level_eq n) := by
+    let := f.app_lift n
+    convert IsHomLift.fac p ((AdicTruncation.functor n).map f.base) (f.app n)
+  have hlevel : artinianUnderlying.map l ≫ mappedBaseIso.hom ≫ q =
+      artinianUnderlying.map ((AdicTruncation.functor n).map f.base) := by
+    calc
+      artinianUnderlying.map l ≫ mappedBaseIso.hom ≫ q =
+          artinianUnderlying.map
+              (eqToHom (ξ.level_eq n).symm ≫ p.map (f.app n ≫ levelIso.inv)) ≫
+            (mappedSourceIso.hom ≫ mappedBaseIso.hom ≫ q) := by
+              simp only [l, mappedSourceIso, Functor.mapIso_hom, Functor.map_comp, Category.assoc]
+      _ = artinianUnderlying.map
+              (eqToHom (ξ.level_eq n).symm ≫ p.map (f.app n ≫ levelIso.inv)) ≫
+            mappedLevelIso.hom := by rw [← hlevelIso]
+      _ = artinianUnderlying.map
+          (eqToHom (ξ.level_eq n).symm ≫
+            p.map ((f.app n ≫ levelIso.inv) ≫ levelIso.hom) ≫
+            eqToHom (E.snd.level_eq n)) := by
+              change artinianUnderlying.map
+                  (eqToHom (ξ.level_eq n).symm ≫ p.map (f.app n ≫ levelIso.inv)) ≫
+                artinianUnderlying.map
+                  (p.map levelIso.hom ≫ eqToHom (E.snd.level_eq n)) = _
+              simp only [Functor.map_comp, Category.assoc]
+      _ = artinianUnderlying.map
+          (eqToHom (ξ.level_eq n).symm ≫ p.map (f.app n) ≫
+            eqToHom (E.snd.level_eq n)) := by
+              simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
+      _ = artinianUnderlying.map ((AdicTruncation.functor n).map f.base) :=
+        congrArg (fun m => artinianUnderlying.map m) hf.symm
+  have hnat : completeUnderlying.map f.base ≫ q =
+      qR ≫ artinianUnderlying.map ((AdicTruncation.functor n).map f.base) := by
+    apply CommAlgCat.hom_ext
+    apply AlgHom.ext
+    intro x
+    change (Ideal.Quotient.mkₐ Λ (AdicTruncation.ideal E.snd.base n)) (f.base.hom x) =
+      (AdicTruncation.map f.base n).hom
+        ((Ideal.Quotient.mkₐ Λ (AdicTruncation.ideal ξ.base n)) x)
+    rfl
+  have hdiag :
+      completeUnderlying.map (adicTruncationPoint ξ.base n ≫ artinianToComplete.map l) ≫
+        mappedBaseIso.hom ≫ q = completeUnderlying.map f.base ≫ q := by
+    rw [Functor.map_comp]
+    change (qR ≫ artinianUnderlying.map l) ≫ mappedBaseIso.hom ≫ q = _
+    calc
+      (qR ≫ artinianUnderlying.map l) ≫ mappedBaseIso.hom ≫ q =
+          qR ≫ artinianUnderlying.map ((AdicTruncation.functor n).map f.base) := by
+            simpa only [Category.assoc] using congrArg (fun m => qR ≫ m) hlevel
+      _ = completeUnderlying.map f.base ≫ q := hnat.symm
+  have hcompat :
+      completeUnderlying.map (adicTruncationPoint ξ.base n ≫ artinianToComplete.map l) =
+        completeUnderlying.map (f.base ≫ baseIso.inv) := by
+    apply (cancel_mono mappedBaseIso.hom).1
+    apply (cancel_mono q).1
+    change
+      (completeUnderlying.map (adicTruncationPoint ξ.base n ≫ artinianToComplete.map l) ≫
+        mappedBaseIso.hom) ≫ q =
+      ((completeUnderlying.map f.base ≫ mappedBaseIso.inv) ≫ mappedBaseIso.hom) ≫ q
+    simpa only [Category.assoc, Iso.inv_hom_id_assoc] using hdiag
+  apply CompleteLocalAlgCat.Hom.ext
+  exact congrArg CommAlgCat.Hom.hom hcompat
+
+private theorem completePrecomposeMap_injective
+    {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
+    {R : CompleteLocalAlgCat.{u, v, w} Λ k}
+    {A B : ArtinianLocalAlgCat.{u, v, w} Λ k}
+    (q : R ⟶ artinianToComplete.obj A) (hq : Function.Surjective q.hom) :
+    Function.Injective (fun f : A ⟶ B => q ≫ artinianToComplete.map f) := by
+  intro f g h
+  apply ArtinianLocalAlgCat.hom_ext
+  apply AlgHom.ext
+  intro x
+  obtain ⟨r, rfl⟩ := hq x
+  exact congrArg (fun φ : R ⟶ artinianToComplete.obj B => φ.hom r) h
+
 set_option maxHeartbeats 4000000 in
 -- Resource bound, not a logical one: the forward direction threads the chosen pushforwards
 -- through every level of the formal object, and the composite `whnf` cost of the
@@ -1875,123 +1992,53 @@ public theorem isVersal_iff_differential_surjective_and_base_lifts
       have hh := congrArg (fun m : ξ ⟶ x => m.app N) hij
       rw [formalObjectHom_comp_app i j N] at hh
       simpa [gj, ηNiso, Ex] using hh
-    have haAppBase : (AdicTruncation.functor N).map a.base =
-        eqToHom (ξ.level_eq N).symm ≫ 𝓕.p.map (a.app N) ≫
-          eqToHom (x.level_eq N) := by
-      let := a.app_lift N
-      convert IsHomLift.fac 𝓕.p ((AdicTruncation.functor N).map a.base)
-        (a.app N)
+    -- Materialize the equation lemmas that the transport calculations previously unfolded.
+    have _ := @completeUnderlying.eq_1.{u, v, w}
+    have _ := @adicTruncationPoint.eq_1.{u, v, w}
+    have _ := @artinianUnderlying.eq_1.{u, v, w}
+    have _ := @AdicTruncation.functor.eq_1.{u, v, w}
     let bN' : AdicTruncation.obj ξ.base N ⟶ B :=
       eqToHom (ξ.level_eq N).symm ≫ 𝓕.p.map bridge0 ≫ cxy.hom
     let bComplete : ξ.base ⟶ artinianToComplete.obj B :=
-      adicTruncationPoint ξ.base N ≫
-        artinianToComplete.map bN'
+      adicTruncationPoint ξ.base N ≫ artinianToComplete.map bN'
     let bNew : ξ.base ⟶ y.base := bComplete ≫ eqToHom hybase.symm
     have hbNew : bNew ≫ g.base = a.base := by
-      cases y
-      cases hybase
-      have hIx : AdicTruncation.ideal x.base N = ⊥ := by
-        rw [hxbase]
-        change IsLocalRing.maximalIdeal A ^ (N + 1) = ⊥
-        exact hkillA
-      dsimp [bNew, bComplete, bN']
+      have hfac : bridge0 ≫ cy = a.app N ≫ (e.objIsoLevel Ex N hkillA).inv := by
+        calc
+          _ = ξNToEη ≫ cη := hbridge0fac
+          _ = ((ξNToEη ≫ cη) ≫ (e.objIsoLevel Ex N hkillA).hom) ≫
+                (e.objIsoLevel Ex N hkillA).inv := by simp [Category.assoc]
+          _ = _ := by rw [hOldApp]
+      have hmap : bN' ≫ f = eqToHom (ξ.level_eq N).symm ≫
+          𝓕.p.map (a.app N ≫ (e.objIsoLevel Ex N hkillA).inv) ≫
+          (e.canOver.app Ex).hom := by
+        calc
+          bN' ≫ f = eqToHom (ξ.level_eq N).symm ≫
+              𝓕.p.map (bridge0 ≫ cy) ≫ cxx.hom := by
+                simp only [bN', Functor.map_comp, Category.assoc, hcy]
+          _ = _ := by rw [hfac]; simp [cxx]
+      have hbaseIso : Ex.iso.inv ≫ (e.inclusionIso.app Ex.fst).hom = eqToHom hxbase := by
+        simp [Ex]
+      have hcomp : bComplete ≫ artinianToComplete.map f = a.base ≫ eqToHom hxbase := by
+        calc
+          _ = adicTruncationPoint ξ.base N ≫ artinianToComplete.map (bN' ≫ f) := by
+                calc
+                  _ = adicTruncationPoint ξ.base N ≫
+                        (artinianToComplete.map bN' ≫ artinianToComplete.map f) :=
+                      Category.assoc _ _ _
+                  _ = _ := congrArg (fun m => adicTruncationPoint ξ.base N ≫ m)
+                    (artinianToComplete.map_comp bN' f).symm
+          _ = _ := by
+                rw [hmap]
+                have hdiagram :=
+                  objIsoLevel_truncationPoint_compatibility 𝓕.p e Ex ξ a N hkillA
+                exact hdiagram.trans (congrArg
+                  (fun m : x.base ⟶ artinianToComplete.obj A => a.base ≫ m) hbaseIso)
       rw [hgb]
-      apply CompleteLocalAlgCat.Hom.ext
-      apply AlgHom.ext
-      intro r
-      dsimp [adicTruncationPoint, artinianToComplete,
-        CompleteLocalAlgCat.comp_hom, ArtinianLocalAlgCat.comp_hom]
-      refine quotient_mk_injective_of_eq_bot hIx ?_
-      have hOverAEval := congrArg
-        (fun φ => φ.hom
-          ((𝓕.p.map (ξNToEη ≫ cη)).hom
-            ((eqToHom (ξ.level_eq N).symm).hom
-              (Ideal.Quotient.mk
-                (AdicTruncation.ideal ξ.base N) r))))
-        (e.objIsoLevel_over Ex N hkillA)
-      have haAppEval := congrArg
-        (fun φ => φ.hom
-          (Ideal.Quotient.mk (AdicTruncation.ideal ξ.base N) r)) haAppBase
-      have haAppEval' := haAppEval
-      dsimp [AdicTruncation.functor, AdicTruncation.map] at haAppEval'
-      have hOldAppEval := congrArg
-        (fun m => (𝓕.p.map m).hom
-          ((eqToHom (ξ.level_eq N).symm).hom
-            (Ideal.Quotient.mk (AdicTruncation.ideal ξ.base N) r))) hOldApp
-      have hOldAppEval' := congrArg
-        (fun z => (eqToHom (x.level_eq N)).hom z) hOldAppEval
-      have hcy' := hcy.symm
-      have hcyEval := congrArg
-        (fun m => (Ideal.Quotient.mk (AdicTruncation.ideal x.base N))
-          ((eqToHom hxbase.symm).hom
-            (m.hom
-              ((𝓕.p.map bridge0).hom
-                ((eqToHom (ξ.level_eq N).symm).hom
-                  (Ideal.Quotient.mk (AdicTruncation.ideal ξ.base N) r)))))) hcy'
-      have hbridgeEval :
-          (𝓕.p.map cy).hom
-              ((𝓕.p.map bridge0).hom
-                ((eqToHom (ξ.level_eq N).symm).hom
-                  (Ideal.Quotient.mk (AdicTruncation.ideal ξ.base N) r))) =
-            (𝓕.p.map (ξNToEη ≫ cη)).hom
-              ((eqToHom (ξ.level_eq N).symm).hom
-                (Ideal.Quotient.mk (AdicTruncation.ideal ξ.base N) r)) := by
-        have hh := congrArg
-          (fun m => m.hom
-            ((eqToHom (ξ.level_eq N).symm).hom
-              (Ideal.Quotient.mk (AdicTruncation.ideal ξ.base N) r)))
-          (congrArg (fun m => 𝓕.p.map m) hbridge0fac)
-        simpa [Functor.map_comp, ArtinianLocalAlgCat.comp_hom,
-          AlgHom.comp_apply] using hh
       calc
-        _ = (eqToHom (x.level_eq N)).hom
-            ((𝓕.p.map (a.app N)).hom
-              ((eqToHom (ξ.level_eq N).symm).hom
-                (Ideal.Quotient.mk (AdicTruncation.ideal ξ.base N) r))) := by
-          have hcyToOver := by
-            simpa [← Functor.map_comp, Category.assoc, Ex, P, q,
-              artinianToComplete, hbridge0fac] using hcyEval
-          have hcyToOver' := by
-            simpa [adicTruncationPoint, artinianToComplete,
-              CompleteLocalAlgCat.comp_hom, ArtinianLocalAlgCat.comp_hom,
-              hηbase, hxbase, Ideal.Quotient.mkₐ_eq_mk] using hcyToOver
-          have hOverAEval' := by
-            simpa [Ex, cxx, P, q, Category.assoc,
-              artinianToComplete] using hOverAEval
-          have hOverAEval'' :
-              (eqToHom (x.level_eq N)).hom
-                ((𝓕.p.map (e.objIsoLevel Ex N hkillA).hom).hom
-                  ((𝓕.p.map cη).hom
-                    ((𝓕.p.map ξNToEη).hom
-                      ((eqToHom (ξ.level_eq N).symm).hom
-                        (Ideal.Quotient.mk (AdicTruncation.ideal ξ.base N) r))))) =
-              (Ideal.Quotient.mk (AdicTruncation.ideal x.base N))
-                ((eqToHom hxbase.symm).hom
-                  (cxx.hom.hom
-                    ((𝓕.p.map cη).hom
-                      ((𝓕.p.map ξNToEη).hom
-                        ((eqToHom (ξ.level_eq N).symm).hom
-                          (Ideal.Quotient.mk (AdicTruncation.ideal ξ.base N) r)))))) := by
-            simpa [artinianUnderlying,
-              completeUnderlying, artinianToComplete,
-              AdicTruncation.obj, AdicTruncation.functor,
-              Ex, cxx, P, q, Category.assoc] using hOverAEval'
-          have hOldAppEvalComp := by
-            simpa [Functor.map_comp, ArtinianLocalAlgCat.comp_hom,
-              AlgHom.comp_apply] using hOldAppEval'
-          convert hcyToOver' using 1
-          · rw [hxbase]
-            rfl
-          · rfl
-          · rw [hbridgeEval]
-            simpa [artinianUnderlying,
-              completeUnderlying, artinianToComplete,
-              AdicTruncation.obj, AdicTruncation.functor,
-              Functor.map_comp, ArtinianLocalAlgCat.comp_hom,
-              AlgHom.comp_apply] using
-                hOldAppEvalComp.symm.trans hOverAEval''
-        _ = (Ideal.Quotient.mk (AdicTruncation.ideal x.base N)) (a.base.hom r) := by
-          convert haAppEval'.symm using 1 <;> rfl
+        _ = (bComplete ≫ artinianToComplete.map f) ≫ eqToHom hxbase.symm := by
+              simp [bNew, Category.assoc]
+        _ = a.base := by rw [hcomp]; simp
     obtain ⟨ηNew, hηNew, iNew, jNew, hiNew, hijNew, hjNewBase⟩ :=
       factor_formal_morphism_through_pushforward hpre a g bNew hbNew
     let hηbaseNew : ηNew.base = artinianToComplete.obj B :=
@@ -2003,166 +2050,38 @@ public theorem isVersal_iff_differential_surjective_and_base_lifts
       iNew.app N ≫ ηNewNiso.inv
     let cNew : 𝓕.p.obj (e.can.obj EηNew) ≅ B :=
       e.canOver.app EηNew ≪≫ eqToIso (by rfl)
-    have hEηNewIsoBase :
-        e.inclusionIso.inv.app B ≫ EηNew.iso.hom = eqToHom hηbaseNew.symm := by
-      simp [EηNew]
     let gjNew : EηNew ⟶ Ex := ⟨f, jNew, hsquare ηNew hηbaseNew jNew (by rw [hjNewBase, hgb]; simp)⟩
     let cηNew := e.can.map gjNew
     have hNewBase : iNew.base = bNew ≫ eqToHom hηNew.symm := by
       let := hiNew
       simpa [q] using IsHomLift.fac' q bNew iNew
-    have hNewAppBase : (AdicTruncation.functor N).map iNew.base =
-        eqToHom (ξ.level_eq N).symm ≫ 𝓕.p.map (iNew.app N) ≫
-          eqToHom (ηNew.level_eq N) := by
-      let := iNew.app_lift N
-      convert IsHomLift.fac 𝓕.p ((AdicTruncation.functor N).map iNew.base)
-        (iNew.app N)
-    have hIB : AdicTruncation.ideal
-        (artinianToComplete.obj B) N = ⊥ := by
-      change IsLocalRing.maximalIdeal B ^ (N + 1) = ⊥
-      exact hkillBN
-    have hIηNew : AdicTruncation.ideal ηNew.base N = ⊥ := by
-      rw [hηbaseNew]
-      change IsLocalRing.maximalIdeal B ^ (N + 1) = ⊥
-      exact hkillBN
     have hnewMap : 𝓕.p.map ξNToEηNew ≫ cNew.hom =
         𝓕.p.map bridge0 ≫ cxy.hom := by
-      apply ArtinianLocalAlgCat.hom_ext
-      apply AlgHom.ext
-      intro x
-      refine quotient_mk_injective_of_eq_bot hIB ?_
-      have hNewAppEval := congrArg
-        (fun φ => φ.hom ((eqToHom (ξ.level_eq N)).hom x)) hNewAppBase
-      have hNewBaseTrunc := congrArg
-        (fun m => (AdicTruncation.functor N).map m) hNewBase
-      have hNewBaseTruncEval := congrArg
-        (fun m => m.hom ((eqToHom (ξ.level_eq N)).hom x)) hNewBaseTrunc
-      have hOverEval := congrArg
-        (fun φ => φ.hom
-          ((𝓕.p.map (e.objIsoLevel EηNew N hkillBN).inv).hom
-            ((𝓕.p.map (iNew.app N)).hom x)))
-        (e.objIsoLevel_over EηNew N hkillBN)
-      have hOverEval' := by
-        simpa [EηNew, cNew, ηNewNiso, hηbaseNew,
-          hEηNewIsoBase, hIB, hIηNew,
-          artinianToComplete, Category.assoc] using hOverEval.symm
-      have hηNewIsoCancel :
-          𝓕.p.map ηNewNiso.inv ≫ 𝓕.p.map ηNewNiso.hom = 𝟙 _ := by
-        rw [← 𝓕.p.map_comp, ηNewNiso.inv_hom_id]
-        simp
-      have hηNewIsoCancelEval := congrArg
-        (fun m => m.hom ((𝓕.p.map (iNew.app N)).hom x)) hηNewIsoCancel
-      have hηNewIsoCancelValue :
-          (𝓕.p.map ηNewNiso.hom).hom
-              ((𝓕.p.map ηNewNiso.inv).hom ((𝓕.p.map (iNew.app N)).hom x)) =
-            (𝓕.p.map (iNew.app N)).hom x := by
-        change (𝓕.p.map ηNewNiso.hom).hom
-            ((𝓕.p.map ηNewNiso.inv).hom ((𝓕.p.map (iNew.app N)).hom x)) =
-          (𝓕.p.map (iNew.app N)).hom x at hηNewIsoCancelEval
-        exact hηNewIsoCancelEval
-      have hOverEvalBridge :
-          (Ideal.Quotient.mk (AdicTruncation.ideal ηNew.base N))
-              ((eqToHom hηbaseNew.symm).hom
-                (cNew.hom.hom ((𝓕.p.map ξNToEηNew).hom x))) =
-          ((AdicTruncation.functor N).map iNew.base).hom
-              ((eqToHom (ξ.level_eq N)).hom x) := by
-          have hOverEvalBridgeApp :
-              Ideal.Quotient.mkₐ Λ (AdicTruncation.ideal ηNew.base N)
-                ((CommAlgCat.Hom.hom (eqToHom
-                  (congrArg
-                    (fun T : CompleteLocalAlgCat.{u, max v w, w} Λ k =>
-                      CommAlgCat.of Λ T) hηbaseNew.symm)))
-                  (cNew.hom.hom ((𝓕.p.map ξNToEηNew).hom x))) =
-              (CommAlgCat.Hom.hom (artinianUnderlying.map
-                (eqToHom (ηNew.level_eq N)))) ((𝓕.p.map (iNew.app N)).hom x) := by
-            simpa [EηNew, cNew, ηNewNiso, ξNToEηNew,
-              artinianUnderlying, completeUnderlying,
-              artinianToComplete, Category.assoc, Functor.map_comp,
-              ArtinianLocalAlgCat.comp_hom, AlgHom.comp_apply,
-              eqToHom_trans, eqToHom_refl, eqToHom_map,
-              hηbaseNew, hEηNewIsoBase, hηNewIsoCancelValue,
-              completeEqToHom_commAlg_apply, artinianEqToHom_commAlg_apply,
-              Ideal.Quotient.mkₐ_eq_mk,
-              AdicTruncation.functor, AdicTruncation.obj] using hOverEval'
-          have hAppTransport :
-              (CommAlgCat.Hom.hom (artinianUnderlying.map
-                (eqToHom (ηNew.level_eq N)))) ((𝓕.p.map (iNew.app N)).hom x) =
-              ((AdicTruncation.functor N).map iNew.base).hom
-                ((eqToHom (ξ.level_eq N)).hom x) := by
-            calc
-              _ = (eqToHom (ηNew.level_eq N)).hom
-                  ((𝓕.p.map (iNew.app N)).hom x) :=
-                    by simp [artinianUnderlying]
-              _ = (eqToHom (ξ.level_eq N).symm ≫ 𝓕.p.map (iNew.app N) ≫
-                  eqToHom (ηNew.level_eq N)).hom
-                    ((eqToHom (ξ.level_eq N)).hom x) :=
-                      (eqToHom_comp_apply (ξ.level_eq N) (ηNew.level_eq N)
-                        (𝓕.p.map (iNew.app N)) x).symm
-              _ = ((AdicTruncation.functor N).map iNew.base).hom
-                  ((eqToHom (ξ.level_eq N)).hom x) := hNewAppEval.symm
-          calc
-            _ = Ideal.Quotient.mkₐ Λ (AdicTruncation.ideal ηNew.base N)
-                  ((CommAlgCat.Hom.hom (eqToHom
-                    (congrArg
-                      (fun T : CompleteLocalAlgCat.{u, max v w, w} Λ k =>
-                        CommAlgCat.of Λ T) hηbaseNew.symm)))
-                    (cNew.hom.hom ((𝓕.p.map ξNToEηNew).hom x))) := by
-                    rw [Ideal.Quotient.mkₐ_eq_mk]
-                    exact congrArg (Ideal.Quotient.mk
-                      (AdicTruncation.ideal ηNew.base N))
-                      (completeEqToHom_commAlg_apply hηbaseNew.symm _)
-            _ = (CommAlgCat.Hom.hom (artinianUnderlying.map
-                (eqToHom (ηNew.level_eq N)))) ((𝓕.p.map (iNew.app N)).hom x) :=
-                  hOverEvalBridgeApp
-            _ = ((AdicTruncation.functor N).map iNew.base).hom
-                  ((eqToHom (ξ.level_eq N)).hom x) := hAppTransport
-      have htruncate :
-          (Ideal.Quotient.mk (AdicTruncation.ideal ηNew.base N))
-              ((eqToHom hηbaseNew.symm).hom
-                (cNew.hom.hom ((𝓕.p.map ξNToEηNew).hom x))) =
-          (Ideal.Quotient.mk (AdicTruncation.ideal ηNew.base N))
-              ((eqToHom hηbaseNew.symm).hom
-                (cxy.hom.hom ((𝓕.p.map bridge0).hom x))) := by
+      have hbaseIso : EηNew.iso.inv ≫ (e.inclusionIso.app EηNew.fst).hom =
+          eqToHom hηbaseNew := by
+        simp [EηNew]
+      have hcomplete : adicTruncationPoint ξ.base N ≫ artinianToComplete.map
+          (eqToHom (ξ.level_eq N).symm ≫ 𝓕.p.map ξNToEηNew ≫ cNew.hom) =
+          bComplete := by
         calc
-          _ = ((AdicTruncation.functor N).map iNew.base).hom
-                ((eqToHom (ξ.level_eq N)).hom x) := by
-                  simpa [ξNToEηNew, EηNew, cNew, ηNewNiso,
-                    artinianToComplete, artinianUnderlying,
-                    hηbaseNew, hIB, hIηNew, eqToHom_map,
-                    ArtinianLocalAlgCat.comp_hom, AlgHom.comp_apply] using
-                    hOverEvalBridge
-          _ = ((AdicTruncation.functor N).map
-                (bNew ≫ eqToHom hηNew.symm)).hom
-                ((eqToHom (ξ.level_eq N)).hom x) := hNewBaseTruncEval
-          _ = (Ideal.Quotient.mk (AdicTruncation.ideal ηNew.base N))
-                ((eqToHom hηbaseNew.symm).hom
-                  (cxy.hom.hom ((𝓕.p.map bridge0).hom x))) := by
-                  obtain ⟨r, hr⟩ := Ideal.Quotient.mk_surjective
-                    ((eqToHom (ξ.level_eq N)).hom x)
-                  have hx : x = (eqToHom (ξ.level_eq N).symm).hom
-                      (Ideal.Quotient.mk (AdicTruncation.ideal ξ.base N) r) := by
-                    have hx' := congrArg
-                      (fun z => (eqToHom (ξ.level_eq N).symm).hom z) hr.symm
-                    rw [artinianEqToHom_symm_apply_left (ξ.level_eq N) x] at hx'
-                    exact hx'
-                  have hlevel := truncatedArtinianIdeal_eq_bot ξ.base N
-                  rw [hx]
-                  rw [artinianEqToHom_symm_apply]
-                  dsimp only [AdicTruncation.functor, AdicTruncation.map,
-                    AdicTruncation.obj]
-                  simp only [Ideal.quotient_map_mkₐ,
-                    Ideal.Quotient.mkₐ_eq_mk]
-                  simp [bNew, bComplete, bN', adicTruncationPoint, artinianToComplete, cxy,
-                    eqToHom_trans, Functor.map_comp, ArtinianLocalAlgCat.comp_hom,
-                    CompleteLocalAlgCat.comp_hom, AlgHom.comp_apply]
-                  all_goals rfl
-      have hcast := quotient_mk_injective_of_eq_bot hIηNew htruncate
-      have hinj : Function.Injective (eqToHom hηbaseNew.symm).hom :=
-        completeEqToHom_hom_injective hηbaseNew.symm
-      have hvalues : cNew.hom.hom ((𝓕.p.map ξNToEηNew).hom x) =
-          cxy.hom.hom ((𝓕.p.map bridge0).hom x) := hinj hcast
-      exact congrArg (Ideal.Quotient.mk
-        (AdicTruncation.ideal (artinianToComplete.obj B) N)) hvalues
+          _ = iNew.base ≫ eqToHom hηbaseNew := by
+                have hdiagram : adicTruncationPoint ξ.base N ≫ artinianToComplete.map
+                    (eqToHom (ξ.level_eq N).symm ≫ 𝓕.p.map ξNToEηNew ≫ cNew.hom) =
+                    iNew.base ≫ EηNew.iso.inv ≫ (e.inclusionIso.app EηNew.fst).hom := by
+                  simpa only [ξNToEηNew, ηNewNiso, cNew, Iso.trans_hom, eqToIso.hom,
+                    eqToHom_refl, Category.comp_id] using
+                    objIsoLevel_truncationPoint_compatibility 𝓕.p e EηNew ξ iNew N hkillBN
+                exact hdiagram.trans (congrArg
+                  (fun m : ηNew.base ⟶ artinianToComplete.obj B => iNew.base ≫ m) hbaseIso)
+          _ = bComplete := by
+                rw [hNewBase]
+                simp [bNew, Category.assoc]
+      have hsurj : Function.Surjective (adicTruncationPoint ξ.base N).hom := by
+        change Function.Surjective (Ideal.Quotient.mkₐ Λ (AdicTruncation.ideal ξ.base N))
+        exact Ideal.Quotient.mk_surjective
+      have hlevel : eqToHom (ξ.level_eq N).symm ≫ 𝓕.p.map ξNToEηNew ≫ cNew.hom = bN' :=
+        completePrecomposeMap_injective (adicTruncationPoint ξ.base N) hsurj hcomplete
+      exact (cancel_epi (eqToHom (ξ.level_eq N).symm)).1 hlevel
     let bridgeBase := cNew.hom ≫ cxy.inv
     have hbridgeBase : 𝓕.p.map ξNToEηNew ≫ bridgeBase =
         𝓕.p.map bridge0 := by

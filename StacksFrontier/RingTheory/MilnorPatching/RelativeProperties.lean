@@ -1,6 +1,7 @@
 module
 
-public import StacksFrontier.MathlibForAlgebraicGeometry
+public import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
+public import Mathlib.RingTheory.Flat.Equalizer
 public import Mathlib.Algebra.Module.FinitePresentation
 public import Mathlib.CategoryTheory.Adjunction.Unique
 public import Mathlib.LinearAlgebra.TensorProduct.Finiteness
