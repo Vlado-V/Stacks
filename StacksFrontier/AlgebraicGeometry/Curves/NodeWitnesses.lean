@@ -280,13 +280,15 @@ theorem hasMulticrossCompletion_nodeAlgebra :
     letI : (Spec (CommRingCat.of (nodeAlgebra k))).Over (Spec (CommRingCat.of k)) :=
       ⟨Spec.map (CommRingCat.ofHom (algebraMap k (nodeAlgebra k)))⟩
     HasMulticrossCompletion k (Spec (CommRingCat.of (nodeAlgebra k)))
-      (closedPoint (nodeAlgebra k)) 2 :=
-  hasMulticrossCompletion_of_ringEquiv k _ 2
-    (isAdicComplete_maximalIdeal_quotient_mvPowerSeries k _)
-    (stalkClosedPointIso (CommRingCat.of (nodeAlgebra k))).commRingCatIsoToRingEquiv
-    (fun a => stalkClosedPointIso_stalkCoeffHom k (CommRingCat.of (nodeAlgebra k))
-      (CommRingCat.ofHom (algebraMap k (nodeAlgebra k))) a)
-    quotientAlgEquivMulticross
+      (closedPoint (nodeAlgebra k)) 2 := by
+  letI : (Spec (CommRingCat.of (nodeAlgebra k))).Over (Spec (CommRingCat.of k)) :=
+    ⟨Spec.map (CommRingCat.ofHom (algebraMap k (nodeAlgebra k)))⟩
+  exact hasMulticrossCompletion_of_ringEquiv k _ 2
+      (isAdicComplete_maximalIdeal_quotient_mvPowerSeries k _)
+      (stalkClosedPointIso (CommRingCat.of (nodeAlgebra k))).commRingCatIsoToRingEquiv
+      (fun a => stalkClosedPointIso_stalkCoeffHom k (CommRingCat.of (nodeAlgebra k))
+        (CommRingCat.ofHom (algebraMap k (nodeAlgebra k))) a)
+      quotientAlgEquivMulticross
 
 /-- The closed point of `Spec` of a local ring is a closed point of the scheme. -/
 theorem isClosed_singleton_closedPoint (A : Type u) [CommRing A] [IsLocalRing A] :
@@ -307,8 +309,10 @@ theorem isMulticrossSingularity_nodeAlgebra [IsAlgClosed k] :
     letI : (Spec (CommRingCat.of (nodeAlgebra k))).Over (Spec (CommRingCat.of k)) :=
       ⟨Spec.map (CommRingCat.ofHom (algebraMap k (nodeAlgebra k)))⟩
     IsMulticrossSingularity k (Spec (CommRingCat.of (nodeAlgebra k)))
-      (closedPoint (nodeAlgebra k)) :=
-  IsOrdinaryDoublePoint.isMulticrossSingularity (isOrdinaryDoublePoint_nodeAlgebra k)
+      (closedPoint (nodeAlgebra k)) := by
+  letI : (Spec (CommRingCat.of (nodeAlgebra k))).Over (Spec (CommRingCat.of k)) :=
+    ⟨Spec.map (CommRingCat.ofHom (algebraMap k (nodeAlgebra k)))⟩
+  exact IsOrdinaryDoublePoint.isMulticrossSingularity (isOrdinaryDoublePoint_nodeAlgebra k)
 
 /-! ### The dimension of the witness, and its algebra-level nodality -/
 
@@ -439,6 +443,8 @@ theorem not_hasMulticrossCompletion_doubleLineAlgebra :
       ⟨Spec.map (CommRingCat.ofHom (algebraMap k (doubleLineAlgebra k)))⟩
     ¬ HasMulticrossCompletion k (Spec (CommRingCat.of (doubleLineAlgebra k)))
       (closedPoint (doubleLineAlgebra k)) 2 := by
+  letI : (Spec (CommRingCat.of (doubleLineAlgebra k))).Over (Spec (CommRingCat.of k)) :=
+    ⟨Spec.map (CommRingCat.ofHom (algebraMap k (doubleLineAlgebra k)))⟩
   intro hnode
   obtain ⟨E⟩ := nonempty_ringEquiv_of_hasMulticrossCompletion k _ 2
     (isAdicComplete_maximalIdeal_quotient_mvPowerSeries k _)
