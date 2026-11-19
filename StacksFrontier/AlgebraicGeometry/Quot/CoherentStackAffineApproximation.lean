@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.MonoidAlgebra.Cardinal
 public import StacksFrontier.AlgebraicGeometry.Limits.AffineNoetherianApproximation
 public import StacksFrontier.AlgebraicGeometry.AffineStageDescent.Basic
 public import StacksFrontier.AlgebraicGeometry.Quot.CoherentStackEtaleDescent

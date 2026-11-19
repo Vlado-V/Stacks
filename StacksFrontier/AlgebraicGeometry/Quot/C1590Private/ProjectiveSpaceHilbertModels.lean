@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.MonoidAlgebra.Cardinal
 public import Mathlib.Data.Finsupp.Encodable
 public import StacksFrontier.AlgebraicGeometry.Quot.C1590Private.FibreHilbertLocus
 public import StacksFrontier.AlgebraicGeometry.Quot.C1590Private.ProjectiveSpaceHilbertQuotRepresentable

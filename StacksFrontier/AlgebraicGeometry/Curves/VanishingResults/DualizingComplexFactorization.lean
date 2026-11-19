@@ -179,7 +179,7 @@ variable {k k' : Type u} [Field k] [Field k'] [Algebra k k'] [Module.Finite k k'
 restricted. -/
 def restrictScalarsDualMap (l : k' →ₗ[k] k) {V : ModuleCat.{u} k'} (ψ : V ⟶ of k' k') :
     (restrictScalars (algebraMap k k')).obj V ⟶ of k k :=
-  ofHom
+  ofHom (X := (restrictScalars (algebraMap k k')).obj V)
   { toFun v := l (ψ.hom v)
     map_add' v w := by
       change l (ψ.hom (v + w)) = l (ψ.hom v) + l (ψ.hom w)

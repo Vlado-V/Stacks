@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Subobject.Comma
 public import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.EnoughInjectives
 public import Mathlib.CategoryTheory.Adjunction.AdjointFunctorTheorems
 public import Mathlib.CategoryTheory.Adjunction.Comma

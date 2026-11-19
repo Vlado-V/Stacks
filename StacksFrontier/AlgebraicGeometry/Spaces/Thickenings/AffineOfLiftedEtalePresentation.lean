@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.MonoidAlgebra.Cardinal
 public import Mathlib.RingTheory.Etale.Basic
 public import Mathlib.RingTheory.RingHom.Etale
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Algebra

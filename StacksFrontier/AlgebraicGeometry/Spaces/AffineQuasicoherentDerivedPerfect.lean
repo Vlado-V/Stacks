@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.LinearAlgebra.DirectSum.Finite
 public import StacksFrontier.AlgebraicGeometry.PseudoCoherentSites.RestrictionGeneral
 public import StacksFrontier.AlgebraicGeometry.Spaces.AffineQuasicoherentDerivedEquivalence
 public import StacksFrontier.AlgebraicGeometry.Spaces.Perfect.PushforwardOfSupportedPerfect

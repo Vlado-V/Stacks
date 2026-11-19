@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Category.FGModuleCat.Abelian
 public import Mathlib.Algebra.DualNumber
 public import Mathlib.CategoryTheory.Limits.Shapes.Pullback.Categorical.Basic
 public import Mathlib.LinearAlgebra.TensorProduct.Basic

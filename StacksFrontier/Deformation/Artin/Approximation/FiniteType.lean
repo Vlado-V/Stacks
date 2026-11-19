@@ -57,6 +57,7 @@ private theorem specMap_appLE_comp_fromSpec {S : Scheme.{u}} (U : S.affineOpens)
     IsAffineOpen.fromSpec_top, Scheme.isoSpec_Spec]
   simp
 
+set_option maxHeartbeats 1000000 in
 /-- **Stacks Project, Tag 07XB.** Approximation of a fibred object over a Noetherian
 complete local ring by an object over a finite type `S`-algebra.
 
