@@ -809,10 +809,14 @@ theorem t_dvd_of_t_sq_mul_eq_zero {x : Base.{u}} (h : t.{u} ^ 2 * x = 0) : t.{u}
     have := congrArg ULift.ringEquiv h
     rwa [map_mul, map_pow, ringEquiv_t, map_zero] at this
   have h3 : (2 : ZMod 8) ∣ ULift.ringEquiv x := by
-    revert h2
-    generalize ULift.ringEquiv x = y
-    revert y
-    decide
+    let y : ZMod 8 := ULift.ringEquiv x
+    refine ⟨((y.val / 2 : ℕ) : ZMod 8), ?_⟩
+    have finiteCheck : ∀ k : Fin 8,
+        (2 : ZMod 8) ^ 2 * (k.val : ZMod 8) = 0 →
+        (k.val : ZMod 8) = 2 * ((k.val / 2 : ℕ) : ZMod 8) := by decide
+    have hy : (2 : ZMod 8) ^ 2 * ((⟨y.val, ZMod.val_lt y⟩ : Fin 8).val : ZMod 8) = 0 := by
+      simpa only [ZMod.natCast_zmod_val] using h2
+    simpa only [ZMod.natCast_zmod_val] using finiteCheck ⟨y.val, ZMod.val_lt y⟩ hy
   obtain ⟨c, hc⟩ := h3
   refine ⟨ULift.ringEquiv.symm c, ULift.ringEquiv.injective ?_⟩
   rw [map_mul, ringEquiv_t, RingEquiv.apply_symm_apply, hc]
