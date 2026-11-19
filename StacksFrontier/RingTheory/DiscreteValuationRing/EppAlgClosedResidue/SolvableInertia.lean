@@ -1,6 +1,5 @@
 module
 
-public import Mathlib.GroupTheory.Nilpotent
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.NumberTheory.Cyclotomic.OneAddPow
 public import StacksFrontier.RingTheory.AdicCompletion.Basic

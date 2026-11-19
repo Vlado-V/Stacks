@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Monoidal.Functor
 public import StacksFrontier.Algebra.Category.ModuleCat.ExtendScalarsBaseRing
 public import StacksFrontier.AlgebraicGeometry.ModuleLimits.ExtendScalarsCancel
 public import StacksFrontier.RingTheory.MilnorPatching.Relative
