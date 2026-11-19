@@ -1,6 +1,6 @@
 module
 
-public import StacksFrontier.AlgebraicGeometry.Quot.StableReduction.FamilyCriterion
+public import StacksFrontier.AlgebraicGeometry.Quot.StableReduction.FamilyCriterion.Fibre
 public import StacksFrontier.AlgebraicGeometry.Quot.StableReduction.Glueing.RationalTailIso
 
 /-!

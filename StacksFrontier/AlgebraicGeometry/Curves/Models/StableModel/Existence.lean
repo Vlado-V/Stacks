@@ -1,7 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.Curves.Models.Reduction
-public import StacksFrontier.AlgebraicGeometry.Quot.StableReduction.FamilyCriterion
+public import StacksFrontier.AlgebraicGeometry.Quot.StableReduction.FamilyCriterion.Fibre
 public import StacksFrontier.AlgebraicGeometry.Curves.Models.ModelSituation
 public import StacksFrontier.AlgebraicGeometry.Curves.Models.StableModel.SpecialFibre
 public import StacksFrontier.AlgebraicGeometry.Curves.Models.StableModel.TwistDescent

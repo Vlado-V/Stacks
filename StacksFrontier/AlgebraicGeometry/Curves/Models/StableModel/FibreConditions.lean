@@ -1,7 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.Curves.Models.Reduction
-public import StacksFrontier.AlgebraicGeometry.Quot.StableReduction.FamilyCriterion
+public import StacksFrontier.AlgebraicGeometry.Quot.StableReduction.FamilyCriterion.Fibre
 public import StacksFrontier.AlgebraicGeometry.Curves.IsNode
 public import StacksFrontier.AlgebraicGeometry.Curves.Models.SemistableReduction.NodalSpecialFibre
 public import StacksFrontier.AlgebraicGeometry.Curves.VanishingResults.AutomaticProperties

@@ -1,5 +1,6 @@
 module
 
+public import StacksFrontier.AlgebraicGeometry.Quot.StableReduction.FamilyCriterion.Fibre
 public import StacksFrontier.AlgebraicGeometry.Quot.StableCurveFamilyOfSchemes
 public import StacksFrontier.AlgebraicGeometry.Quot.ModuliSmoothCurvesStable
 public import StacksFrontier.AlgebraicGeometry.Quot.StableReduction.FamilyCriterion.EtaleGenus
@@ -33,14 +34,6 @@ open CategoryTheory CategoryTheory.Limits
 universe u
 
 namespace AlgebraicGeometry
-
-/-- The fibre of `p : Y ⟶ S` over `s ∈ S` is a stable curve of genus `g` over `κ(s)`: its global
-functions are `κ(s)`, its genus is `g`, it has genus at least two and neither a rational tail nor
-a rational bridge. -/
-abbrev IsStableFibreOfGenus (g : ℕ) {Y S : Scheme.{u}} (p : Y ⟶ S) (s : S) : Prop :=
-  IsIso ((Scheme.ΓSpecIso (S.residueField s)).inv ≫ (p.fiberToSpecResidueField s).appTop) ∧
-    HasGenusTwoNoRationalTailNoRationalBridge (S.residueField s) (p.fiberToSpecResidueField s) ∧
-    genus (p.fiberToSpecResidueField s) = g
 
 /-- **A fibrewise criterion for stable families of genus `g`.** A proper flat morphism of finite
 presentation `p : Y ⟶ S`, at-worst-nodal of relative dimension one, onto a reduced locally
