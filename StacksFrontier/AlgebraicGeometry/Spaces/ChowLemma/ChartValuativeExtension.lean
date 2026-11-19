@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.RingTheory.Localization.Cardinality
 public import StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.ValuativeCriteria
 
 /-!

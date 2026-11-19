@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Limits.Shapes.Pullback.IsPullback.Kernels
 public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.ThickeningAffineFirstOrder
 public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.ThickeningPushout07RT
 public import StacksFrontier.AlgebraicGeometry.Pushout.ThickeningPushout

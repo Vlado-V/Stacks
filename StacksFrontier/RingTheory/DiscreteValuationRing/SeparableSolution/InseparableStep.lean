@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.FieldTheory.PurelyInseparable.Tower
 public import StacksFrontier.RingTheory.DiscreteValuationRing.SeparableSolution.LocalFormalSmoothness
 
 /-!

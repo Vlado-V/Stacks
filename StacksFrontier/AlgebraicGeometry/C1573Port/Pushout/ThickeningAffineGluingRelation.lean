@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.EquivalenceRelation
 public import StacksFrontier.AlgebraicGeometry.Etale.FpqcDescentApplication.OpenImmersion
 public import StacksFrontier.AlgebraicGeometry.Pushout.ThickeningAffineGluingSquare
 public import StacksFrontier.AlgebraicGeometry.Size.Basic

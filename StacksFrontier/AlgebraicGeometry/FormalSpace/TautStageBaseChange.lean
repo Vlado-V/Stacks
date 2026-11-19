@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.Connected
 public import StacksFrontier.AlgebraicGeometry.FormalSpace.Diagonal
 public import StacksFrontier.AlgebraicGeometry.FormalSpace.DirectedColimit
 public import StacksFrontier.AlgebraicGeometry.FormalSpace.Representable

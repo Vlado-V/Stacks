@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.AlgebraicTopology.SimplicialSet.Coskeletal
 public import StacksFrontier.Homology.RelativelyPerfect.Colimit.RelativelyPerfectDiagram
 
 /-!

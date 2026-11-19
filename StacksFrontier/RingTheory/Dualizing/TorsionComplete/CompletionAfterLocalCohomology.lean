@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Triangulated.Adjunction
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.RingTheory.Dualizing.LocalCohomology.Coreflection
 public import StacksFrontier.RingTheory.Dualizing.LocalCohomology.RightAdjoint

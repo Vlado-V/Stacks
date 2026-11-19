@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.RingTheory.Ideal.AssociatedPrime.Localization
 public import StacksFrontier.AlgebraicGeometry.Duality.DualizingModule
 public import StacksFrontier.AlgebraicGeometry.Duality.DualizingModuleStalk
 public import StacksFrontier.RingTheory.Dualizing.AssociatedPrimeRegular

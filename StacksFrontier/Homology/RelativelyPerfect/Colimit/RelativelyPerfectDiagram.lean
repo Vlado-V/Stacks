@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Bicategory.Functor.Cat.ObjectProperty
 public import StacksFrontier.Homology.RelativelyPerfect.Colimit.DerivedExtensionPseudofunctor
 import all StacksFrontier.Homology.RelativelyPerfect.Colimit.ExtensionScalars
 import all StacksFrontier.Homology.RelativelyPerfect.Colimit.RingColimit

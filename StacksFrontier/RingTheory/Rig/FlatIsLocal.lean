@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.RingTheory.Localization.Pi
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.FormalSpace.Restricted.FiniteTypeComposition
 public import StacksFrontier.RingTheory.Rig.FiniteType

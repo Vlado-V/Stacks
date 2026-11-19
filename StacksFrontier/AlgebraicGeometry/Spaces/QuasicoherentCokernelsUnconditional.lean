@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.ObjectProperty.Kernels
 public import StacksFrontier.AlgebraicGeometry.Spaces.QuasicoherentCokernelsOnSite
 public import StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleAffinePresentationSurjectivity
 public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.SectionUniverseLiftColimits

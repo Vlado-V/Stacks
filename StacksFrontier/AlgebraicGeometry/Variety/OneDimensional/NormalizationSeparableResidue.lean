@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.RingTheory.KrullDimension.LocalRing
 public import StacksFrontier.AlgebraicGeometry.Variety.Geometrically.Reduced
 public import StacksFrontier.AlgebraicGeometry.Variety.Geometrically.Regular
 public import StacksFrontier.AlgebraicGeometry.Variety.OneDimensional.NormalizationOverField

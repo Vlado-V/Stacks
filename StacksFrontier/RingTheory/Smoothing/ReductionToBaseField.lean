@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.RingTheory.Noetherian.Nilpotent
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.RingTheory.Localization.FractionRing
 public import StacksFrontier.RingTheory.MinimalPrimes.Reduced

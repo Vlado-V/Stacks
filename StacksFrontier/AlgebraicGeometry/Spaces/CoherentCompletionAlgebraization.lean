@@ -1,5 +1,7 @@
 module
 
+public import Mathlib.CategoryTheory.Abelian.CommSq
+public import Mathlib.CategoryTheory.Limits.Shapes.Pullback.IsPullback.Kernels
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Spaces.CoherentAdicKernel
 public import StacksFrontier.AlgebraicGeometry.Spaces.CoherentCompletionFunctor

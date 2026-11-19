@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.AlgebraicGeometry.ZariskisMainTheorem
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Descent.ClosedImmersionLocalCriterion
 public import StacksFrontier.AlgebraicGeometry.Descent.LocalProperties.Noetherian

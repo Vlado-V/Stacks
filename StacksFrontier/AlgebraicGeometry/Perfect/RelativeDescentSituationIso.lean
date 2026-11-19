@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.AlgebraicGeometry.AffineTransitionLimit
 public import StacksFrontier.AlgebraicGeometry.Perfect.RelativeDescentPerfectInduction
 public import StacksFrontier.AlgebraicGeometry.Perfect.RelativeDescentHomDescentIso
 public import StacksFrontier.AlgebraicGeometry.Perfect.RelativeDescentHomDescentTriangle

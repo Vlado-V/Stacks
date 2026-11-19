@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.RingTheory.SimpleModule.InjectiveProjective
 public import Mathlib.Algebra.Field.Shrink
 public import StacksFrontier.RingTheory.CompleteIntersection.FieldGlobalToRingMap
 public import Mathlib.CategoryTheory.Functor.Basic

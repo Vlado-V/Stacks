@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.ObjectProperty.Extensions
 public import Mathlib.Algebra.Category.Grp.Zero
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf.Colimits
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf.Quasicoherent

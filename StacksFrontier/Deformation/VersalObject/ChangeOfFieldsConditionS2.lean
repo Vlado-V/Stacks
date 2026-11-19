@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Limits.Shapes.Pullback.Square
 public import StacksFrontier.Deformation.ResidueField.Comparison
 public import StacksFrontier.Deformation.RimSchlessinger.Basic
 public import StacksFrontier.Deformation.SchlessingerConditions.SquareZeroExtension

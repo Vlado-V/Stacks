@@ -4,6 +4,9 @@ public import StacksFrontier.AlgebraicGeometry.Quot.StableReduction.Glueing.Fibr
 public import StacksFrontier.AlgebraicGeometry.Quot.ContractionUniquenessComplete
 public import StacksFrontier.AlgebraicGeometry.Curves.Models.SemistableReduction.NodalSpecialFibre
 public import StacksFrontier.AlgebraicGeometry.Scheme.SpecQuotientInSite
+public import StacksFrontier.AlgebraicGeometry.Curves.VanishingResults.AutomaticProperties
+public import StacksFrontier.AlgebraicGeometry.Quot.ModuliSmoothCurvesStable
+public import StacksFrontier.AlgebraicGeometry.Quot.StableCurveFamilyOfSchemes
 
 /-!
 # The fibres of a stable family of curves over a discrete valuation ring
