@@ -365,9 +365,10 @@ public theorem hasConservativeFamily_over (V : SmallEtale B S hS) :
     GrothendieckTopology.wEqualsLocallyBijective_type.{max (u + 1) z, u + 1, u} _
   let : HasSheafify ((SmallEtale.topology B S hS).over V) (Type (max (u + 1) z)) :=
     hasSheafifyEssentiallySmallSite _ _
-  let : GrothendieckTopology.HasEnoughPoints.{max (u + 1) z} (SmallEtale.topology B S hS) :=
-    hasEnoughPoints_ulift.{u, z} B S hS
-  GrothendieckTopology.HasConservativeFamily.of_hasEnoughPoints _
+  (GrothendieckTopology.hasConservativeFamily_iff_exists
+    ((SmallEtale.topology B S hS).over V)).2
+    ⟨_, (AlgebraicGeometry.isConservativeFamilyOfPoints_uliftGeometricSitePoint.{u, z, 0}
+      B (B.obj S hS)).over V⟩
 
 end AlgebraicGeometry.SmallEtale
 
