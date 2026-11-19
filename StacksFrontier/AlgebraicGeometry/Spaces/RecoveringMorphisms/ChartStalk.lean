@@ -262,10 +262,14 @@ theorem chartStalk_prod_ext (V V' : SmallEtale B S hS Y.1)
   have : Presheaf.IsLocallyInjective (SmallEtale.topology B S hS X.1) φ :=
     Presheaf.isLocallyInjective_of_injective _ φ hinj
   apply (sitePt x).toPresheafFiber_map_injective φ
-  letI : PreservesFiniteLimits ((sitePt x).presheafFiber (A := Type u)) :=
+  let F := (sitePt x).presheafFiber (A := Type u)
+  have hLimits : PreservesFiniteLimits F :=
     GrothendieckTopology.Point.instPreservesFiniteLimitsFunctorOppositePresheafFiberOfLocallySmallOfHasFiniteLimitsOfAB5OfSize
       (A := Type u) (sitePt x)
-  refine Functor.prodObjMk_ext (P := (sitePt x).presheafFiber (A := Type u)) ?_ ?_
+  have hProducts : PreservesFiniteProducts F :=
+    @CategoryTheory.Limits.instPreservesFiniteProductsOfPreservesFiniteLimits
+      _ inferInstance _ inferInstance F hLimits
+  refine @Functor.prodObjMk_ext _ inferInstance inferInstance F hProducts _ _ _ _ ?_ ?_
   · rwa [← types_comp_apply ((sitePt x).presheafFiber.map φ), ← Functor.map_comp,
       ← types_comp_apply ((sitePt x).presheafFiber.map φ), ← Functor.map_comp, prod.lift_fst]
   · rwa [← types_comp_apply ((sitePt x).presheafFiber.map φ), ← Functor.map_comp,
