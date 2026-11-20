@@ -2,7 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.Curves.VanishingResults.DualizingSheafClauseFive
 public import StacksFrontier.AlgebraicGeometry.Curves.VanishingResults.DualizingSheafRank
-public import StacksFrontier.AlgebraicGeometry.Divisors.Reflexive.RankOneTensorMonoid
+public import StacksFrontier.AlgebraicGeometry.FiberRank.TensorStalk
 public import StacksFrontier.AlgebraicGeometry.Curves.VanishingResults.GenericPointSupport
 public import StacksFrontier.AlgebraicGeometry.Curves.VanishingResults.Situation
 public import StacksFrontier.AlgebraicGeometry.IdealSheafSequence.Basic

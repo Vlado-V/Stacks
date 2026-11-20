@@ -2,13 +2,14 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.CurveDegreeTensor.Basic
 public import StacksFrontier.AlgebraicGeometry.CurveTensorEulerUnit.IntegralDevissage
-public import StacksFrontier.AlgebraicGeometry.Divisors.Reflexive.RankOneTensorMonoid
+public import StacksFrontier.AlgebraicGeometry.FiberRank.TensorStalk
 public import StacksFrontier.AlgebraicGeometry.FiberRank.ConstantStalkRank
 public import StacksFrontier.AlgebraicGeometry.Perfect.VectorBundleKGroup
 public import StacksFrontier.AlgebraicGeometry.ProperCohomologyFinite.OverFieldProper
 public import StacksFrontier.AlgebraicGeometry.StalkFreeBridge.StalkFree
 public import StacksFrontier.AlgebraicGeometry.Variety.EulerChar.CoherentFiniteness
 public import StacksCore.Tactic.StacksAttribute
+import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.FinitePresentationStalk
 
 /-!
 # [Stacks, Tag 0AYX]: the degree of a tensor product on a proper curve
