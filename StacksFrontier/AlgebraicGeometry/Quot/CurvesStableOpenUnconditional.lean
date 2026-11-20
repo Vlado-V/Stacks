@@ -1,6 +1,6 @@
 module
 
-public import StacksFrontier.AlgebraicGeometry.Quot.CurvesStableOpenOfDualizing
+public import StacksFrontier.AlgebraicGeometry.Quot.CurvesStableSmoothGenusOpen
 public import StacksFrontier.AlgebraicGeometry.Quot.CurvesH01Open
 public import StacksFrontier.AlgebraicGeometry.Quot.CurveFamilyRelativeDualizingSheafExists
 public import StacksFrontier.AlgebraicGeometry.Quot.C1590Private.StableLocusOpenUnconditional
@@ -53,9 +53,10 @@ theorem isOpenCurvesLocus_isStableCurveFamilyOfGenus_of_h2_h3 (g : ℕ)
     (h3 : ∀ X : CurveFamily B hZ, X.HasResidueFieldGlobalFunctions →
       X.FirstHigherDirectImageCommutesWithBaseChange) :
     IsOpenCurvesLocus B hZ (IsStableCurveFamilyOfGenus B hZ g) :=
-  isOpenCurvesLocus_isStableCurveFamilyOfGenus_of_dualizing B hZ g
-    isOpenCurvesLocus_isH01CurveFamily
-    CurveFamily.exists_isRelativeDualizingSheaf_of_isPrestable h2 h3
+  ((C1590Private.isOpenCurvesLocus_isStableCurveFamily B hZ).and
+      (isOpenCurvesLocus_isGenusCurveFamily_of_isH01 B hZ g isOpenCurvesLocus_isH01CurveFamily h2 h3)).of_iff fun _ =>
+    ⟨fun h => ⟨h.1, h.2.2⟩,
+      fun h => ⟨h.1, isH01CurveFamily_of_isPrestableCurveFamily h.1.1, h.2⟩⟩
 
 /-- **Condition (o) for `𝓜_g`** (Stacks 0E83): smooth families with `f_*𝒪_X = 𝒪_S` universally
 and `R¹f_*𝒪_X` locally free of rank `g`, from parts (2) (`h2`) and (3) (`h3`) of Stacks 0E1J. -/

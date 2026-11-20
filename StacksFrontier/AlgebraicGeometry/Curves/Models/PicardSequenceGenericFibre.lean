@@ -6,7 +6,7 @@ public import StacksFrontier.AlgebraicGeometry.Curves.Models.SpecialFiberCompone
 public import StacksFrontier.AlgebraicGeometry.Curves.Models.SpecialFiberConnected
 public import StacksFrontier.AlgebraicGeometry.Models.Basic
 public import StacksFrontier.AlgebraicGeometry.Divisors.EffectiveCartier.Decomposition
-public import StacksFrontier.RingTheory.DiscreteValuationRing.EppGenericFibre
+public import StacksFrontier.RingTheory.DiscreteValuationRing.FractionLocalization
 
 /-!
 # The generic fibre of a regular model is the complement of the special fibre

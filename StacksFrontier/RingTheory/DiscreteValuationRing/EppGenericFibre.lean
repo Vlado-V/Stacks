@@ -3,6 +3,7 @@ module
 public import StacksFrontier.RingTheory.DiscreteValuationRing.EppVerticalAgreement
 public import StacksFrontier.RingTheory.DiscreteValuationRing.EppWeakSolutionBridge
 public import StacksFrontier.RingTheory.DiscreteValuationRing.SeparableSolution
+public import StacksFrontier.RingTheory.DiscreteValuationRing.FractionLocalization
 public import Mathlib.RingTheory.Ideal.MinimalPrime.Localization
 public import Mathlib.RingTheory.KrullDimension.Zero
 public import Mathlib.RingTheory.LocalProperties.Reduced
@@ -291,24 +292,6 @@ theorem finrank_fiber_le_of_isLocalizationAway
     module_finite_tensor_of_isLocalizationAway π _ hφ hunit v hv
   exact (finrank_tensor_le_finrank_tensor_of_flat f hf).trans
     (finrank_tensor_le_card_of_isLocalizationAway π _ hφ hunit v hv)
-
-/-! ### The fraction field of a discrete valuation ring inverts a uniformizer -/
-
-/-- **The fraction field of a discrete valuation ring is the localisation away from a
-uniformizer.** -/
-theorem isLocalization_away_of_irreducible
-    (B : Type*) [CommRing B] [IsDomain B] [IsDiscreteValuationRing B]
-    (L : Type*) [Field L] [Algebra B L] [IsFractionRing B L]
-    {π : B} (hπ : Irreducible π) :
-    IsLocalization.Away π L := by
-  have hmem : π ∈ nonZeroDivisors B := mem_nonZeroDivisors_of_ne_zero hπ.ne_zero
-  refine (IsLocalization.iff_of_le_of_exists_dvd (M := Submonoid.powers π) (S := L)
-    (nonZeroDivisors B) (Submonoid.powers_le.mpr hmem) ?_).mpr inferInstance
-  intro n hn
-  obtain ⟨k, u, rfl⟩ :=
-    IsDiscreteValuationRing.eq_unit_mul_pow_irreducible (nonZeroDivisors.ne_zero hn) hπ
-  refine ⟨π ^ k, ⟨k, rfl⟩, (u⁻¹ : Bˣ), ?_⟩
-  rw [mul_comm (u : B), mul_assoc, Units.mul_inv, mul_one]
 
 end Stacks.EppTheorem
 

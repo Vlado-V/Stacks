@@ -1,6 +1,6 @@
 module
 
-public import StacksFrontier.AlgebraicGeometry.Quot.RelativeMorphismAlgebraicSpace
+public import StacksFrontier.AlgebraicGeometry.Quot.RelativeMorphismHilbertModel
 public import StacksFrontier.AlgebraicGeometry.Quot.IsomorphismLocusQuasiCompact
 public import StacksFrontier.AlgebraicGeometry.Quot.HilbertFunctorOpenImmersion
 public import StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.FlatIsomorphismLocusOnBase

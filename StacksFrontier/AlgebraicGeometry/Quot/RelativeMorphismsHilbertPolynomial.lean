@@ -7,7 +7,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.Quot.GraphAmbientTensorAmple
 public import StacksFrontier.AlgebraicGeometry.Quot.NumericalRelativeMorphismsImmersion
 public import StacksFrontier.AlgebraicGeometry.Quot.QuotHilbertPolynomial
-public import StacksFrontier.AlgebraicGeometry.Quot.RelativeMorphismAlgebraicSpace
+public import StacksFrontier.AlgebraicGeometry.Quot.RelativeMorphismHilbertModel
 
 /-!
 # `Mor^{P, ℳ}_Q(Z, X)`: relative morphisms whose graph has Hilbert polynomial `P`

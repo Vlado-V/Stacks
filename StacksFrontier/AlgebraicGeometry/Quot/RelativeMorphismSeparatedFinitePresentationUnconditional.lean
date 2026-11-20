@@ -2,7 +2,7 @@ module
 
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Quot.RelativeMorphismLimitPreserving
-public import StacksFrontier.AlgebraicGeometry.Quot.RelativeMorphismSeparatedFinitePresentation
+public import StacksFrontier.AlgebraicGeometry.Quot.RelativeMorphismDiagonal
 
 /-!
 # `Mor_B(Y, X) ⟶ B` is separated and locally of finite presentation (Stacks 0DPN)

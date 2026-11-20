@@ -2,7 +2,7 @@ module
 
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Quot.HilbertFunctorDiagonal
-public import StacksFrontier.AlgebraicGeometry.Quot.RelativeMorphismAlgebraicSpace
+public import StacksFrontier.AlgebraicGeometry.Quot.RelativeMorphismHilbertModel
 
 /-!
 # The diagonal of the relative morphism functor (Stacks 0DPM)

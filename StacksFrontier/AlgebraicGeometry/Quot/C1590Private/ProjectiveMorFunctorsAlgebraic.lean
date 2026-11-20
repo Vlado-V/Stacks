@@ -2,7 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.Quot.C1590Private.ProjectiveMorFunctorsBounded
 public import StacksFrontier.AlgebraicGeometry.Quot.HilbertFunctorClosedImmersionLocus
-public import StacksFrontier.AlgebraicGeometry.Quot.RelativeMorphismAlgebraicSpace
+public import StacksFrontier.AlgebraicGeometry.Quot.RelativeMorphismHilbertModel
 public import StacksFrontier.AlgebraicGeometry.QuasiProjective.HProjective
 public import StacksFrontier.AlgebraicGeometry.Size.Monomorphism
 public import StacksFrontier.AlgebraicGeometry.Spaces.FlatFieldCover

@@ -1,5 +1,6 @@
 module
 
+public import StacksFrontier.AlgebraicGeometry.Quot.RelativeMorphismAlgebraicSpace
 public import StacksFrontier.AlgebraicGeometry.Quot.RelativeMorphismDiagonal
 
 /-!

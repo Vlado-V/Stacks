@@ -3,7 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.Quot.NumericalRelativeMorphisms
 public import StacksFrontier.AlgebraicGeometry.Spaces.FlatClosedLocus
 public import StacksFrontier.AlgebraicGeometry.Quot.QuotCoherentCondition
-public import StacksFrontier.AlgebraicGeometry.Quot.RelativeMorphismAlgebraicSpace
+public import StacksFrontier.AlgebraicGeometry.Quot.RelativeMorphismHilbertModel
 public import StacksFrontier.AlgebraicGeometry.Spaces.EtaleChartBridge
 public import StacksFrontier.CategoryTheory.MorphismProperty.RelativeNatIso
 

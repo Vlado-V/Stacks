@@ -1,7 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.Quot.C1590Private.CurvesArtinInputs
-public import StacksFrontier.AlgebraicGeometry.Quot.CurvesLimitPreservingUnconditional
+public import StacksFrontier.AlgebraicGeometry.Quot.CurvesLimitPreservingOfCharts
 public import StacksFrontier.AlgebraicGeometry.Quot.CurvesQuasiSeparatedFinitePresentation
 
 /-!

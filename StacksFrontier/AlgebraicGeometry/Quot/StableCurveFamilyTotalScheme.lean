@@ -1,8 +1,17 @@
 module
 
-public import StacksFrontier.AlgebraicGeometry.Quot.CurvesStableOpenOfDualizing
+public import StacksFrontier.AlgebraicGeometry.Quot.CurvesStableFibreDualizing
 public import StacksFrontier.AlgebraicGeometry.Quot.UniqueStableModelsReduction
-public import StacksFrontier.AlgebraicGeometry.Spaces.RelativeAmpleOfFieldFibres
+public import StacksFrontier.AlgebraicGeometry.AmpleFibreLimit.Basic
+public import StacksFrontier.AlgebraicGeometry.AmpleThickeningAscent.FiniteOrder
+public import StacksFrontier.AlgebraicGeometry.Quot.C1590Private.CurveFamilyEtaleSchemeChartsProof
+public import StacksFrontier.AlgebraicGeometry.Quot.C1590Private.CurveFamilyOfIsPullback
+public import StacksFrontier.AlgebraicGeometry.RelativeAmple.RestrictBase
+public import StacksFrontier.AlgebraicGeometry.Spaces.ChartSchemeRestrictionBaseChange
+public import StacksFrontier.AlgebraicGeometry.Spaces.FiniteAffineProper
+public import StacksFrontier.AlgebraicGeometry.Spaces.RelativeAmpleFpqcLocal
+public import StacksFrontier.AlgebraicGeometry.Spaces.RelativeAmpleOverScheme
+public import StacksFrontier.AlgebraicGeometry.Spaces.Topologies.EtalePhCoverings
 
 /-!
 # The total space of a stable family of curves is a scheme
@@ -55,6 +64,7 @@ The fibrewise ampleness is
 @[expose] public noncomputable section
 
 open CategoryTheory CategoryTheory.Limits
+open Stacks.AmpleLocallyClosed (pullbackModule)
 
 universe u
 
@@ -83,28 +93,140 @@ theorem exists_iso_schemeSpace_total_of_isRelativelyAmple (F : CurveFamily B hZ)
     ObjectProperty.hom_ext _ (specULiftZIsTerminal.hom_ext _ _)
   exact ⟨T, hT, ⟨e⟩⟩
 
+/-- Relative ampleness descends from the étale scheme charts of a curve family. -/
+private theorem isRelativelyAmple_of_etaleSchemeCharts (F : CurveFamily B hZ)
+    (L : Space.Modules.{u, u} B integerBase hZ F.total.1 F.total.2)
+    (hL : Stacks.SheafOfModules.IsInvertible
+      (Space.structurePresheaf B integerBase hZ F.total.1)
+      ((Stacks.SheafOfModules.Tensor.ringSheaf
+        (Space.smallEtaleRingedSite B integerBase hZ F.total.1 F.total.2).O)).property L)
+    (hchart : ∀ (U Z : BigFppfOver B integerBase hZ) (φ : U ⟶ F.base) (q : Z ⟶ U)
+      (p : schemeSpace Z ⟶ F.total),
+      Etale ((BigFppfOver.toScheme B integerBase hZ).map φ) →
+      IsPullback p (schemeSpaceMap q) F.toBase (schemeSpaceMap φ) →
+      Space.IsRelativelyAmple B integerBase hZ (schemeSpaceMap q)
+        ((Space.modulePullback B integerBase hZ p).obj L)) :
+    Space.IsRelativelyAmple B integerBase hZ F.toBase L := by
+  classical
+  have hcharts := C1590Private.hasEtaleLocalSchemeCharts B hZ F
+  choose U Z φ q p hetale hrange hpullback using hcharts
+  have hcover := Space.isEtaleCovering_yoneda_of_etale B integerBase hZ U φ hetale
+    (fun x => ⟨x, hrange x⟩)
+  have hfpqc := Space.isFpqcCovering_of_isEtaleCovering B integerBase hZ _ _ hcover
+  exact (Space.isRelativelyAmple_iff_forall_isRelativelyAmple_of_isFpqcCovering
+    hpullback L hL hfpqc).2 fun x => hchart (U x) (Z x) (φ x) (q x) (p x) (hetale x) (hpullback x)
+
+/-- On a scheme chart of a stable family, relative ampleness follows from the ampleness
+of the dualizing module on the residue-field fibres of the chart. -/
+private theorem isRelativelyAmple_stable_schemeChart {F : CurveFamily B hZ}
+    (hF : IsStableCurveFamily B hZ F)
+    {ω : Space.Modules.{u, u} B integerBase hZ F.total.1 F.total.2}
+    (hω : F.IsRelativeDualizingSheaf B hZ ω)
+    {U Z : BigFppfOver B integerBase hZ} (φ : U ⟶ F.base) (q : Z ⟶ U)
+    (p : schemeSpace Z ⟶ F.total)
+    (hp : IsPullback p (schemeSpaceMap q) F.toBase (schemeSpaceMap φ)) :
+    Space.IsRelativelyAmple B integerBase hZ (schemeSpaceMap q)
+      ((Space.modulePullback B integerBase hZ p).obj ω) := by
+  let T := BigFppfOver.toScheme B integerBase hZ
+  let G := C1590Private.curveFamilyOfIsPullback F φ p (schemeSpaceMap q) hp
+  let a : G ⟶ F := C1590Private.curveFamilyOfIsPullbackHom F φ p (schemeSpaceMap q) hp
+  have hG := isStableCurveFamily_of_hom a hF
+  let L' := (Space.modulePullback B integerBase hZ p).obj ω
+  have hL' : G.IsRelativeDualizingSheaf B hZ L' := hω.of_hom a
+  let L := Space.baseChangeModule B integerBase hZ L' Z (𝟙 _)
+  letI hL : Stacks.Ample.IsInvertibleModule (T.obj Z) L :=
+    Space.isInvertibleModule_baseChangeModule L' hL'.1 Z (𝟙 _)
+  have : IsProper (T.map q) := by
+    have : (MorphismProperty.inverseImage
+        (@IsProper.{u} : MorphismProperty Scheme.{u}) T).IsStableUnderBaseChange :=
+      ⟨fun hsq hg => MorphismProperty.IsStableUnderBaseChange.of_isPullback
+        (P := @IsProper) (hsq.map T) hg⟩
+    exact (MorphismProperty.relative_map_iff (F := yoneda)
+      (P := MorphismProperty.inverseImage
+        (@IsProper.{u} : MorphismProperty Scheme.{u}) T)).mp
+      ((Space.presheaf_isProper_iff B integerBase hZ (yoneda.map q)
+        (isAlgebraicSpace_yoneda B integerBase hZ Z)
+        (isAlgebraicSpace_yoneda B integerBase hZ U)
+        (Functor.relativelyRepresentable.map yoneda q)).mp G.proper)
+  have hAmple : Stacks.RelativeAmple.IsRelativelyAmple (T.map q) L := by
+    refine Stacks.RelativeAmpleRestrictBase.isRelativelyAmple_of_forall_exists_isRelativelyAmple
+      (f := T.map q) (L := L) inferInstance (fun t => ?_)
+    let k : Space.FieldValuedPoint B integerBase hZ (yoneda.obj U) :=
+      { carrier := (T.obj U).residueField t
+        contained := B.residueField_spec_contains U.left.2 t
+        toBase := (T.obj U).fromSpecResidueField t ≫ U.hom.1
+        value := Space.residueFieldMap B integerBase hZ U t _ }
+    obtain ⟨V, v, j, hj, hstable⟩ := hG.2 k
+    obtain ⟨hVinv, hVrel⟩ :=
+      (hasGenusTwoNoRationalTailNoRationalBridge_fibre_iff hG.1 hL' hj).mp hstable
+    let vK : V ⟶ k.siteObject := v
+    have : IsAffine (T.obj k.siteObject) := inferInstanceAs (IsAffine (Spec (.of k.carrier)))
+    have : Subsingleton (T.obj k.siteObject) :=
+      inferInstanceAs (Subsingleton (Spec (.of k.carrier)))
+    let jZ : yoneda.obj V ⟶ yoneda.obj Z := j
+    let r : V ⟶ Z := yoneda.preimage jZ
+    have hr : yoneda.map r = jZ := yoneda.map_preimage jZ
+    let κ : k.siteObject ⟶ U := k.value
+    have hk : yonedaEquiv.symm k.value = yoneda.map κ := by
+      ext W f
+      rfl
+    have hj' : IsPullback (yoneda.map r) (yoneda.map v) (yoneda.map q) (yoneda.map κ) := by
+      rw [hr, ← hk]
+      exact hj
+    have hcomm : r ≫ q = v ≫ κ := by
+      apply yoneda.map_injective
+      rw [yoneda.map_comp r q, yoneda.map_comp v κ]
+      exact hj'.w
+    have hsite : IsPullback r v q κ := IsPullback.of_map yoneda hcomm hj'
+    have hfibre : IsPullback (T.map r) (T.map v) (T.map q)
+        ((T.obj U).fromSpecResidueField t) := hsite.map T
+    let e := hfibre.isoPullback
+    have he : e.hom ≫ (T.map q).fiberι t = T.map r := hfibre.isoPullback_hom_fst
+    obtain ⟨eL⟩ := Space.nonempty_baseChangeModule_baseChange_of_isInvertible L' hL'.1 Z V (𝟙 _) r
+    have hjmap : yoneda.map r ≫ (𝟙 (yoneda.obj Z)) = j := (Category.comp_id _).trans hr
+    let eL' : Space.baseChangeModule B integerBase hZ L' V j ≅ pullbackModule (T.map r) L :=
+      eqToIso (congrArg (Space.baseChangeModule B integerBase hZ L' V) hjmap.symm) ≪≫ eL
+    have hV : Stacks.Ample.IsAmple (T.obj V) (pullbackModule (e.hom ≫ (T.map q).fiberι t) L) := by
+      rw [he]
+      letI : Stacks.Ample.IsInvertibleModule (T.obj V)
+          (Space.baseChangeModule B integerBase hZ L' V j) := hVinv
+      have hrel : Stacks.RelativeAmple.IsRelativelyAmple (T.map vK)
+          (Space.baseChangeModule B integerBase hZ L' V j) := hVrel
+      exact (Stacks.RelativeVeryAmple.isAmple_congr _ _ eL').mp
+        ((Stacks.AmpleBridge.isAmple_iff_isAmple _ _).mpr
+          ((Scheme.Modules.isRelativelyAmple_iff_isAmple (T.map vK) _).mp hrel))
+    have hLf : Stacks.Ample.IsInvertibleModule ((T.map q).fiber t)
+        (pullbackModule ((T.map q).fiberι t) L) := inferInstance
+    have hf : Stacks.Ample.IsAmple ((T.map q).fiber t) (pullbackModule ((T.map q).fiberι t) L) :=
+      @Stacks.AmpleThickeningAscent.isAmple_of_isAmple_pullback_of_isIso _ _ e.hom _ _ hLf
+        ((Stacks.RelativeAmpleRestrictBase.isAmple_pullbackModule_comp_iff _ _ _).mpr hV)
+    exact Stacks.AmpleFibreLimit.exists_mem_isRelativelyAmple_of_isAmple_fibre (T.map q) L t hf
+  refine Space.isRelativelyAmple_of_exists_scheme _ L' hL'.1 U (Iso.refl _) ⟨Z, Iso.refl _, ?_⟩
+  let q' : Z ⟶ U := yoneda.preimage ((Iso.refl (yoneda.obj Z)).hom ≫
+      (schemeSpaceMap q).hom ≫ (Iso.refl (schemeSpace U).obj).hom)
+  have hq : q' = q := by
+    apply yoneda.map_injective
+    unfold q'
+    rw [yoneda.map_preimage]
+    change 𝟙 _ ≫ yoneda.map q ≫ 𝟙 _ = yoneda.map q
+    simp
+  refine ⟨hL, ?_⟩
+  change Stacks.RelativeAmple.IsRelativelyAmple (T.map q') L
+  exact hq.symm ▸ hAmple
+
 /-- **The relative dualizing sheaf of a stable family of curves is relatively ample** (Stacks
 0E74, (1) implies (2), over the whole base). Let `F` be a stable family of curves and `ω` a
 relative dualizing sheaf of `F`. Then `ω` is ample relative to the structure morphism of `F`.
 
-By Stacks 0D3D read on field-valued points
-(`AlgebraicGeometry.Space.isRelativelyAmple_of_isProper_of_fieldFibres`) it suffices that over
-every field-valued point of the base some fibre carries the pullback of `ω` as a relatively ample
-module. Every fibre of `F` is stable, so this is Stacks 0E74 on one fibre
-(`AlgebraicGeometry.CurveFamily.exists_fibre_hasGenusTwo_iff_exists_fibre_isRelativelyAmple`),
-applied to the identity of `F`. -/
+Use the étale scheme charts of the family to read the residue-field ampleness on
+proper morphisms of schemes. Relative ampleness descends from these charts. -/
 theorem isRelativelyAmple_of_isStableCurveFamily {F : CurveFamily B hZ}
     (hF : IsStableCurveFamily B hZ F)
     {ω : Space.Modules.{u, u} B integerBase hZ F.total.1 F.total.2}
     (hω : F.IsRelativeDualizingSheaf B hZ ω) :
-    Space.IsRelativelyAmple B integerBase hZ F.toBase ω := by
-  have hid : schemeSpaceMap (𝟙 F : F ⟶ F).baseMap = 𝟙 (schemeSpace F.base) :=
-    ObjectProperty.hom_ext _ (yoneda.map_id _)
-  refine Space.isRelativelyAmple_of_isProper_of_fieldFibres F.proper hω.1 fun t => ?_
-  obtain ⟨X'', p'', f'', hsq, hamp⟩ :=
-    (exists_fibre_hasGenusTwo_iff_exists_fibre_isRelativelyAmple hF.1 hω (𝟙 F) t).1 (hF.2 t)
-  rw [hid, Category.comp_id] at hsq
-  exact ⟨X'', p'', f'', hsq, hamp⟩
+    Space.IsRelativelyAmple B integerBase hZ F.toBase ω :=
+  F.isRelativelyAmple_of_etaleSchemeCharts ω hω.1
+    (fun _ _ φ q p _ hp => isRelativelyAmple_stable_schemeChart hF hω φ q p hp)
 
 /-- **The total space of a stable family of curves is a scheme.** Let `F` be a stable family of
 curves over a scheme `S`. Its relative dualizing sheaf (`hω`) is relatively ample
