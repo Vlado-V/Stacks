@@ -1,7 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.Duality.NewShriekOpenRestriction
-public import StacksFrontier.AlgebraicGeometry.Duality.UpperShriekDualityCompactification
+public import StacksFrontier.AlgebraicGeometry.Duality.CurryNaturalityRight
 public import StacksFrontier.Topology.Sheaves.Cohomology.DerivedPullback.PullbackTensorIsoCompositionLaw
 public import StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.CompositionAssociativity
 public import StacksFrontier.AlgebraicGeometry.Duality.GlueingDualizingComplexesStandardModel

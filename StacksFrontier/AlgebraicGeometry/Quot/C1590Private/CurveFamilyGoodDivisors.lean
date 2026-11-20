@@ -7,7 +7,7 @@ public import StacksFrontier.AlgebraicGeometry.AmplePositivePower.Basic
 public import StacksFrontier.AlgebraicGeometry.AmpleTwistAcyclicity.Basic
 public import StacksFrontier.AlgebraicGeometry.Divisors.CanonicalSectionZeroScheme
 public import StacksFrontier.AlgebraicGeometry.Divisors.InvertibleSheafGeneral
-public import StacksFrontier.AlgebraicGeometry.FormalGeometry.ZeroSchemeOpenNeighbourhood
+public import StacksFrontier.AlgebraicGeometry.Divisors.ZeroSchemeNonvanishing
 public import StacksFrontier.AlgebraicGeometry.Limits.EventuallySeparatedOverBase
 public import StacksFrontier.AlgebraicGeometry.Morphisms.Fibres.BertiniGeneratingSystem
 public import StacksFrontier.AlgebraicGeometry.ProperAmpleCohomology.Basic

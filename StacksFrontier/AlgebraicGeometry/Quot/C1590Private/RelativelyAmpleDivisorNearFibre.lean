@@ -7,7 +7,7 @@ public import StacksFrontier.AlgebraicGeometry.DivisorFlatPullback.Basic
 public import StacksFrontier.AlgebraicGeometry.Divisors.CanonicalSectionZeroScheme
 public import StacksFrontier.AlgebraicGeometry.Divisors.InvertibleSheafPullback
 public import StacksFrontier.AlgebraicGeometry.Divisors.RegularImmersion.FlatCartierFibre
-public import StacksFrontier.AlgebraicGeometry.Flatness.BlowUpSquare.GoodTripleBlowupGlue
+public import StacksFrontier.AlgebraicGeometry.Divisors.EffectiveCartierOpenLocal
 
 /-!
 # A divisor which is ample on a closed fibre is relatively ample near it
