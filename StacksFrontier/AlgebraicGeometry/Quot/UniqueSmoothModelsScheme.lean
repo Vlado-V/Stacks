@@ -2,7 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.Quot.StableModelExistence.CurveFacts
 public import StacksFrontier.AlgebraicGeometry.Curves.Models.SemistableReduction.GoodReduction
-public import StacksFrontier.AlgebraicGeometry.Curves.Models.MinimalModelUniqueness
+public import StacksFrontier.AlgebraicGeometry.Curves.Models.MinimalModelUniquenessOnly
 public import StacksFrontier.AlgebraicGeometry.Models.BaseChange
 
 /-!
