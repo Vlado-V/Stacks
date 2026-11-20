@@ -1,18 +1,17 @@
 module
 
-public import StacksFrontier.AlgebraicGeometry.Quot.C1590Private.CurvesDiagonal
-public import StacksFrontier.AlgebraicGeometry.Quot.CurvesAlgebraicArtinCriterion
+public import StacksFrontier.AlgebraicGeometry.Quot.C1590Private.CurvesArtinInputs
+public import StacksFrontier.AlgebraicGeometry.Quot.CurvesLimitPreservingUnconditional
 public import StacksFrontier.AlgebraicGeometry.Quot.CurvesQuasiSeparatedFinitePresentation
-public import StacksFrontier.AlgebraicGeometry.Quot.ProperFlatOpennessOfVersalityOfDiagonal
 
 /-!
 # The stack of curves is algebraic (Stacks 0D5A)
 
 **Stacks 0D5A** says that the stack `Curves` of families of curves is an algebraic stack. The
-proof is the source's: Artin's criterion (Stacks 07Y4), applied to `Curves` over `Spec(ℤ)` in
-`AlgebraicGeometry.curvesFiberedCategory_isAlgebraicStack_of_artinInputs`, with the diagonal of
-Stacks 0D53 (`AlgebraicGeometry.C1590Private.hasRepresentableDiagonal_curvesFiberedCategory`)
-and the openness of versality of Stacks 0D59 (`AlgebraicGeometry.curves_openVersalityOf_specZ`).
+proof applies Artin's criterion (Stacks 07Y4) to `Curves` over `Spec(ℤ)`. The alternate
+construction in `AlgebraicGeometry.C1590Private.isAlgebraicStack_curvesFiberedCategory`
+uses the representable diagonal of Stacks 0D53 and proves openness of versality using
+effectivity of special towers of square-zero thickenings.
 
 With it, the morphism `Curves → Spec(ℤ)` is locally of finite presentation (the second half of
 Stacks 0DSS): by Stacks 0CMY this is limit preservation, Stacks 0D55.
@@ -43,16 +42,12 @@ variable (B : BigFppfSite.{u}) (hZ : B.Contains integerBase)
 
 /-- **The stack of curves is algebraic** (the absolute statement of Stacks 0D5A). The category
 `Curves` of families of curves, fibred in groupoids over the big fppf site of `Spec(ℤ)`, is an
-algebraic stack: Artin's criterion (Stacks 07Y4) with the diagonal of Stacks 0D53 and openness of
-versality (Stacks 0D59), all other hypotheses being proved in
-`AlgebraicGeometry.curvesFiberedCategory_isAlgebraicStack_of_artinInputs`. The index universe `z`
-of the stack condition is free. -/
+algebraic stack by Artin's criterion, using the representable diagonal and effectivity of
+special towers of square-zero thickenings. The index universe `z` of the stack condition is free. -/
 theorem curvesFiberedCategory_isAlgebraicStack :
     Stack.IsAlgebraicStack.{u, z, u + 1, u + 1} B integerBase hZ
       (curvesFiberedCategory B hZ).val :=
-  curvesFiberedCategory_isAlgebraicStack_of_artinInputs B hZ
-    (C1590Private.hasRepresentableDiagonal_curvesFiberedCategory B hZ)
-    (curves_openVersalityOf_specZ B hZ)
+  C1590Private.isAlgebraicStack_curvesFiberedCategory B hZ
 
 /-- **`Curves → Spec(ℤ)` is locally of finite presentation** (the second half of Stacks 0DSS).
 The structure morphism of the algebraic stack of curves is locally of finite presentation in the

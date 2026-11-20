@@ -63,6 +63,40 @@ def ExistsIsoOfStableModels (g : ℕ) : Prop :=
     IsStableFamilyOfSchemesOfGenus B hZ g p hR → IsStableFamilyOfSchemesOfGenus B hZ g p' hR →
     ∃ f : X ≅ X', IsModelHom p p' e e' f.hom
 
+/-- Scheme-model extension with optional smoothness of the two total morphisms. -/
+def ExistsIsoOfStableModelsWith (needsSmoothness : Prop) (g : ℕ) : Prop :=
+  ∀ (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    (K : Type u) [Field K] [Algebra R K] [IsFractionRing R K]
+    (hR : B.Contains (Spec (.of R))) {C : Scheme.{u}} (C_to_K : C ⟶ Spec (.of K))
+    [Smooth C_to_K] {X X' : Scheme.{u}} {p : X ⟶ Spec (.of R)} {p' : X' ⟶ Spec (.of R)}
+    {e : C ≅ pullback p (Spec.map (CommRingCat.ofHom (algebraMap R K)))}
+    {e' : C ≅ pullback p' (Spec.map (CommRingCat.ofHom (algebraMap R K)))},
+    IsModel C_to_K p e → IsModel C_to_K p' e' →
+    IsStableFamilyOfSchemesOfGenus B hZ g p hR → IsStableFamilyOfSchemesOfGenus B hZ g p' hR →
+    (needsSmoothness → Smooth p) → (needsSmoothness → Smooth p') →
+    ∃ f : X ≅ X', IsModelHom p p' e e' f.hom
+
+/-- The valuative extension statement for stable families whose two models are smooth. -/
+def UniqueSmoothStableModels (g : ℕ) : Prop :=
+  ∀ (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    (K : Type u) [Field K] [Algebra R K] [IsFractionRing R K]
+    (hR : B.Contains (Spec (.of R))) (hK : B.Contains (Spec (.of K)))
+    (base : Spec (.of R) ⟶ integerBase)
+    (gm : siteObject B integerBase hZ hK (Spec.map (CommRingCat.ofHom (algebraMap R K)) ≫ base) ⟶
+      siteObject B integerBase hZ hR base),
+    (B.inclusion).map gm.left = Spec.map (CommRingCat.ofHom (algebraMap R K)) →
+    ∀ {F F' G G' : CurveFamily B hZ} (c : G ⟶ F) (c' : G' ⟶ F') (s : G ⟶ G'),
+      IsStableCurveFamilyOfGenus B hZ g F → IsStableCurveFamilyOfGenus B hZ g F' →
+      IsSmoothFamily B hZ F → IsSmoothFamily B hZ F' →
+      IsSmoothH0Family B hZ G → CurveFamily.HasGenus B hZ G g →
+      (curvesProjectionOver B hZ).IsHomLift gm c → (curvesProjectionOver B hZ).IsHomLift gm c' →
+      (curvesProjectionOver B hZ).IsHomLift
+        (𝟙 (siteObject B integerBase hZ hK
+          (Spec.map (CommRingCat.ofHom (algebraMap R K)) ≫ base))) s →
+      ∃! t : F ⟶ F', (curvesProjectionOver B hZ).IsHomLift
+        (𝟙 (siteObject B integerBase hZ hR base)) t ∧ c ≫ t = s ≫ c'
+
+
 /-- **The total space of a stable family of curves over a discrete valuation ring is a scheme.**
 Let `R` be a discrete valuation ring and `F` a stable family of curves of genus `g` over
 `Spec R`. Then the total space of `F` is (represented by) a scheme. -/
@@ -253,8 +287,9 @@ theorem exists_isStableFamilyOfSchemesOfGenus_of_stableFamilyTotalIsScheme {g : 
 /-- **`UniqueStableModels` over the integer site objects, from the case of schemes.** This is the
 statement of `AlgebraicGeometry.UniqueStableModels` with the bases normalized to the schemes of the
 site read over the integers. -/
-theorem existsUnique_hom_of_existsIsoOfStableModels {g : ℕ}
-    (hA : StableFamilyTotalIsScheme B hZ g) (hB : ExistsIsoOfStableModels B hZ g)
+theorem existsUnique_hom_of_existsIsoOfStableModelsWith {g : ℕ} {needsSmoothness : Prop}
+    (hA : StableFamilyTotalIsScheme B hZ g)
+    (hB : ExistsIsoOfStableModelsWith B hZ needsSmoothness g)
     (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
     (K : Type u) [Field K] [Algebra R K] [IsFractionRing R K]
     (hR : B.Contains (Spec (.of R))) (hK : B.Contains (Spec (.of K)))
@@ -263,6 +298,8 @@ theorem existsUnique_hom_of_existsIsoOfStableModels {g : ℕ}
       Spec.map (CommRingCat.ofHom (algebraMap R K)))
     {F F' G G' : CurveFamily B hZ} (c : G ⟶ F) (c' : G' ⟶ F') (s : G ⟶ G')
     (hF : IsStableCurveFamilyOfGenus B hZ g F) (hF' : IsStableCurveFamilyOfGenus B hZ g F')
+    (hSmooth : needsSmoothness → IsSmoothFamily B hZ F)
+    (hSmooth' : needsSmoothness → IsSmoothFamily B hZ F')
     (hG : IsSmoothH0Family B hZ G)
     (hc : (curvesProjectionOver B hZ).IsHomLift gm c)
     (hc' : (curvesProjectionOver B hZ).IsHomLift gm c')
@@ -399,7 +436,14 @@ theorem existsUnique_hom_of_existsIsoOfStableModels {g : ℕ}
         (baseMap_eq_of_isHomLift_self t₂ _ ht₂).symm
     · rw [hf₁t, hf₂t, hf]
   -- existence, from the case of schemes
+  have hpSmooth (h : needsSmoothness) : Smooth p :=
+    CurveFamily.smooth_of_isSmoothFamily_of_schemeSpace _ (hSmooth h) ε
+      (integerSiteMap B hZ hX hR p) hε
+  have hpSmooth' (h : needsSmoothness) : Smooth p' :=
+    CurveFamily.smooth_of_isSmoothFamily_of_schemeSpace _ (hSmooth' h) ε'
+      (integerSiteMap B hZ hX' hR p') hε'
   obtain ⟨f, hf⟩ := @hB R _ _ _ K _ _ _ hR _ v hvsm _ _ _ _ _ _ hmod hmod' hp hp'
+    hpSmooth hpSmooth'
   obtain ⟨hfp, -⟩ := id hf
   let iF : integerSiteObject B hZ hX ≅ integerSiteObject B hZ hX' :=
     (schemeOverIntegers B).mapIso (ObjectProperty.isoMk _ f)
@@ -440,6 +484,29 @@ theorem existsUnique_hom_of_existsIsoOfStableModels {g : ℕ}
       exact h1
   exact ⟨tIso.hom, ⟨ht, htc⟩, fun t₁ h₁ => uniq t₁ tIso.hom h₁ ⟨ht, htc⟩⟩
 
+/-- The original scheme reduction for stable models. -/
+theorem existsUnique_hom_of_existsIsoOfStableModels {g : ℕ}
+    (hA : StableFamilyTotalIsScheme B hZ g) (hB : ExistsIsoOfStableModels B hZ g)
+    (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    (K : Type u) [Field K] [Algebra R K] [IsFractionRing R K]
+    (hR : B.Contains (Spec (.of R))) (hK : B.Contains (Spec (.of K)))
+    (gm : integerSiteObject B hZ hK ⟶ integerSiteObject B hZ hR)
+    (hgm : (BigFppfOver.toScheme B integerBase hZ).map gm =
+      Spec.map (CommRingCat.ofHom (algebraMap R K)))
+    {F F' G G' : CurveFamily B hZ} (c : G ⟶ F) (c' : G' ⟶ F') (s : G ⟶ G')
+    (hF : IsStableCurveFamilyOfGenus B hZ g F) (hF' : IsStableCurveFamilyOfGenus B hZ g F')
+    (hG : IsSmoothH0Family B hZ G)
+    (hc : (curvesProjectionOver B hZ).IsHomLift gm c)
+    (hc' : (curvesProjectionOver B hZ).IsHomLift gm c')
+    (hs : (curvesProjectionOver B hZ).IsHomLift (𝟙 (integerSiteObject B hZ hK)) s) :
+    ∃! t : F ⟶ F', (curvesProjectionOver B hZ).IsHomLift (𝟙 (integerSiteObject B hZ hR)) t ∧
+      c ≫ t = s ≫ c' := by
+  have hB' : ExistsIsoOfStableModelsWith B hZ False g := by
+    intro R _ _ _ K _ _ _ hR C C_to_K _ X X' p p' e e' hmodel hmodel' hstable hstable' _ _
+    exact @hB R _ _ _ K _ _ _ hR C C_to_K _ X X' p p' e e' hmodel hmodel' hstable hstable'
+  exact existsUnique_hom_of_existsIsoOfStableModelsWith hA hB' R K hR hK gm hgm c c' s hF hF'
+    False.elim False.elim hG hc hc' hs
+
 /-- **`UniqueStableModels` from the case of schemes.** If the total space of a stable family of
 curves of genus `g` over a discrete valuation ring is a scheme (`StableFamilyTotalIsScheme`) and
 two stable models of genus `g` of a smooth curve over the fraction field are isomorphic as models
@@ -456,6 +523,17 @@ theorem uniqueStableModels_of {g : ℕ} (hA : StableFamilyTotalIsScheme B hZ g)
   obtain rfl : b = specULiftZIsTerminal.from _ := specULiftZIsTerminal.hom_ext _ _
   exact existsUnique_hom_of_existsIsoOfStableModels hA hB R K hR hK gm hgm c c' s hF hF' hG hc
     hc' hs
+
+/-- The restriction of the valuative scheme reduction to smooth stable models. -/
+theorem uniqueSmoothStableModels_of {g : ℕ} (hA : StableFamilyTotalIsScheme B hZ g)
+    (hB : ExistsIsoOfStableModelsWith B hZ True g) : UniqueSmoothStableModels B hZ g := by
+  intro R _ _ _ K _ _ _ hR hK base gm hgm F F' G G' c c' s hF hF' hSmooth hSmooth' hG _ hc hc' hs
+  obtain rfl : base = specULiftZIsTerminal.from _ := specULiftZIsTerminal.hom_ext _ _
+  generalize Spec.map (CommRingCat.ofHom (algebraMap R K)) ≫
+    specULiftZIsTerminal.from (Spec (.of R)) = b at gm hgm hc hc' hs ⊢
+  obtain rfl : b = specULiftZIsTerminal.from _ := specULiftZIsTerminal.hom_ext _ _
+  exact existsUnique_hom_of_existsIsoOfStableModelsWith hA hB R K hR hK gm hgm c c' s hF hF'
+    (fun _ => hSmooth) (fun _ => hSmooth') hG hc hc' hs
 
 end AlgebraicGeometry
 
