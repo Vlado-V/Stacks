@@ -13,6 +13,7 @@ public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.Der
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedTensor.ComparisonCommShift
 public import StacksFrontier.CategoryTheory.Triangulated.KGroup.Ring
 public import StacksFrontier.CategoryTheory.Triangulated.KGroup.LiftBifunctorFlip
+public import StacksFrontier.AlgebraicGeometry.Spaces.QuasicoherentDerivedTensorFunctor
 
 /-!
 # Stacks 0E5P for algebraic spaces
@@ -61,15 +62,6 @@ namespace AlgebraicGeometry.Space
 attribute [local instance 10000] HasDerivedCategory.standard
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
-
-variable (B S hS) in
-/-- The derived tensor product of `D_QCoh(𝒪_X)`, the restriction of `- ⊗^L_{𝒪_X} -`. -/
-def quasicoherentDerivedTensor (X : AlgebraicSpaces B S hS) :
-    QuasicoherentDerivedCategory.{u, u} B S hS X.1 X.2 ⥤
-      QuasicoherentDerivedCategory.{u, u} B S hS X.1 X.2 ⥤
-        QuasicoherentDerivedCategory.{u, u} B S hS X.1 X.2 :=
-  liftBifunctor (QcohDerived B S hS X) (smallEtaleDerivedTensor B S hS X)
-    (fun K L hK hL => qcohDerived_smallEtaleDerivedTensor X K L hK hL)
 
 variable {X Y : AlgebraicSpaces B S hS}
 

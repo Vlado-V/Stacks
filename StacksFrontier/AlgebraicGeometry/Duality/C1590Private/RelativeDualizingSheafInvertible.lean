@@ -9,7 +9,7 @@ public import StacksFrontier.AlgebraicGeometry.Flatness.Flattening.GenericFibreR
 public import StacksFrontier.AlgebraicGeometry.Morphisms.FlatMorphisms.BaseChange
 public import StacksFrontier.AlgebraicGeometry.Morphisms.Flat.IsoTransport
 public import StacksFrontier.AlgebraicGeometry.Descent.VectorBundleCodimensionOne
-public import StacksFrontier.AlgebraicGeometry.Blowup.CentreConormalRank
+public import StacksFrontier.AlgebraicGeometry.Modules.FiniteLocallyFreeIso
 public import StacksFrontier.AlgebraicGeometry.Chow.BivariantLemmas.VirtualNormalBaseChangeExcess
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.FiniteLocallyFreeLocal
 public import StacksFrontier.AlgebraicGeometry.ModuleDescent.InvertibleInput

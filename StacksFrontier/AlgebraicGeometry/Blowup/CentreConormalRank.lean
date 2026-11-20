@@ -14,6 +14,7 @@ public import StacksFrontier.AlgebraicGeometry.FiniteLocallyFree.RankBaseOpen
 public import StacksFrontier.AlgebraicGeometry.FiniteLocallyFree.RankDecomposition
 public import StacksFrontier.AlgebraicGeometry.Modules.FiniteLocallyFree
 public import StacksFrontier.AlgebraicGeometry.RegularImmersion.ConormalLocallyFree
+public import StacksFrontier.AlgebraicGeometry.Modules.FiniteLocallyFreeIso
 
 /-!
 # The rank decomposition of the centre of a blowup with smooth centre
@@ -59,17 +60,6 @@ open Stacks.RelativeProj (projectiveBundleToBase)
 universe u
 
 namespace Stacks.AlgebraicGeometry
-
-/-- Finite local freeness of a sheaf of modules only depends on its isomorphism class. -/
-theorem isFiniteLocallyFree_of_iso {C : Type*} [Category* C] {J : GrothendieckTopology C}
-    {R : Sheaf J RingCat.{u}} [∀ X, HasWeakSheafify (J.over X) AddCommGrpCat.{u}]
-    [∀ X, (J.over X).WEqualsLocallyBijective AddCommGrpCat.{u}]
-    {M N : _root_.SheafOfModules.{u} R} (e : M ≅ N)
-    [h : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree M] :
-    AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree N := by
-  obtain ⟨q, hq, hq'⟩ := h.exists_isFiniteLocallyFreeData
-  exact ⟨Stacks.FiniteLocallyFree.localGeneratorsDataOfIsIso e.hom q, inferInstance,
-    inferInstance⟩
 
 variable {S X Z : Scheme.{u}} (f : X ⟶ S) (i : Z ⟶ X) [IsClosedImmersion i] [Smooth f]
   [Smooth (i ≫ f)]
