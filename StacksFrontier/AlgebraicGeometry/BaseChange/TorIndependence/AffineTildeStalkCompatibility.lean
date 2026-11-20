@@ -6,7 +6,7 @@ public import StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.Affine
 public import StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.TildeStalkGerm
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.CoherentAdicSystem.PullbackStalk
 public import StacksFrontier.AlgebraicGeometry.Scheme.QuasiCoherent.AffineTilde
-public import StacksFrontier.RingTheory.MilnorPatching.Relative
+public import StacksFrontier.RingTheory.MilnorPatching.RelativeCore
 import all StacksFrontier.RingTheory.MilnorPatching.ModuleProperties
 
 /-!

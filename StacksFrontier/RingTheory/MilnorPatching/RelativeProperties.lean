@@ -8,7 +8,7 @@ public import Mathlib.LinearAlgebra.TensorProduct.Finiteness
 public import Mathlib.LinearAlgebra.TensorProduct.RightExactness
 public import Mathlib.RingTheory.FinitePresentation
 public import StacksFrontier.RingTheory.MilnorPatching.ModuleProperties
-public import StacksFrontier.RingTheory.MilnorPatching.Relative
+public import StacksFrontier.RingTheory.MilnorPatching.RelativeCore
 public import StacksFrontier.RingTheory.Localization.Glueing.CategoricalPullback
 
 /-!
@@ -64,29 +64,6 @@ open ModuleGlueing
 universe u v₁ v₂ u₁ u₂
 namespace MilnorPatching
 
-private theorem adjunction_mate_unit
-    {C : Type u₁} {D : Type u₂} {C' : Type*} {D' : Type*}
-    [Category.{v₁} C] [Category.{v₂} D] [Category C'] [Category D']
-    {E : C ⥤ D} {F : D ⥤ C} {Eb : C' ⥤ D'} {Fb : D' ⥤ C'}
-    (adj : E ⊣ F) (adjb : Eb ⊣ Fb)
-    (R : D ⥤ D') (S : C ⥤ C') (α : E ⋙ R ≅ S ⋙ Eb) (L : C) :
-    S.map (adj.unit.app L) ≫
-        (adjb.homEquiv _ _)
-          (α.inv.app (F.obj (E.obj L)) ≫ R.map (adj.counit.app (E.obj L))) =
-      adjb.unit.app (S.obj L) ≫ Fb.map (α.inv.app L) := by
-  apply (adjb.homEquiv _ _).symm.injective
-  rw [adjb.homEquiv_naturality_left_symm, Equiv.symm_apply_apply,
-    adjb.homEquiv_naturality_right_symm]
-  simp only [Functor.id_obj, adjb.homEquiv_symm_unit, Category.id_comp]
-  rw [← Category.assoc]
-  change ((S ⋙ Eb).map (adj.unit.app L) ≫ α.inv.app _) ≫ _ = _
-  rw [α.inv.naturality]
-  simp only [Functor.comp_map, Category.assoc, ← R.map_comp]
-  have ht : E.map (adj.unit.app L) ≫ adj.counit.app (E.obj L) = 𝟙 _ :=
-    adj.left_triangle_components L
-  rw [ht, R.map_id]
-  exact Category.comp_id _
-
 private theorem compatiblePairs_restrictScalars_iff
     {A A' B D' : Type u} [CommRing A] [CommRing A'] [CommRing B] [CommRing D']
     {toBase : B →+* A} {surjection : A' →+* A} {I : Ideal A'}
@@ -121,6 +98,102 @@ private theorem compatiblePairs_restrictScalars_iff
   change _ ↔ (α.hom.app X.snd ≫ α.inv.app X.snd) _ = _
   rw [α.hom_inv_id_app]
   rfl
+
+section
+
+variable {A A' B D' : Type u} [CommRing A] [CommRing A'] [CommRing B] [CommRing D']
+  {toBase : B →+* A} {surjection : A' →+* A} {I : Ideal A'}
+  {base : RingFibreProduct.Situation toBase surjection I}
+  (s : RelativeModuleFibreProductSituation (D' := D') base)
+
+open RelativeModuleFibreProductSituation
+
+/-- The same coordinate pair satisfies the gluing condition in either square. -/
+private noncomputable def restrictCompatiblePairsLinearEquiv (X : s.CompatibleModules) :
+    ((ModuleCat.restrictScalars s.toD').obj
+      (compatiblePairsModule.{u} s.toD s.toC' s.DtoC s.C'toC s.relativeSquare_comm X))
+      ≃ₗ[base.fibreProduct]
+    compatiblePairsModule.{u} (toB (base := base)) (toA' (base := base))
+      toBase surjection (RingHom.pullback_comm_sq toBase surjection)
+      (s.restrictCompatibleModules.obj X) := by
+  let P := (ModuleCat.restrictScalars s.toD').obj
+    (compatiblePairsModule.{u} s.toD s.toC' s.DtoC s.C'toC s.relativeSquare_comm X)
+  let Q := compatiblePairsModule.{u} (toB (base := base)) (toA' (base := base))
+    toBase surjection (RingHom.pullback_comm_sq toBase surjection)
+    (s.restrictCompatibleModules.obj X)
+  let e : P ≃ Q :=
+    { toFun := fun p => ⟨p.1, (compatiblePairs_restrictScalars_iff s X _ _).mp p.2⟩
+      invFun := fun q => ⟨q.1, (compatiblePairs_restrictScalars_iff s X _ _).mpr q.2⟩
+      left_inv := fun p => Subtype.ext rfl
+      right_inv := fun q => Subtype.ext rfl }
+  refine { toEquiv := e, map_add' := ?_, map_smul' := ?_ }
+  · intro p q
+    exact Subtype.ext rfl
+  · intro b p
+    apply Subtype.ext
+    change (s.toD (s.toD' b) • p.1.1, s.toC' (s.toD' b) • p.1.2) =
+      (s.BtoD (toB (base := base) b) • p.1.1, s.A'toC' (toA' (base := base) b) • p.1.2)
+    have hfst : s.toD (s.toD' b) = s.BtoD (toB (base := base) b) :=
+      DFunLike.congr_fun s.toD_toD' b
+    have hsnd : s.toC' (s.toD' b) = s.A'toC' (toA' (base := base) b) :=
+      DFunLike.congr_fun s.toC'_toD' b
+    rw [hfst, hsnd]
+
+/-- The relative compatible-pair module is flat over the original fibre product. -/
+private theorem flat_restrictedCompatiblePairs (X : s.CompatibleModules)
+    (hB : Module.Flat B ((ModuleCat.restrictScalars s.BtoD).obj X.fst))
+    (hA : Module.Flat A' ((ModuleCat.restrictScalars s.A'toC').obj X.snd)) :
+    Module.Flat base.fibreProduct ((ModuleCat.restrictScalars s.toD').obj
+      (compatiblePairsModule.{u} s.toD s.toC' s.DtoC s.C'toC s.relativeSquare_comm X)) := by
+  let Xb := s.restrictCompatibleModules.obj X
+  obtain ⟨F, _, adjF, _, _, hflat, _, _⟩ :=
+    flatModulesEquivalenceOverFibreProduct toBase surjection I base
+  obtain ⟨G, eG, adjG, _, _⟩ := exists_rightAdjoint_extensionOfScalarsToPullback
+    (toB (base := base)) (toA' (base := base)) toBase surjection
+    (RingHom.pullback_comm_sq toBase surjection)
+  let : Module.Flat base.fibreProduct (F.obj Xb) := hflat Xb ⟨hB, hA⟩
+  let eF : G.obj Xb ≃ₗ[base.fibreProduct] F.obj Xb :=
+    ((adjG.rightAdjointUniq adjF).app Xb).toLinearEquiv
+  exact Module.Flat.of_linearEquiv ((restrictCompatiblePairsLinearEquiv s X).trans
+    ((eG Xb).symm.trans eF))
+
+end
+
+
+private theorem isIso_map_of_iso
+    {C D : Type*} [Category C] [Category D] {F G : C ⥤ D} (e : F ≅ G)
+    {X Y : C} (f : X ⟶ Y) [IsIso (F.map f)] : IsIso (G.map f) := by
+  have : IsIso (e.hom.app X ≫ G.map f) := by
+    rw [← e.hom.naturality]
+    infer_instance
+  exact IsIso.of_isIso_comp_left (e.hom.app X) (G.map f)
+
+private theorem isIso_of_map_of_iso_units
+    {C D : Type*} [Category C] [Category D] {F : C ⥤ D} {G : D ⥤ C}
+    (adj : F ⊣ G) {X Y : C} (f : X ⟶ Y)
+    [IsIso (F.map f)] [IsIso (adj.unit.app X)] [IsIso (adj.unit.app Y)] : IsIso f := by
+  have h := adj.unit.naturality f
+  change f ≫ adj.unit.app Y = adj.unit.app X ≫ G.map (F.map f) at h
+  have : IsIso (f ≫ adj.unit.app Y) := by
+    rw [h]
+    infer_instance
+  exact IsIso.of_isIso_comp_right f (adj.unit.app Y)
+
+private theorem isIso_counit_of_rightAdjoint
+    {C D : Type*} [Category C] [Category D] {F : C ⥤ D} {G G' : D ⥤ C}
+    (adj : F ⊣ G) (adj' : F ⊣ G') [IsIso adj'.counit] : IsIso adj.counit := by
+  let : ∀ X, IsIso (adj.counit.app X) := fun X => by
+    rw [← Adjunction.rightAdjointUniq_hom_app_counit adj adj' X]
+    infer_instance
+  exact NatIso.isIso_of_isIso_app _
+
+private theorem isIso_map_unit_of_iso_counit
+    {C D : Type*} [Category C] [Category D] {F : C ⥤ D} {G : D ⥤ C}
+    (adj : F ⊣ G) (X : C) [IsIso adj.counit] : IsIso (F.map (adj.unit.app X)) := by
+  have : IsIso (F.map (adj.unit.app X) ≫ adj.counit.app (F.obj X)) := by
+    rw [adj.left_triangle_components X]
+    exact IsIso.id (F.obj X)
+  exact IsIso.of_isIso_comp_right (F.map (adj.unit.app X)) (adj.counit.app (F.obj X))
 
 set_option maxHeartbeats 2000000 in
 -- The mate comparison elaborates several nested scalar-extension and restriction functors.
@@ -177,142 +250,27 @@ public theorem relativelyFlatModulesEquivalenceOverFibreProduct
   classical
   obtain ⟨F_r, e_r, adj_r, nat_r, form_r⟩ :=
     exists_rightAdjoint_extensionOfScalarsToPullback
-      s.toD s.toC' s.DtoC s.C'toC
-      s.relativeSquare_comm
-  obtain ⟨F_b, e_b, adj_b, form_b, counit_b, flat_b, unit_b, _⟩ :=
+      s.toD s.toC' s.DtoC s.C'toC s.relativeSquare_comm
+  obtain ⟨F_c, _, adj_c, _, hcounit_c⟩ :=
+    relativeCompatiblePairsRightAdjoint_counit_isIso s
+  obtain ⟨F_b, _, adj_b, _, _, _, unit_b, _⟩ :=
     flatModulesEquivalenceOverFibreProduct toBase surjection I base
   let R := s.restrictCompatibleModules
   let S := ModuleCat.restrictScalars.{u, u, u} s.toD'
-  let α := s.restrictionSquareIso
-  let Eb := extensionOfScalarsToPullback
-    base.pullbackCone.fst.hom base.pullbackCone.snd.hom toBase surjection
-    (RingHom.pullback_comm_sq toBase surjection)
-  let Er := extensionOfScalarsToPullback
-    s.toD s.toC' s.DtoC s.C'toC s.relativeSquare_comm
-  let z (X : s.CompatibleModules) : Eb.obj (S.obj (F_r.obj X)) ⟶ R.obj X :=
-    α.inv.app (F_r.obj X) ≫ R.map (adj_r.counit.app X)
-  let h (X : s.CompatibleModules) : S.obj (F_r.obj X) ⟶ F_b.obj (R.obj X) :=
-    (adj_b.homEquiv (S.obj (F_r.obj X)) (R.obj X)) (z X)
-  have hIso (X : s.CompatibleModules) : IsIso (h X) := by
-    let z := z X
-    let h := h X
-    have αfst_unit_inv (x : F_r.obj X) :
-        (α.inv.app (F_r.obj X)).fst
-            ((1 : B) ⊗ₜ[base.fibreProduct,base.pullbackCone.fst.hom]
-              (show S.obj (F_r.obj X) from x)) =
-          (1 : s.D) ⊗ₜ[D',s.toD] x := by
-      simpa only [map_one] using s.restrictionSquareIso_inv_fst_tmul (F_r.obj X) 1 x
-    have αsnd_unit_inv (x : F_r.obj X) :
-        (α.inv.app (F_r.obj X)).snd
-            ((1 : A') ⊗ₜ[base.fibreProduct,base.pullbackCone.snd.hom]
-              (show S.obj (F_r.obj X) from x)) =
-          (1 : s.C') ⊗ₜ[D',s.toC'] x := by
-      simpa only [map_one] using s.restrictionSquareIso_inv_snd_tmul (F_r.obj X) 1 x
-    have hcoord (x : F_r.obj X) :
-        (e_b (R.obj X) (h x)).1.1 = (e_r X x).1.1 ∧
-        (e_b (R.obj X) (h x)).1.2 = (e_r X x).1.2 := by
-      have hb := form_b (S.obj (F_r.obj X)) (R.obj X) h x
-      have hr := form_r (F_r.obj X) X (𝟙 _) x
-      have hzx : (adj_b.homEquiv (S.obj (F_r.obj X)) (R.obj X)).symm h = z :=
-        (adj_b.homEquiv (S.obj (F_r.obj X)) (R.obj X)).symm_apply_apply z
-      rw [hzx] at hb
-      rw [adj_r.homEquiv_symm_id] at hr
-      constructor
-      · rw [hb.1]
-        change (adj_r.counit.app X).fst
-          ((α.inv.app (F_r.obj X)).fst
-            ((1 : B) ⊗ₜ[base.fibreProduct,base.pullbackCone.fst.hom]
-              (show S.obj (F_r.obj X) from x))) = (e_r X x).1.1
-        rw [αfst_unit_inv]
-        have hr1 := hr.1
-        change (e_r X x).1.1 = (adj_r.counit.app X).fst
-          ((1 : s.D) ⊗ₜ[D',s.toD] x) at hr1
-        exact hr1.symm
-      · rw [hb.2]
-        change (adj_r.counit.app X).snd
-          ((α.inv.app (F_r.obj X)).snd
-            ((1 : A') ⊗ₜ[base.fibreProduct,base.pullbackCone.snd.hom]
-              (show S.obj (F_r.obj X) from x))) = (e_r X x).1.2
-        rw [αsnd_unit_inv]
-        have hr2 := hr.2
-        change (e_r X x).1.2 = (adj_r.counit.app X).snd
-          ((1 : s.C') ⊗ₜ[D',s.toC'] x) at hr2
-        exact hr2.symm
-    have hinj : Function.Injective (h : S.obj (F_r.obj X) → F_b.obj (R.obj X)) := by
-      intro x y hxy
-      apply (e_r X).injective
-      apply Subtype.ext
-      apply Prod.ext
-      · have hz := congrArg (fun t => (e_b (R.obj X) t).1.1) hxy
-        exact (hcoord x).1.symm.trans (hz.trans (hcoord y).1)
-      · have hz := congrArg (fun t => (e_b (R.obj X) t).1.2) hxy
-        exact (hcoord x).2.symm.trans (hz.trans (hcoord y).2)
-    have hsurj : Function.Surjective
-        (h : S.obj (F_r.obj X) → F_b.obj (R.obj X)) := by
-      intro y
-      let p := e_b (R.obj X) y
-      have hp : X.iso.hom ((1 : s.C) ⊗ₜ[s.D,s.DtoC] (show X.fst from p.1.1)) =
-          (1 : s.C) ⊗ₜ[s.C',s.C'toC] (show X.snd from p.1.2) :=
-        (compatiblePairs_restrictScalars_iff s X p.1.1 p.1.2).mpr p.2
-      let pr : CompatiblePairs s.DtoC s.C'toC X := ⟨p.1, hp⟩
-      let x : F_r.obj X := (e_r X).symm pr
-      refine ⟨x, ?_⟩
-      apply (e_b (R.obj X)).injective
-      apply Subtype.ext
-      apply Prod.ext
-      · exact (hcoord x).1.trans (by simp [x, pr, p])
-      · exact (hcoord x).2.trans (by simp [x, pr, p])
-    exact (ConcreteCategory.isIso_iff_bijective h).2 ⟨hinj, hsurj⟩
-  have hz (X : s.CompatibleModules) :
-      Eb.map (h X) ≫ adj_b.counit.app (R.obj X) = z X :=
-    (adj_b.homEquiv (S.obj (F_r.obj X)) (R.obj X)).symm_apply_apply (z X)
-  have counitIso (X : s.CompatibleModules) : IsIso (adj_r.counit.app X) := by
-    have hzIso : IsIso (z X) := by
-      rw [← hz X]
-      let : IsIso (h X) := hIso X
-      let : IsIso adj_b.counit := counit_b
-      have h₁ : IsIso (Eb.map (h X)) := Eb.map_isIso (h X)
-      have h₂ : IsIso (adj_b.counit.app (R.obj X)) := inferInstance
-      exact IsIso.comp_isIso' h₁ h₂
-    have hc : R.map (adj_r.counit.app X) = α.hom.app (F_r.obj X) ≫ z X := by
-      simp [z]
-    have hR : IsIso (R.map (adj_r.counit.app X)) := by
-      rw [hc]
-      let : IsIso (z X) := hzIso
-      have hα : IsIso (α.hom.app (F_r.obj X)) := inferInstance
-      exact IsIso.comp_isIso' hα hzIso
-    apply (CategoricalPullback.isIso_iff (ModuleCat.extendScalars s.DtoC)
-      (ModuleCat.extendScalars s.C'toC) (adj_r.counit.app X)).2
-    constructor
-    · have hfst : IsIso ((R.map (adj_r.counit.app X)).fst) := inferInstance
-      change IsIso ((ModuleCat.restrictScalars s.BtoD).map (adj_r.counit.app X).fst) at hfst
-      exact isIso_of_reflects_iso _ (ModuleCat.restrictScalars s.BtoD)
-    · have hsnd : IsIso ((R.map (adj_r.counit.app X)).snd) := inferInstance
-      change IsIso ((ModuleCat.restrictScalars s.A'toC').map (adj_r.counit.app X).snd) at hsnd
-      exact isIso_of_reflects_iso _ (ModuleCat.restrictScalars s.A'toC')
-  have hunit (L : ModuleCat.{u} D') :
-      S.map (adj_r.unit.app L) ≫ h (Er.obj L) =
-        adj_b.unit.app (S.obj L) ≫ F_b.map (α.inv.app L) :=
-    adjunction_mate_unit adj_r adj_b R S α L
+  let Eb := extensionOfScalarsToPullback base.pullbackCone.fst.hom
+    base.pullbackCone.snd.hom toBase surjection (RingHom.pullback_comm_sq toBase surjection)
+  let Er := extensionOfScalarsToPullback s.toD s.toC' s.DtoC s.C'toC s.relativeSquare_comm
+  let : IsIso adj_c.counit := hcounit_c
+  let : IsIso adj_r.counit := isIso_counit_of_rightAdjoint adj_r adj_c
   have hflat (X : s.CompatibleModules)
       (hX : Module.Flat B (R.obj X).fst ∧ Module.Flat A' (R.obj X).snd) :
       Module.Flat base.fibreProduct (S.obj (F_r.obj X)) := by
-    let : IsIso (h X) := hIso X
-    let : Module.Flat base.fibreProduct (F_b.obj (R.obj X)) := flat_b (R.obj X) hX
-    exact Module.Flat.of_linearEquiv (asIso (h X)).toLinearEquiv
-  have hu (L : ModuleCat.{u} D') (hL : Module.Flat base.fibreProduct (S.obj L)) :
-      IsIso (adj_r.unit.app L) := by
-    let : IsIso (h (Er.obj L)) := hIso (Er.obj L)
-    let : IsIso (adj_b.unit.app (S.obj L)) := unit_b (S.obj L) hL
-    have : IsIso (S.map (adj_r.unit.app L) ≫ h (Er.obj L)) := by
-      rw [hunit L]
-      infer_instance
-    have : IsIso (S.map (adj_r.unit.app L)) :=
-      IsIso.of_isIso_comp_right _ (h (Er.obj L))
-    exact isIso_of_reflects_iso _ S
+    let : Module.Flat base.fibreProduct (S.obj
+        (compatiblePairsModule.{u} s.toD s.toC' s.DtoC s.C'toC s.relativeSquare_comm X)) :=
+      flat_restrictedCompatiblePairs s X hX.1 hX.2
+    exact Module.Flat.of_linearEquiv (S.mapIso (e_r X).toModuleIso).toLinearEquiv
   have hflatE (L : ModuleCat.{u} D') (hL : Module.Flat base.fibreProduct (S.obj L)) :
-      Module.Flat B (R.obj (Er.obj L)).fst ∧
-        Module.Flat A' (R.obj (Er.obj L)).snd := by
+      Module.Flat B (R.obj (Er.obj L)).fst ∧ Module.Flat A' (R.obj (Er.obj L)).snd := by
     let : Module.Flat base.fibreProduct (S.obj L) := hL
     constructor
     · let : Algebra base.fibreProduct B := base.pullbackCone.fst.hom.toAlgebra
@@ -320,20 +278,40 @@ public theorem relativelyFlatModulesEquivalenceOverFibreProduct
         change Module.Flat B (B ⊗[base.fibreProduct] (S.obj L))
         infer_instance
       let e : (R.obj (Er.obj L)).fst ≃ₗ[B] (Eb.obj (S.obj L)).fst :=
-        ((CategoricalPullback.π₁ _ _).mapIso (α.app L)).toLinearEquiv
+        (s.extensionRestrictionFstIso.app L).toLinearEquiv
       exact Module.Flat.of_linearEquiv e
     · let : Algebra base.fibreProduct A' := base.pullbackCone.snd.hom.toAlgebra
       let : Module.Flat A' (Eb.obj (S.obj L)).snd := by
         change Module.Flat A' (A' ⊗[base.fibreProduct] (S.obj L))
         infer_instance
       let e : (R.obj (Er.obj L)).snd ≃ₗ[A'] (Eb.obj (S.obj L)).snd :=
-        ((CategoricalPullback.π₂ _ _).mapIso (α.app L)).toLinearEquiv
+        (s.extensionRestrictionSndIso.app L).toLinearEquiv
       exact Module.Flat.of_linearEquiv e
-  refine ⟨F_r, e_r, adj_r, form_r, nat_r, ?_, hflat, hu, ?_⟩
-  · have : ∀ X, IsIso (adj_r.counit.app X) := fun X => counitIso X
-    exact NatIso.isIso_of_isIso_app _
-  exact restrictedEquivalence Er F_r adj_r _ _ hflatE hflat hu
-    (fun X _ => counitIso X)
+  have hu (L : ModuleCat.{u} D') (hL : Module.Flat base.fibreProduct (S.obj L)) :
+      IsIso (adj_r.unit.app L) := by
+    let f : L ⟶ F_r.obj (Er.obj L) := adj_r.unit.app L
+    let : IsIso (Er.map f) := isIso_map_unit_of_iso_counit adj_r L
+    have hfst : IsIso (Eb.map (S.map f)).fst := by
+      have : IsIso ((ModuleCat.extendScalars s.toD ⋙
+          ModuleCat.restrictScalars s.BtoD).map f) := by
+        change IsIso ((ModuleCat.restrictScalars s.BtoD).map (Er.map f).fst)
+        infer_instance
+      exact isIso_map_of_iso s.extensionRestrictionFstIso f
+    have hsnd : IsIso (Eb.map (S.map f)).snd := by
+      have : IsIso ((ModuleCat.extendScalars s.toC' ⋙
+          ModuleCat.restrictScalars s.A'toC').map f) := by
+        change IsIso ((ModuleCat.restrictScalars s.A'toC').map (Er.map f).snd)
+        infer_instance
+      exact isIso_map_of_iso s.extensionRestrictionSndIso f
+    let : IsIso (Eb.map (S.map f)) :=
+      (CategoricalPullback.isIso_iff _ _ _).2 ⟨hfst, hsnd⟩
+    let : IsIso (adj_b.unit.app (S.obj L)) := unit_b (S.obj L) hL
+    let : IsIso (adj_b.unit.app (S.obj (F_r.obj (Er.obj L)))) :=
+      unit_b _ (hflat _ (hflatE L hL))
+    let : IsIso (S.map f) := isIso_of_map_of_iso_units adj_b (S.map f)
+    exact isIso_of_reflects_iso f S
+  exact ⟨F_r, e_r, adj_r, form_r, nat_r, inferInstance, hflat, hu,
+    restrictedEquivalence Er F_r adj_r _ _ hflatE hflat hu (fun _ _ => inferInstance)⟩
 
 end MilnorPatching
 end

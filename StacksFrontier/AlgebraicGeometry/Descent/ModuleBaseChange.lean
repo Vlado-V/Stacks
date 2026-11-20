@@ -4,7 +4,7 @@ public import StacksFrontier.AlgebraicGeometry.Descent.FpqcQuasicoherent
 public import StacksFrontier.AlgebraicGeometry.AffineBaseChange.Basic
 public import StacksFrontier.AlgebraicGeometry.AffinePushforward.BaseChange
 public import StacksFrontier.AlgebraicGeometry.PullbackSections.Affine
-public import StacksFrontier.RingTheory.MilnorPatching.Relative
+public import StacksFrontier.RingTheory.MilnorPatching.RelativeCore
 
 /-!
 # Base change for direct images of quasi-coherent modules on affine schemes

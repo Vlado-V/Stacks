@@ -3,7 +3,7 @@ module
 public import Mathlib.Algebra.Category.ModuleCat.Monoidal.Adjunction
 public import StacksFrontier.Algebra.Category.ModuleCat.ExtendScalarsBaseRing
 public import StacksFrontier.AlgebraicGeometry.ModuleLimits.ExtendScalarsCancel
-public import StacksFrontier.RingTheory.MilnorPatching.Relative
+public import StacksFrontier.RingTheory.MilnorPatching.RelativeCore
 import StacksFrontier.Homology.HomComplex.RHom.BaseChange
 import all StacksFrontier.Homology.HomComplex.RHom.BaseChange.ProjectionFormula
 
