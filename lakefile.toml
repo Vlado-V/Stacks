@@ -29,3 +29,9 @@ roots = ["StacksFrontier"]
 [[lean_lib]]
 name = "Stacks"
 roots = ["Stacks"]
+
+[[lean_lib]]
+name = "ProjInclusionDegreeBasicAfterRelativeProj"
+roots = []
+globs = ["StacksFrontier.AlgebraicGeometry.ProjInclusionDegreeSection.Basic"]
+needs = ["@Stacks/+StacksFrontier.AlgebraicGeometry.ChartTransNonNested.RelativeProj:olean"]
