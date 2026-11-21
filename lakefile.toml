@@ -34,4 +34,4 @@ roots = ["Stacks"]
 name = "ProjInclusionDegreeBasicAfterRelativeProj"
 roots = []
 globs = ["StacksFrontier.AlgebraicGeometry.ProjInclusionDegreeSection.Basic"]
-needs = ["@Stacks/+StacksFrontier.AlgebraicGeometry.ChartTransNonNested.RelativeProj:olean"]
+needs = ["@Stacks/+StacksFrontier.AlgebraicGeometry.NestedCocycleTail.Basic:olean"]
