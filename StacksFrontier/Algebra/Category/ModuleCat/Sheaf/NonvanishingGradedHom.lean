@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.CategoryTheory.HomCongr
-public import StacksFrontier.Topology.Sheaves.Modules.TensorAndDuals.InternalHom
+public import StacksFrontier.Topology.Sheaves.Modules.TensorAndDuals.TensorHomEquiv
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.NonvanishingSections
 import StacksCore.Tactic.EgaSgaAttribute
 

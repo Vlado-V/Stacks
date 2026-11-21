@@ -10,7 +10,7 @@ public import StacksFrontier.AlgebraicGeometry.Modules.DualSheafStalk.Basic
 public import StacksFrontier.AlgebraicGeometry.Modules.FiniteLocallyFreeTFAE
 public import StacksFrontier.AlgebraicGeometry.ReflexiveHull.DualStalk
 public import StacksFrontier.AlgebraicGeometry.StalkFreeBridge.StalkFree
-public import StacksFrontier.Topology.Sheaves.Modules.TensorAndDuals.InternalHom
+public import StacksFrontier.Topology.Sheaves.Modules.TensorAndDuals.TensorHomEquiv
 public import StacksFrontier.Topology.Sheaves.RingedSpace.ModulePullbackStalkAdjunction
 import StacksCore.Tactic.EgaSgaAttribute
 
