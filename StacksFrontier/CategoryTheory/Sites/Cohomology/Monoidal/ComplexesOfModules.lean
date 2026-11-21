@@ -127,6 +127,27 @@ attribute [local instance] SheafOfModules.monoidalCategorySheafTensor
   SheafOfModules.monoidalClosedSheafTensor
   SheafOfModules.preservesColimit_tensorRight_sheafTensor
 
+/-- Take total complexes after identifying the tensor of the base category with a bifunctor.
+The identification is performed while the base category and its monoidal structure are still
+parameters, so the proof need not unfold the monoidal structure on sheaves of modules. -/
+private theorem curriedTensor_cochain_eq_map₂Reg
+    (D : Type u) [Category.{v} D] [MonoidalCategory D] [Preadditive D]
+    [HasZeroObject D] [MonoidalPreadditive D]
+    [∀ (X Y : GradedObject ℤ D), GradedObject.HasTensor X Y]
+    [∀ X, PreservesColimit (Functor.empty.{0} D) ((curriedTensor D).obj X)]
+    [∀ Y, PreservesColimit (Functor.empty.{0} D) ((curriedTensor D).flip.obj Y)]
+    [∀ (W X Y Z : GradedObject ℤ D), GradedObject.HasTensor₄ObjExt W X Y Z]
+    [∀ (X Y Z : GradedObject ℤ D), GradedObject.HasGoodTensor₁₂Tensor X Y Z]
+    [∀ (X Y Z : GradedObject ℤ D), GradedObject.HasGoodTensorTensor₂₃ X Y Z]
+    (F : D ⥤ D ⥤ D) [F.PreservesZeroMorphisms] [∀ X, (F.obj X).PreservesZeroMorphisms]
+    [∀ (K L : CochainComplex D ℤ), HomologicalComplex.HasMapBifunctorReg K L F (ComplexShape.up ℤ)]
+    (hF : curriedTensor D = F) :
+    @curriedTensor (CochainComplex D ℤ) _ (HomologicalComplex.monoidalCategory D (ComplexShape.up ℤ)) =
+      F.map₂HomologicalComplexReg (ComplexShape.up ℤ) (ComplexShape.up ℤ) (ComplexShape.up ℤ) := by
+  subst F
+  rfl
+
+
 /-- Complexes of modules on any ringed site form a symmetric monoidal category; its tensor
 bifunctor is totalized sheaf tensor. -/
 @[stacks 0FPQ, sga "4 XVII 4.1.6" "⊗ on complexes"]
@@ -143,12 +164,9 @@ public def symmetricMonoidalComplexes : SymmetricMonoidalComplexes R :=
     hasTensorComplex K L := Stacks.SheafOfModules.Tensor.hasMapBifunctor_sheafTensor R K L
     monoidal := inferInstance
     symmetric := CochainComplex.symmetricCategory (Mod R)
-    tensor_eq_total := by
-      dsimp only [TensorEqTotal, Stacks.SheafOfModules.Tensor.tensorComplex]
-      change curriedTensor (Complexes R) =
-        (curriedTensor (Mod R)).map₂HomologicalComplex
-          (ComplexShape.up ℤ) (ComplexShape.up ℤ) (ComplexShape.up ℤ)
-      rfl
+    tensor_eq_total := private
+      curriedTensor_cochain_eq_map₂Reg (Mod R)
+        (Stacks.SheafOfModules.Tensor.sheafTensor R) (SheafOfModules.curriedTensor_sheafTensor R)
     unit_eq_structureSheaf := rfl }
 
 /-- The monoidal structure on complexes of modules on a ringed site. -/
