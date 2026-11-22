@@ -3,7 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.InvertiblePullbackFlat.SectionGenerator
 public import StacksFrontier.AlgebraicGeometry.Divisors.NonvanishingLocusRestrict
 public import StacksFrontier.AlgebraicGeometry.TwistPullbackRatio.Comparison
-public import StacksFrontier.Topology.Sheaves.Modules.ModuleGlueing.RelativeProjModuleBaseChangeIso
+public import StacksFrontier.AlgebraicGeometry.Modules.IsIsoOpenCover
 public import StacksFrontier.AlgebraicGeometry.Divisors.Meromorphic.StalkBasisGenericPoint
 public import StacksFrontier.AlgebraicGeometry.Picard.GaloisDescent.Pullback
 public import StacksFrontier.AlgebraicGeometry.ProjectiveBundleQuotients.Basic
