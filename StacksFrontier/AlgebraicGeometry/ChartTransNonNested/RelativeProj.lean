@@ -650,10 +650,19 @@ public theorem pushNestedTail_hom_val_app (n : ℤ) (V : (relativeProj A).scheme
     (pushNestedTail A W U h hW hU n).hom.val.app (op V) y =
       (restrictTwistIso A W U h hW hU n).hom.val.app
           (op ((relativeProj A).chart W hW ⁻¹ᵁ V))
-        ((restrictedTwist A W U h hW hU n).val.map i.op y) :=
-  tailIso_hom_val_app_eq (projInclusionMap A W U h hW hU) ((relativeProj A).chart U hU)
+        ((restrictedTwist A W U h hW hU n).val.map i.op y) := by
+  have hT : pushNestedTail A W U h hW hU n =
+      @tailIso.{u} (relativeProj A).scheme (AlgebraicGeometry.Proj (A.grading W))
+        (AlgebraicGeometry.Proj (A.grading U)) (projInclusionMap A W U h hW hU)
+        ((relativeProj A).chart U hU) ((relativeProj A).chart W hW)
+        ((relativeProj A).chart_transition W U h hW hU)
+        (restrictedTwist A W U h hW hU n) (twistingSheaf (A.grading W) n)
+        (restrictTwistIso A W U h hW hU n) := rfl
+  exact @tailIso_hom_val_app_eq.{u} (relativeProj A).scheme (AlgebraicGeometry.Proj (A.grading W))
+    (AlgebraicGeometry.Proj (A.grading U)) (projInclusionMap A W U h hW hU) ((relativeProj A).chart U hU)
     ((relativeProj A).chart W hW) ((relativeProj A).chart_transition W U h hW hU)
-    (restrictTwistIso A W U h hW hU n) (pushNestedTail A W U h hW hU n) rfl V i y
+    (restrictedTwist A W U h hW hU n) (twistingSheaf (A.grading W) n) (restrictTwistIso A W U h hW hU n)
+    (pushNestedTail A W U h hW hU n) hT V i y
 
 /-- **The nested twist comparison, pushed forward to the relative Proj.** A morphism of sheaves of
 `𝒪`-modules on the relative Proj from the direct image of the twist on the larger chart to the

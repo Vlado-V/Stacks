@@ -35,3 +35,9 @@ name = "ProjInclusionDegreeBasicAfterRelativeProj"
 roots = []
 globs = ["StacksFrontier.AlgebraicGeometry.ProjInclusionDegreeSection.Basic"]
 needs = ["@Stacks/+StacksFrontier.AlgebraicGeometry.NestedCocycleTail.Basic:olean"]
+
+[[lean_lib]]
+name = "ChartTransNonNestedDegreeSectionAfterRigidity"
+roots = []
+globs = ["StacksFrontier.AlgebraicGeometry.ChartTransNonNested.DegreeSection"]
+needs = ["@Stacks/+StacksFrontier.AlgebraicGeometry.ChartCocycleRigidity.DegreeSection:olean"]
