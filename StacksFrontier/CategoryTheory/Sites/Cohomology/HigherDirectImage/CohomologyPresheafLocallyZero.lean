@@ -985,6 +985,38 @@ lemma mapExtendIso_naturality
     conv_rhs => rw [← Category.assoc]
     exact (congrArg (· ≫ τ.app (X.X a) ≫ eqToHom o6) m1).symm
 
+private theorem mapIso_hom_conjugate {A D : Type*} [Category A] [Category D]
+    (P : A ⥤ D) {X X' Y Y' : A} (i : X ≅ X') (j : Y ≅ Y') (f : X' ⟶ Y') :
+    P.map (i.hom ≫ f ≫ j.inv) ≫ (P.mapIso j).hom = (P.mapIso i).hom ≫ P.map f := by
+  simp only [Functor.mapIso_hom]
+  calc
+    _ = P.map ((i.hom ≫ f ≫ j.inv) ≫ j.hom) := (P.map_comp _ _).symm
+    _ = P.map (i.hom ≫ f) := congrArg P.map (by simp [Category.assoc])
+    _ = _ := P.map_comp _ _
+
+private theorem mapExtendHomologyIso_naturality_generic
+    {C' D : Type uC} [Category.{vC} C'] [Category.{vC} D] [Abelian C'] [Abelian D]
+    {F F' : C' ⥤ D} [F.Additive] [F'.Additive] (τ : F ⟶ F') (X : CochainComplex C' ℕ) (n : ℕ) :
+    HomologicalComplex.homologyMap
+        ((NatTrans.mapHomologicalComplex τ (ComplexShape.up ℤ)).app
+          (HomologicalComplex.extend X ComplexShape.embeddingUpNat)) (n : ℤ) ≫
+        (mapExtendHomologyIso F' X n).hom =
+      (mapExtendHomologyIso F X n).hom ≫
+        HomologicalComplex.homologyMap
+          ((NatTrans.mapHomologicalComplex τ (ComplexShape.up ℕ)).app X) n := by
+  rw [mapExtendHomologyIso, mapExtendHomologyIso, Iso.trans_hom, Iso.trans_hom,
+    Functor.mapIso_hom, Functor.mapIso_hom, HomologicalComplex.homologyFunctor_map,
+    HomologicalComplex.homologyFunctor_map, ← Category.assoc, ← HomologicalComplex.homologyMap_comp,
+    mapExtendIso_naturality τ X, HomologicalComplex.homologyMap_comp, Category.assoc,
+    HomologicalComplex.extendHomologyIso_hom_naturality, ← Category.assoc]
+
+private theorem compose_hom_squares {D : Type*} [Category D]
+    {W X Y W' X' Y' : D} {f : W ⟶ W'} {g : X ⟶ X'} {h : Y ⟶ Y'}
+    {a : W ⟶ X} {b : X ⟶ Y} {a' : W' ⟶ X'} {b' : X' ⟶ Y'}
+    (hr : f ≫ a' = a ≫ g) (hs : g ≫ b' = b ≫ h) :
+    f ≫ a' ≫ b' = a ≫ b ≫ h := by
+  rw [← Category.assoc, hr, Category.assoc, hs]
+
 set_option maxHeartbeats 1600000 in
 -- this proof's elaboration needs more than the default heartbeat budget
 /-- **Factor C + B (glue).** The last two factors of `factorBCD` (the
@@ -1010,62 +1042,14 @@ theorem factorCB_homComplexMap (G : Sheaf J AddCommGrpCat.{u})
               I.cochainComplex)).addCommGroupIsoToAddEquiv).trans
           (mapExtendHomologyIso (preadditiveCoyoneda.obj (op (freeYonedaSheaf (J := J) U)))
             I.cocomplex n).addCommGroupIsoToAddEquiv) x) := by
-  have hmor :
-      HomologicalComplex.homologyMap (homComplexPrecomp G I g) (↑n) ≫
-          ((HomologicalComplex.homologyFunctor _ (ComplexShape.up ℤ) (n:ℤ)).mapIso
-            (homComplexSingleIsoCoyoneda (freeYonedaSheaf (J := J) Y) I.cochainComplex)).hom ≫
-          (mapExtendHomologyIso (preadditiveCoyoneda.obj (op (freeYonedaSheaf (J := J) Y)))
-            I.cocomplex n).hom
-        = ((HomologicalComplex.homologyFunctor _ (ComplexShape.up ℤ) (n:ℤ)).mapIso
-            (homComplexSingleIsoCoyoneda (freeYonedaSheaf (J := J) U) I.cochainComplex)).hom ≫
-          (mapExtendHomologyIso (preadditiveCoyoneda.obj (op (freeYonedaSheaf (J := J) U)))
-            I.cocomplex n).hom ≫
-          homComplexMap G I n g := by
-    -- Factor C: definitional + homologyMap functoriality + inv_hom_id cancellation.
-    have hC :
-        HomologicalComplex.homologyMap (homComplexPrecomp G I g) (↑n) ≫
-          ((HomologicalComplex.homologyFunctor _ (ComplexShape.up ℤ) (n:ℤ)).mapIso
-              (homComplexSingleIsoCoyoneda (freeYonedaSheaf (J := J) Y) I.cochainComplex)).hom
-          = ((HomologicalComplex.homologyFunctor _ (ComplexShape.up ℤ) (n:ℤ)).mapIso
-              (homComplexSingleIsoCoyoneda (freeYonedaSheaf (J := J) U) I.cochainComplex)).hom ≫
-            HomologicalComplex.homologyMap (coyonedaPrecompZ G I g) (↑n) := by
-      rw [homComplexPrecomp, Functor.mapIso_hom, Functor.mapIso_hom,
-        HomologicalComplex.homologyFunctor_map, HomologicalComplex.homologyFunctor_map,
-        HomologicalComplex.homologyMap_comp, HomologicalComplex.homologyMap_comp,
-        Category.assoc, Category.assoc, ← HomologicalComplex.homologyMap_comp,
-        Iso.inv_hom_id, HomologicalComplex.homologyMap_id, Category.comp_id]
-    -- Factor B: naturality of mapExtendHomologyIso in the additive-functor variable.
-    have hB :
-        HomologicalComplex.homologyMap (coyonedaPrecompZ G I g) (↑n) ≫
-            (mapExtendHomologyIso (preadditiveCoyoneda.obj (op (freeYonedaSheaf (J := J) Y)))
-              I.cocomplex n).hom
-          = (mapExtendHomologyIso (preadditiveCoyoneda.obj (op (freeYonedaSheaf (J := J) U)))
-              I.cocomplex n).hom ≫
-            homComplexMap G I n g := by
-      have hnat := mapExtendIso_naturality
-        (preadditiveCoyoneda.map (Quiver.Hom.op (freeYonedaMap (J := J) g))) I.cocomplex
-      rw [coyonedaPrecompZ, mapExtendHomologyIso, mapExtendHomologyIso, Iso.trans_hom,
-        Iso.trans_hom, Functor.mapIso_hom, Functor.mapIso_hom,
-        HomologicalComplex.homologyFunctor_map, HomologicalComplex.homologyFunctor_map,
-        ← Category.assoc, ← HomologicalComplex.homologyMap_comp]
-      rw [show (NatTrans.mapHomologicalComplex
-            (preadditiveCoyoneda.map (Quiver.Hom.op (freeYonedaMap (J := J) g)))
-            (ComplexShape.up ℤ)).app I.cochainComplex ≫
-              (mapExtendIso (preadditiveCoyoneda.obj (op (freeYonedaSheaf (J := J) Y)))
-                I.cocomplex).hom
-          = (mapExtendIso (preadditiveCoyoneda.obj (op (freeYonedaSheaf (J := J) U)))
-                I.cocomplex).hom ≫
-              HomologicalComplex.extendMap
-                ((NatTrans.mapHomologicalComplex
-                  (preadditiveCoyoneda.map (Quiver.Hom.op (freeYonedaMap (J := J) g)))
-                  (ComplexShape.up ℕ)).app I.cocomplex) ComplexShape.embeddingUpNat
-          from hnat,
-        HomologicalComplex.homologyMap_comp, Category.assoc,
-        HomologicalComplex.extendHomologyIso_hom_naturality, ← Category.assoc]
-      rfl
-    rw [Functor.mapIso_hom, Functor.mapIso_hom] at hC ⊢
-    rw [← Category.assoc, hC, Category.assoc, hB]
-  exact ConcreteCategory.congr_hom hmor x
+  have hC := mapIso_hom_conjugate
+    (HomologicalComplex.homologyFunctor (AddCommGrpCat.{u}) (ComplexShape.up ℤ) (n : ℤ))
+    (homComplexSingleIsoCoyoneda (freeYonedaSheaf (J := J) U) I.cochainComplex)
+    (homComplexSingleIsoCoyoneda (freeYonedaSheaf (J := J) Y) I.cochainComplex)
+    (coyonedaPrecompZ G I g)
+  have hB := mapExtendHomologyIso_naturality_generic
+    (preadditiveCoyoneda.map (Quiver.Hom.op (freeYonedaMap (J := J) g))) I.cocomplex n
+  exact ConcreteCategory.congr_hom (compose_hom_squares hC hB) x
 
 set_option maxHeartbeats 1000000 in
 -- this proof's elaboration needs more than the default heartbeat budget

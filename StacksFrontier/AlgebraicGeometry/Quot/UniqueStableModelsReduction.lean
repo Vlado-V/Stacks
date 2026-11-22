@@ -257,6 +257,32 @@ theorem CurveFamily.smooth_of_isSmoothFamily_of_schemeSpace (G : CurveFamily B h
   exact property_toScheme_map_of_holdsOnEveryEtaleChart Smooth.isEtaleLocalOnSourceAndTarget ε q
     hε hG
 
+/-- A given scheme representation of the total space realizes a stable family as a
+stable family of schemes over its base. -/
+theorem exists_isStableFamilyOfSchemesOfGenus_of_totalRepresentation {g : ℕ} {S : Scheme.{u}}
+    (hS : B.Contains S)
+    {total : AlgebraicSpaces B integerBase hZ}
+    {toBase : total ⟶ schemeSpace (integerSiteObject B hZ hS)}
+    {hflat : Space.IsFlat B integerBase hZ toBase.hom}
+    {hproper : Space.IsProper B integerBase hZ toBase.hom}
+    {hfp : Space.IsFinitePresentation B integerBase hZ toBase.hom}
+    {hrel : ∀ x : Space.points B integerBase hZ total.obj, ∃ e : ℕ, e ≤ 1 ∧
+      Space.HoldsOnEveryEtaleChartAtPoint B integerBase hZ (@HasFiberDimensionAt.{u} (e : ℕ∞))
+        toBase.hom x}
+    (hrep : ∃ (X : Scheme.{u}) (hX : B.Contains X),
+      Nonempty (total ≅ schemeSpace (integerSiteObject B hZ hX)))
+    (hF : IsStableCurveFamilyOfGenus B hZ g
+      ⟨integerSiteObject B hZ hS, total, toBase, hflat, hproper, hfp, hrel⟩) :
+    ∃ (X : Scheme.{u}) (hX : B.Contains X) (ε : total ≅ schemeSpace (integerSiteObject B hZ hX))
+      (p : X ⟶ S), ε.hom ≫ schemeSpaceMap (integerSiteMap B hZ hX hS p) = toBase ∧
+        IsStableFamilyOfSchemesOfGenus B hZ g p hS := by
+  obtain ⟨X, hX, ⟨ε⟩⟩ := hrep
+  obtain ⟨q, hq⟩ := exists_schemeSpaceMap_eq (ε.inv ≫ toBase)
+  have hε : ε.hom ≫ schemeSpaceMap (integerSiteMap B hZ hX hS
+      ((BigFppfOver.toScheme B integerBase hZ).map q)) = toBase := by
+    rw [integerSiteMap_toScheme_map, hq, Iso.hom_inv_id_assoc]
+  exact ⟨X, hX, ε, _, hε, isStableFamilyOfSchemesOfGenus_of_schemeSpace hS hF hX ε _ hε⟩
+
 /-- **A stable family of curves over a discrete valuation ring, as a morphism of schemes.** Given
 `StableFamilyTotalIsScheme`, the total space of a stable family of genus `g` over `Spec R` is a
 scheme `X`, and its structure morphism `p : X ⟶ Spec R` is a stable family of schemes of genus
@@ -277,18 +303,12 @@ theorem exists_isStableFamilyOfSchemesOfGenus_of_stableFamilyTotalIsScheme {g : 
     ∃ (X : Scheme.{u}) (hX : B.Contains X) (ε : total ≅ schemeSpace (integerSiteObject B hZ hX))
       (p : X ⟶ Spec (.of R)), ε.hom ≫ schemeSpaceMap (integerSiteMap B hZ hX hR p) = toBase ∧
         IsStableFamilyOfSchemesOfGenus B hZ g p hR := by
-  obtain ⟨X, hX, ⟨ε⟩⟩ := hA R hR _ rfl hF
-  obtain ⟨q, hq⟩ := exists_schemeSpaceMap_eq (ε.inv ≫ toBase)
-  have hε : ε.hom ≫ schemeSpaceMap (integerSiteMap B hZ hX hR
-      ((BigFppfOver.toScheme B integerBase hZ).map q)) = toBase := by
-    rw [integerSiteMap_toScheme_map, hq, Iso.hom_inv_id_assoc]
-  exact ⟨X, hX, ε, _, hε, isStableFamilyOfSchemesOfGenus_of_schemeSpace hR hF hX ε _ hε⟩
+  exact exists_isStableFamilyOfSchemesOfGenus_of_totalRepresentation hR (hA R hR _ rfl hF) hF
 
-/-- **`UniqueStableModels` over the integer site objects, from the case of schemes.** This is the
-statement of `AlgebraicGeometry.UniqueStableModels` with the bases normalized to the schemes of the
-site read over the integers. -/
-theorem existsUnique_hom_of_existsIsoOfStableModelsWith {g : ℕ} {needsSmoothness : Prop}
-    (hA : StableFamilyTotalIsScheme B hZ g)
+/-- The scheme-model reduction for two given scheme representations, which can be
+obtained after replacing the base by an étale cover. -/
+theorem existsUnique_hom_of_existsIsoOfStableModelsWith_of_totalRepresentations
+    {g : ℕ} {needsSmoothness : Prop}
     (hB : ExistsIsoOfStableModelsWith B hZ needsSmoothness g)
     (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
     (K : Type u) [Field K] [Algebra R K] [IsFractionRing R K]
@@ -297,6 +317,10 @@ theorem existsUnique_hom_of_existsIsoOfStableModelsWith {g : ℕ} {needsSmoothne
     (hgm : (BigFppfOver.toScheme B integerBase hZ).map gm =
       Spec.map (CommRingCat.ofHom (algebraMap R K)))
     {F F' G G' : CurveFamily B hZ} (c : G ⟶ F) (c' : G' ⟶ F') (s : G ⟶ G')
+    (hrep : ∃ (X : Scheme.{u}) (hX : B.Contains X),
+      Nonempty (F.total ≅ schemeSpace (integerSiteObject B hZ hX)))
+    (hrep' : ∃ (X' : Scheme.{u}) (hX' : B.Contains X'),
+      Nonempty (F'.total ≅ schemeSpace (integerSiteObject B hZ hX')))
     (hF : IsStableCurveFamilyOfGenus B hZ g F) (hF' : IsStableCurveFamilyOfGenus B hZ g F')
     (hSmooth : needsSmoothness → IsSmoothFamily B hZ F)
     (hSmooth' : needsSmoothness → IsSmoothFamily B hZ F')
@@ -326,9 +350,9 @@ theorem existsUnique_hom_of_existsIsoOfStableModelsWith {g : ℕ} {needsSmoothne
   have hsb : s.baseMap = 𝟙 _ := baseMap_eq_of_isHomLift_self s _ hs
   -- the total spaces of `F`, `F'` and `G` are schemes
   obtain ⟨X, hX, ε, p, hε, hp⟩ :=
-    exists_isStableFamilyOfSchemesOfGenus_of_stableFamilyTotalIsScheme hA R hR hF
+    exists_isStableFamilyOfSchemesOfGenus_of_totalRepresentation hR hrep hF
   obtain ⟨X', hX', ε', p', hε', hp'⟩ :=
-    exists_isStableFamilyOfSchemesOfGenus_of_stableFamilyTotalIsScheme hA R hR hF'
+    exists_isStableFamilyOfSchemesOfGenus_of_totalRepresentation hR hrep' hF'
   obtain ⟨T₀, ε₀, q₀, hε₀⟩ := CurveFamily.exists_schemeSpace_of_base_eq hK
     ⟨integerSiteObject B hZ hK, Gt, Gtb, Gfl, Gpr, Gfp, Grel⟩ rfl
   set v := (BigFppfOver.toScheme B integerBase hZ).map q₀
@@ -403,8 +427,8 @@ theorem existsUnique_hom_of_existsIsoOfStableModelsWith {g : ℕ} {needsSmoothne
         (schemeSpaceFunctor B integerBase hZ).map_id _, Category.comp_id] at hw
       have h : f₁ ≫ integerSiteMap B hZ hX' hR p' = integerSiteMap B hZ hX hR p := by
         apply schemeSpaceMap_injective
-        rw [schemeSpaceMap_comp, hf₁, Category.assoc, Category.assoc, hε', hw, ← hε,
-          Iso.inv_hom_id_assoc]
+        rw [schemeSpaceMap_comp, hf₁, Category.assoc, Category.assoc, hε', hw]
+        exact (congrArg (ε.inv ≫ ·) hε.symm).trans (Iso.inv_hom_id_assoc ε _)
       exact ((BigFppfOver.toScheme B integerBase hZ).map_comp f₁ _).symm.trans
         (congrArg (BigFppfOver.toScheme B integerBase hZ).map h)
     · have htot : c.totalMap ≫ t₁.totalMap = s.totalMap ≫ c'.totalMap :=
@@ -463,9 +487,12 @@ theorem existsUnique_hom_of_existsIsoOfStableModelsWith {g : ℕ} {needsSmoothne
       (ε ≪≫ (schemeSpaceFunctor B integerBase hZ).mapIso iF ≪≫ ε'.symm) (by
         change ε.hom ≫ schemeSpaceMap iF.hom ≫ ε'.inv ≫ F'tb =
           Ftb ≫ schemeSpaceMap (𝟙 (integerSiteObject B hZ hR))
+        have hε'inv : ε'.inv ≫ F'tb = schemeSpaceMap (integerSiteMap B hZ hX' hR p') :=
+          (congrArg (ε'.inv ≫ ·) hε'.symm).trans (Iso.inv_hom_id_assoc ε' _)
         rw [show schemeSpaceMap (𝟙 (integerSiteObject B hZ hR)) = 𝟙 _ from
-          (schemeSpaceFunctor B integerBase hZ).map_id _, Category.comp_id, ← hε', ← hε,
-          Iso.inv_hom_id_assoc, ← schemeSpaceMap_comp, hiF])
+          (schemeSpaceFunctor B integerBase hZ).map_id _, Category.comp_id, hε'inv,
+          ← schemeSpaceMap_comp, hiF]
+        exact hε)
   have ht : (curvesProjectionOver B hZ).IsHomLift (𝟙 (integerSiteObject B hZ hR)) tIso.hom :=
     (inferInstance : (curvesProjectionOver B hZ).IsHomLift
       ((curvesProjectionOver B hZ).map tIso.hom) tIso.hom)
@@ -483,6 +510,35 @@ theorem existsUnique_hom_of_existsIsoOfStableModelsWith {g : ℕ} {needsSmoothne
       simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id] at h1 ⊢
       exact h1
   exact ⟨tIso.hom, ⟨ht, htc⟩, fun t₁ h₁ => uniq t₁ tIso.hom h₁ ⟨ht, htc⟩⟩
+
+/-- **`UniqueStableModels` over the integer site objects, from the case of schemes.** This is the
+statement of `AlgebraicGeometry.UniqueStableModels` with the bases normalized to the schemes of the
+site read over the integers. -/
+theorem existsUnique_hom_of_existsIsoOfStableModelsWith {g : ℕ} {needsSmoothness : Prop}
+    (hA : StableFamilyTotalIsScheme B hZ g)
+    (hB : ExistsIsoOfStableModelsWith B hZ needsSmoothness g)
+    (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    (K : Type u) [Field K] [Algebra R K] [IsFractionRing R K]
+    (hR : B.Contains (Spec (.of R))) (hK : B.Contains (Spec (.of K)))
+    (gm : integerSiteObject B hZ hK ⟶ integerSiteObject B hZ hR)
+    (hgm : (BigFppfOver.toScheme B integerBase hZ).map gm =
+      Spec.map (CommRingCat.ofHom (algebraMap R K)))
+    {F F' G G' : CurveFamily B hZ} (c : G ⟶ F) (c' : G' ⟶ F') (s : G ⟶ G')
+    (hF : IsStableCurveFamilyOfGenus B hZ g F) (hF' : IsStableCurveFamilyOfGenus B hZ g F')
+    (hSmooth : needsSmoothness → IsSmoothFamily B hZ F)
+    (hSmooth' : needsSmoothness → IsSmoothFamily B hZ F')
+    (hG : IsSmoothH0Family B hZ G)
+    (hc : (curvesProjectionOver B hZ).IsHomLift gm c)
+    (hc' : (curvesProjectionOver B hZ).IsHomLift gm c')
+    (hs : (curvesProjectionOver B hZ).IsHomLift (𝟙 (integerSiteObject B hZ hK)) s) :
+    ∃! t : F ⟶ F', (curvesProjectionOver B hZ).IsHomLift (𝟙 (integerSiteObject B hZ hR)) t ∧
+      c ≫ t = s ≫ c' := by
+  have hFb : F.base = integerSiteObject B hZ hR :=
+    IsHomLift.codomain_eq (curvesProjectionOver B hZ) gm c
+  have hFb' : F'.base = integerSiteObject B hZ hR :=
+    IsHomLift.codomain_eq (curvesProjectionOver B hZ) gm c'
+  exact existsUnique_hom_of_existsIsoOfStableModelsWith_of_totalRepresentations hB R K hR hK gm hgm
+    c c' s (hA R hR F hFb hF) (hA R hR F' hFb' hF') hF hF' hSmooth hSmooth' hG hc hc' hs
 
 /-- The original scheme reduction for stable models. -/
 theorem existsUnique_hom_of_existsIsoOfStableModels {g : ℕ}
