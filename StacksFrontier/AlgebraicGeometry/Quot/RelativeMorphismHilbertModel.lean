@@ -21,6 +21,18 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
     (hZ : IsAlgebraicSpace B S hS Z) (hX : IsAlgebraicSpace B S hS X)
     (hQ : IsAlgebraicSpace B S hS Q)
 
+section GraphAmbientLimits
+
+-- Select pointwise pullbacks directly for these proofs on the big fppf site.
+local instance (priority := high) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+local instance (priority := high)
+    {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : F ⟶ H) (g : G ⟶ H) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit (cospan f g)
+
 /-- The ambient space `Z ×_Q X` of the graph construction is of finite presentation over `Q` when
 `z` and `x` are: its structure morphism is the base change of `x` along `z` followed by `z`. -/
 theorem isFinitePresentation_graphAmbientMap (hz : IsFinitePresentation B S hS z)
@@ -40,6 +52,8 @@ theorem isSeparated_graphAmbientMap (hz : IsSeparated B S hS z) (hx : IsSeparate
     IsSeparated B S hS (graphAmbientMap B S hS z x hZ hX hQ).hom :=
   isSeparated_comp B S hS (pullback.fst z x) z
     (isSeparated_pullback_fst_of_snd B S hS x z (isSeparated_pullback B S hS x z hx)) hz
+
+end GraphAmbientLimits
 
 /-- The graph transformation of Stacks 0D1A, valued in a small model of the Hilbert presheaf of
 the ambient space `Z ×_Q X` over `Q`. -/
