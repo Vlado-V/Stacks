@@ -40,4 +40,4 @@ needs = ["@Stacks/+StacksFrontier.AlgebraicGeometry.NestedCocycleTail.Basic:olea
 name = "ChartTransNonNestedDegreeSectionAfterRigidity"
 roots = []
 globs = ["StacksFrontier.AlgebraicGeometry.ChartTransNonNested.DegreeSection"]
-needs = ["@Stacks/+StacksFrontier.AlgebraicGeometry.ChartCocycleRigidity.DegreeSection:olean"]
+needs = ["@Stacks/+StacksFrontier.AlgebraicGeometry.ChartCocycleRigidity.DegreeOne:olean"]
